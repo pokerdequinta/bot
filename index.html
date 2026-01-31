@@ -21,33 +21,38 @@
             justify-content: center;
             align-items: center;
             padding: 15px;
-            position: relative;
         }
 
-        /* Botão Voltar */
+        /* Botão Voltar - LADO DIREITO */
         .back-btn {
-            position: absolute;
+            position: fixed;
             top: 20px;
-            left: 20px;
+            right: 20px;
             background: linear-gradient(135deg, #d4af37 0%, #b8941f 100%);
             color: #0c3619;
             border: none;
-            padding: 12px 25px;
-            border-radius: 50px;
+            padding: 12px 15px;
+            border-radius: 50%;
             font-weight: bold;
             cursor: pointer;
             text-decoration: none;
             display: flex;
             align-items: center;
-            gap: 10px;
+            justify-content: center;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
             z-index: 100;
             transition: all 0.3s;
+            width: 50px;
+            height: 50px;
         }
 
         .back-btn:hover {
-            transform: translateY(-3px);
+            transform: translateY(-3px) rotate(-5deg);
             box-shadow: 0 8px 20px rgba(212, 175, 55, 0.4);
+        }
+
+        .back-btn i {
+            font-size: 1.3rem;
         }
 
         /* Container principal do chatbot */
@@ -62,7 +67,6 @@
             flex-direction: column;
             height: 85vh;
             border: 4px solid #d4af37;
-            position: relative;
         }
 
         /* Cabeçalho do chatbot */
@@ -73,6 +77,7 @@
             align-items: center;
             gap: 15px;
             border-bottom: 3px solid #d4af37;
+            position: relative;
         }
 
         .chatbot-avatar {
@@ -154,7 +159,6 @@
             border-radius: 20px;
             line-height: 1.4;
             animation: fadeIn 0.3s ease;
-            position: relative;
         }
 
         @keyframes fadeIn {
@@ -196,7 +200,7 @@
             color: #0c3619;
         }
 
-        /* Bad Beat Section */
+        /* Bad Beat Section - Apenas ao final */
         .bad-beat {
             background: linear-gradient(135deg, #8b0000 0%, #b22222 100%);
             border: 2px solid #ff6b6b;
@@ -205,6 +209,7 @@
             margin-top: 10px;
             text-align: center;
             animation: shake 0.5s ease;
+            display: none; /* Começa escondido */
         }
 
         @keyframes shake {
@@ -367,9 +372,9 @@
             
             .back-btn {
                 top: 10px;
-                left: 10px;
-                padding: 10px 20px;
-                font-size: 0.9rem;
+                right: 10px;
+                width: 45px;
+                height: 45px;
             }
             
             .chatbot-header {
@@ -421,8 +426,12 @@
             }
             
             .back-btn {
-                padding: 8px 15px;
-                font-size: 0.8rem;
+                width: 40px;
+                height: 40px;
+            }
+            
+            .back-btn i {
+                font-size: 1.1rem;
             }
             
             .quick-btn {
@@ -441,20 +450,20 @@
             border-radius: 10px;
         }
 
-        ::-webkit-scrollbar-thumb {
+        ::webkit-scrollbar-thumb {
             background: #d4af37;
             border-radius: 10px;
         }
 
-        ::-webkit-scrollbar-thumb:hover {
+        ::webkit-scrollbar-thumb:hover {
             background: #b8941f;
         }
     </style>
 </head>
 <body>
-    <!-- Botão Voltar -->
-    <a href="http://pokerdequinta.github.io/site" class="back-btn">
-        <i class="fas fa-arrow-left"></i> VOLTAR AO SITE
+    <!-- Botão Voltar - LADO DIREITO -->
+    <a href="http://pokerdequinta.github.io/site" class="back-btn" title="Voltar ao Site">
+        <i class="fas fa-home"></i>
     </a>
 
     <!-- Container do Chatbot -->
@@ -476,19 +485,18 @@
 
         <!-- Área do Chat -->
         <div class="chat-area" id="chatArea">
-            <!-- Mensagem de boas-vindas -->
+            <!-- Mensagem de boas-vindas - SEM PERGUNTA -->
             <div class="message bot-message">
                 <div class="message-sender">
                     <i class="fas fa-robot"></i>
                     DEALER OFICIAL
                 </div>
-                <p>E AÍ, BARALHÃO! 🃏</p>
-                <p>Mais um azarado querendo saber das regras? Tá preparado pra perder ou veio só pela janta?</p>
-                <p>Pergunta aí, mas não vem com mimimi depois quando tomar bad beat!</p>
+                <p>E AÍ, BARALHÃO AZARADO! 🃏</p>
+                <p>Chegou mais um perdedor habitual! Tá preparado pra levar outro bad beat ou veio só chorar as pitias?</p>
+                <p>O chat tá aqui, BARALHÃO. PERGUNTA O QUE QUISER, mas já aviso: cada resposta vai mostrar o quanto você é RUIM!</p>
                 
-                <div class="bad-beat">
-                    <h4>⚠️ AVISO AO BARALHÃO ⚠️</h4>
-                    <p>Toda resposta termina com seu AZAR habitual! Aceita ou CAI FORA!</p>
+                <div class="bad-beat-messages">
+                    <p><strong>⚠️ LEMBRETE:</strong> Não comecei com pergunta. A bola tá com VOCÊ, BARALHÃO!</p>
                 </div>
             </div>
         </div>
@@ -570,6 +578,23 @@
                          "• Eventos de terceiros<br>" +
                          "• Listas de outros pokers<br><br>" +
                          "DESCUMPRIR? REMOVIDO NA HORA!"
+            },
+            
+            "janta": {
+                title: "🍖 JANTA - NÃO É BUFFET, BARALHÃO!",
+                content: "Tem quitute de chef, mas não é restaurante!<br><br>" +
+                         "R$30,00 É PRA JANTA!<br>" +
+                         "Não quer comer? PAGA MESMO ASSIM!<br>" +
+                         "Reclama da comida? FICA EM CASA!"
+            },
+            
+            "dealers": {
+                title: "🎰 DEALERS - RESPEITA OU VAZA!",
+                content: "Dois dealers PROFISSIONAIS!<br>" +
+                         "Eles mandam, você OBEDECE!<br>" +
+                         "Desrespeitou? EXCLUÍDO!<br>" +
+                         "Trocam a cada hora, têm intervalo.<br>" +
+                         "Problema? FALA COM A ORGANIZAÇÃO!"
             }
         };
 
@@ -579,19 +604,21 @@
             "dinheiro": "pagamento", "pix": "pagamento", "pagamento": "pagamento", "pagar": "pagamento",
             "inscri": "inscricao", "inscrever": "inscricao", "lista": "inscricao", "participar": "inscricao",
             "whatsapp": "whatsapp", "zap": "whatsapp", "grupo": "whatsapp",
-            "regras": "regras", "jogo": "regras", "cartas": "regras", "fichas": "regras"
+            "regras": "regras", "jogo": "regras", "cartas": "regras", "fichas": "regras",
+            "janta": "janta", "comida": "janta", "alimenta": "janta",
+            "dealer": "dealers", "croupier": "dealers"
         };
 
-        // Frases de Bad Beat (azar do Baralhão)
+        // Frases de Bad Beat (azar do Baralhão) - PARA O FINAL
         const badBeatPhrases = [
-            "Claro que você ia perder com essa mão! Azar é seu sobrenome!",
-            "Te avisei que era azarado! Até fichas de plástico você perde!",
-            "Com seu azar, nem com AA contra 72 você ganha!",
-            "Toma outro bad beat, Baralhão! Tá virando especialidade sua!",
-            "Azarado assim só visto! Até o dealer sente pena!",
-            "Você joga tão mal que dá dó! E ainda tem azar por cima!",
-            "Com esse azar, nem no coin flip você ganha!",
-            "Baralhão, você nasceu pra perder! Aceita!"
+            "Claro que você ia perder! Azar é seu sobrenome!",
+            "Te avisei! Até fichas de plástico você perde!",
+            "Com seu azar, nem com AA contra 72!",
+            "Toma outro bad beat! Tá virando especialidade!",
+            "Azarado assim só visto! Dá dó!",
+            "Você joga tão mal! E ainda tem azar!",
+            "Com esse azar, nem no coin flip!",
+            "Baralhão, você nasceu pra perder!"
         ];
 
         // Frases agressivas
@@ -603,12 +630,15 @@
             "PARE DE ENCHER!"
         ];
 
+        // Variável para controlar o Bad Beat Final
+        let badBeatAdded = false;
+
         // DOM
         const chatArea = document.getElementById('chatArea');
         const userInput = document.getElementById('userInput');
 
         // Adicionar mensagem
-        function addMessage(message, isUser = false, showBadBeat = true) {
+        function addMessage(message, isUser = false) {
             const messageDiv = document.createElement('div');
             messageDiv.className = `message ${isUser ? 'user-message' : 'bot-message'}`;
             
@@ -631,32 +661,33 @@
             }
             
             chatArea.appendChild(messageDiv);
-            
-            // Adicionar Bad Beat após resposta do bot
-            if (!isUser && showBadBeat) {
-                setTimeout(() => {
-                    addBadBeat();
-                }, 500);
-            }
-            
             chatArea.scrollTop = chatArea.scrollHeight;
         }
 
-        // Adicionar Bad Beat
-        function addBadBeat() {
-            const badBeatDiv = document.createElement('div');
-            badBeatDiv.className = 'bad-beat';
+        // Adicionar Bad Beat FINAL (após interação completa)
+        function addFinalBadBeat() {
+            if (badBeatAdded) return;
             
-            const randomPhrase = badBeatPhrases[Math.floor(Math.random() * badBeatPhrases.length)];
+            badBeatAdded = true;
             
-            badBeatDiv.innerHTML = `
-                <h4>🚨 BAD BEAT DO BARALHÃO 🚨</h4>
-                <p>${randomPhrase}</p>
-                <p style="font-size: 0.8rem; margin-top: 5px;"><i>Azar é seu dom natural!</i></p>
-            `;
-            
-            chatArea.appendChild(badBeatDiv);
-            chatArea.scrollTop = chatArea.scrollHeight;
+            setTimeout(() => {
+                const badBeatDiv = document.createElement('div');
+                badBeatDiv.className = 'bad-beat';
+                badBeatDiv.style.display = 'block';
+                
+                const randomPhrase = badBeatPhrases[Math.floor(Math.random() * badBeatPhrases.length)];
+                
+                badBeatDiv.innerHTML = `
+                    <h4>🎯 BAD BEAT FINAL DO BARALHÃO 🎯</h4>
+                    <p><strong>${randomPhrase}</strong></p>
+                    <p style="font-size: 0.8rem; margin-top: 8px;">
+                        <i>Azar não é defeito, é característica! E você tem DE SOBRA!</i>
+                    </p>
+                `;
+                
+                chatArea.appendChild(badBeatDiv);
+                chatArea.scrollTop = chatArea.scrollHeight;
+            }, 1000);
         }
 
         // Mostrar indicador de digitação
@@ -701,7 +732,7 @@
             // Resposta padrão
             return {
                 title: "NÃO ENTENDI, BARALHÃO!",
-                content: "Fala direito! Pergunta sobre: VALORES, INSCRIÇÃO, PAGAMENTO, REGRAS ou WHATSAPP!"
+                content: "Fala direito! Pergunta sobre: VALORES, INSCRIÇÃO, PAGAMENTO, REGRAS, WHATSAPP, JANTA ou DEALERS!"
             };
         }
 
@@ -709,7 +740,7 @@
         function sendMessage() {
             const question = userInput.value.trim();
             if (!question) {
-                addMessage("ESCREVE ALGO, BARALHÃO! Tá com medo?", false, false);
+                addMessage("ESCREVE ALGO, BARALHÃO! Tá com medo?", false);
                 return;
             }
             
@@ -725,13 +756,16 @@
                 removeTyping();
                 const answer = findAnswer(question);
                 
-                // 20% de chance de resposta extra agressiva
+                // 25% de chance de resposta extra agressiva
                 let finalContent = answer.content;
-                if (Math.random() < 0.2) {
-                    finalContent += `<br><br><strong style="color:#ff6b6b">ENTENDEU OU QUER QUE DESENHE?</strong>`;
+                if (Math.random() < 0.25) {
+                    finalContent += `<br><br><strong style="color:#ff6b6b">ENTENDEU OU QUER QUE DESENHE, BARALHÃO?</strong>`;
                 }
                 
                 addMessage(`<strong>${answer.title}</strong><br><br>${finalContent}`);
+                
+                // Adicionar Bad Beat FINAL após a resposta
+                addFinalBadBeat();
             }, 800 + Math.random() * 1000);
         }
 
@@ -756,12 +790,19 @@
             }, 150);
         });
 
-        // Mensagem inicial automática
-        setTimeout(() => {
-            if (chatArea.children.length <= 1) {
-                addMessage("Tá esperando o quê, BARALHÃO? Pergunta logo ou vai embora!", false, true);
-            }
-        }, 3000);
+        // Efeito no botão voltar
+        document.querySelector('.back-btn').addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(-3px) rotate(-5deg)';
+        });
+        
+        document.querySelector('.back-btn').addEventListener('mouseleave', function() {
+            this.style.transform = 'translateY(0) rotate(0)';
+        });
+
+        // Focar no input ao carregar
+        window.onload = function() {
+            userInput.focus();
+        };
     </script>
 </body>
 </html>
