@@ -3,769 +3,956 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bot do Poker de Quinta</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>Chatbot - Poker de Quinta</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
         body {
-            background: linear-gradient(135deg, #0a2914 0%, #1a4720 100%);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0a1f0a 0%, #1a3d1a 100%);
             color: #fff;
             min-height: 100vh;
             display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 15px;
-        }
-
-        /* Botão Voltar */
-        .back-btn {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: linear-gradient(135deg, #d4af37 0%, #b8941f 100%);
-            color: #0c3619;
-            border: none;
-            padding: 12px 15px;
-            border-radius: 50%;
-            font-weight: bold;
-            cursor: pointer;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-            z-index: 100;
-            transition: all 0.3s;
-            width: 50px;
-            height: 50px;
-        }
-
-        .back-btn:hover {
-            transform: translateY(-3px) rotate(-5deg);
-            box-shadow: 0 8px 20px rgba(212, 175, 55, 0.4);
-        }
-
-        /* Container do chatbot */
-        .chatbot-container {
-            width: 100%;
-            max-width: 500px;
-            background-color: #0c3619;
-            border-radius: 25px;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7);
-            overflow: hidden;
-            display: flex;
             flex-direction: column;
-            height: 85vh;
-            border: 4px solid #d4af37;
         }
 
-        /* Cabeçalho */
-        .chatbot-header {
-            background: linear-gradient(to right, #1b5e20, #0d3b1e);
+        .header {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
             padding: 20px;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            border-bottom: 3px solid #d4af37;
+            text-align: center;
+            border-bottom: 3px solid #FFD700;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
         }
 
-        .chatbot-avatar {
-            width: 60px;
-            height: 60px;
-            min-width: 60px;
-            background: linear-gradient(45deg, #2e7d32, #d4af37);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: 3px solid #d4af37;
-            box-shadow: 0 0 15px rgba(212, 175, 55, 0.5);
-            overflow: hidden;
-        }
-
-        .chatbot-avatar img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .chatbot-info {
-            flex: 1;
-        }
-
-        .chatbot-info h1 {
-            font-size: 1.5rem;
-            color: #d4af37;
+        .header h1 {
+            color: #FFD700;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
             margin-bottom: 5px;
         }
 
-        .chatbot-info p {
-            font-size: 0.85rem;
-            opacity: 0.9;
+        .header p {
+            color: #b8b8b8;
+            font-size: 1.1em;
         }
 
-        .status-indicator {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            font-size: 0.8rem;
-            color: #4caf50;
-            margin-top: 5px;
+        .suits {
+            font-size: 1.5em;
+            margin-top: 10px;
         }
 
-        .status-dot {
-            width: 8px;
-            height: 8px;
-            background-color: #4caf50;
-            border-radius: 50%;
-            animation: pulse 2s infinite;
+        .suits span {
+            margin: 0 10px;
         }
 
-        @keyframes pulse {
-            0% { opacity: 0.5; }
-            50% { opacity: 1; }
-            100% { opacity: 0.5; }
-        }
+        .spade { color: #000; }
+        .heart { color: #e74c3c; }
+        .diamond { color: #e74c3c; }
+        .club { color: #000; }
 
-        /* Área do chat */
-        .chat-area {
+        .chat-container {
             flex: 1;
-            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            max-width: 900px;
+            width: 100%;
+            margin: 20px auto;
+            background: rgba(26, 61, 26, 0.3);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+            border: 2px solid rgba(255, 215, 0, 0.3);
+        }
+
+        .messages {
+            flex: 1;
             overflow-y: auto;
-            background: 
-                radial-gradient(circle at 20% 80%, rgba(46, 125, 50, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(212, 175, 55, 0.1) 0%, transparent 50%),
-                #0a2914;
+            padding: 20px;
             display: flex;
             flex-direction: column;
             gap: 15px;
+            max-height: 600px;
         }
 
-        /* Mensagens */
         .message {
-            max-width: 85%;
-            padding: 15px;
-            border-radius: 20px;
-            line-height: 1.4;
-            animation: fadeIn 0.3s ease;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .bot-message {
-            background: linear-gradient(135deg, #1b5e20 0%, #2e7d32 100%);
-            border-bottom-left-radius: 5px;
-            align-self: flex-start;
-            border-left: 4px solid #d4af37;
-            color: white;
-        }
-
-        .user-message {
-            background: linear-gradient(135deg, #d4af37 0%, #b8941f 100%);
-            color: #0c3619;
-            border-bottom-right-radius: 5px;
-            align-self: flex-end;
-            border-right: 4px solid #2e7d32;
-            font-weight: bold;
-        }
-
-        .message-sender {
-            font-weight: bold;
-            margin-bottom: 5px;
-            font-size: 0.9rem;
             display: flex;
-            align-items: center;
-            gap: 5px;
+            gap: 10px;
+            animation: slideIn 0.3s ease-out;
         }
 
-        .bot-message .message-sender {
-            color: #d4af37;
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
-        .user-message .message-sender {
-            color: #0c3619;
+        .message.user {
+            flex-direction: row-reverse;
         }
 
-        /* Área de entrada */
-        .input-area {
-            padding: 20px;
-            background: linear-gradient(to top, #0d3b1e, #0a2914);
-            border-top: 2px solid #d4af37;
-            display: flex;
-            gap: 12px;
-            align-items: center;
-        }
-
-        .input-area input {
-            flex: 1;
-            padding: 15px 20px;
-            background-color: rgba(255, 255, 255, 0.1);
-            border: 2px solid #2e7d32;
-            border-radius: 50px;
-            font-size: 1rem;
-            color: white;
-            outline: none;
-            transition: all 0.3s;
-        }
-
-        .input-area input:focus {
-            border-color: #d4af37;
-            background-color: rgba(255, 255, 255, 0.15);
-            box-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
-        }
-
-        .input-area input::placeholder {
-            color: rgba(255, 255, 255, 0.5);
-        }
-
-        .input-area button {
-            background: linear-gradient(135deg, #d4af37 0%, #b8941f 100%);
-            color: #0c3619;
-            border: none;
+        .message-avatar {
+            width: 45px;
+            height: 45px;
             border-radius: 50%;
-            width: 55px;
-            height: 55px;
-            min-width: 55px;
-            cursor: pointer;
-            transition: all 0.3s;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.3rem;
-            font-weight: bold;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            font-size: 1.5em;
+            flex-shrink: 0;
         }
 
-        .input-area button:hover {
-            transform: scale(1.1);
-            box-shadow: 0 0 20px rgba(212, 175, 55, 0.7);
+        .message.bot .message-avatar {
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            box-shadow: 0 4px 12px rgba(255, 215, 0, 0.4);
         }
 
-        /* Indicador de digitação */
+        .message.user .message-avatar {
+            background: linear-gradient(135deg, #2ecc71, #27ae60);
+            box-shadow: 0 4px 12px rgba(46, 204, 113, 0.4);
+        }
+
+        .message-content {
+            max-width: 70%;
+            padding: 15px 20px;
+            border-radius: 15px;
+            line-height: 1.6;
+            word-wrap: break-word;
+        }
+
+        .message.bot .message-content {
+            background: linear-gradient(135deg, #2d2d2d, #1a1a1a);
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            border-top-left-radius: 5px;
+        }
+
+        .message.user .message-content {
+            background: linear-gradient(135deg, #1a5a1a, #0f3d0f);
+            border: 2px solid rgba(46, 204, 113, 0.3);
+            border-top-right-radius: 5px;
+        }
+
         .typing-indicator {
-            display: flex;
-            align-items: center;
-            gap: 5px;
+            display: none;
             padding: 10px 15px;
-            background-color: #1b5e20;
+            background: rgba(45, 45, 45, 0.8);
             border-radius: 20px;
-            border-bottom-left-radius: 5px;
-            align-self: flex-start;
             width: fit-content;
-            margin-bottom: 5px;
+        }
+
+        .typing-indicator.active {
+            display: flex;
+            gap: 5px;
+            align-items: center;
         }
 
         .typing-dot {
             width: 8px;
             height: 8px;
-            background-color: #d4af37;
+            background: #FFD700;
             border-radius: 50%;
-            animation: typing 1.4s infinite ease-in-out;
+            animation: typing 1.4s infinite;
         }
 
-        .typing-dot:nth-child(1) { animation-delay: -0.32s; }
-        .typing-dot:nth-child(2) { animation-delay: -0.16s; }
+        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
 
         @keyframes typing {
-            0%, 80%, 100% { transform: translateY(0); opacity: 0.5; }
-            40% { transform: translateY(-10px); opacity: 1; }
+            0%, 60%, 100% { transform: translateY(0); }
+            30% { transform: translateY(-10px); }
         }
 
-        /* Badge para informações importantes */
-        .info-badge {
-            display: inline-block;
-            background-color: #d4af37;
-            color: #0c3619;
-            padding: 4px 10px;
-            border-radius: 12px;
-            font-size: 0.8rem;
+        .input-container {
+            display: flex;
+            padding: 20px;
+            gap: 10px;
+            background: rgba(26, 26, 26, 0.8);
+            border-top: 2px solid rgba(255, 215, 0, 0.3);
+        }
+
+        #userInput {
+            flex: 1;
+            padding: 15px 20px;
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            border-radius: 25px;
+            background: rgba(45, 45, 45, 0.6);
+            color: #fff;
+            font-size: 1em;
+            outline: none;
+            transition: all 0.3s;
+        }
+
+        #userInput:focus {
+            border-color: #FFD700;
+            background: rgba(45, 45, 45, 0.9);
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+        }
+
+        #sendBtn {
+            padding: 15px 30px;
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            color: #1a1a1a;
+            border: none;
+            border-radius: 25px;
             font-weight: bold;
-            margin: 5px 5px 5px 0;
+            font-size: 1em;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(255, 215, 0, 0.4);
         }
 
-        /* Estilo para mensagens ultra agressivas */
-        .aggressive-text {
-            color: #ff6b6b;
-            font-weight: bold;
+        #sendBtn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 215, 0, 0.6);
         }
 
-        /* Responsividade */
-        @media (max-width: 768px) {
-            body {
-                padding: 10px;
-                align-items: flex-start;
-            }
-            
-            .chatbot-container {
-                height: 90vh;
-                max-width: 100%;
-                border-radius: 20px;
-            }
-            
-            .back-btn {
-                top: 10px;
-                right: 10px;
-                width: 45px;
-                height: 45px;
-            }
-            
-            .chatbot-header {
-                padding: 15px;
-            }
-            
-            .chatbot-avatar {
-                width: 50px;
-                height: 50px;
-                min-width: 50px;
-            }
-            
-            .chatbot-info h1 {
-                font-size: 1.3rem;
-            }
-            
-            .message {
-                max-width: 90%;
-                padding: 12px;
-            }
-            
-            .input-area {
-                padding: 15px;
-            }
-            
-            .input-area button {
-                width: 50px;
-                height: 50px;
-                min-width: 50px;
-            }
+        #sendBtn:active {
+            transform: translateY(0);
         }
 
-        @media (max-width: 480px) {
-            .chatbot-container {
-                height: 92vh;
-            }
-            
-            .chat-area {
-                padding: 15px;
-            }
-            
-            .back-btn {
-                width: 40px;
-                height: 40px;
-            }
+        .quick-questions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            padding: 15px 20px;
+            background: rgba(26, 26, 26, 0.6);
+            border-top: 2px solid rgba(255, 215, 0, 0.2);
         }
 
-        /* Scrollbar */
+        .quick-btn {
+            padding: 8px 15px;
+            background: rgba(255, 215, 0, 0.1);
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            border-radius: 20px;
+            color: #FFD700;
+            font-size: 0.9em;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .quick-btn:hover {
+            background: rgba(255, 215, 0, 0.2);
+            transform: scale(1.05);
+        }
+
+        .footer {
+            text-align: center;
+            padding: 15px;
+            background: rgba(26, 26, 26, 0.8);
+            color: #b8b8b8;
+            font-size: 0.9em;
+        }
+
         ::-webkit-scrollbar {
-            width: 8px;
+            width: 10px;
         }
 
         ::-webkit-scrollbar-track {
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: 10px;
+            background: rgba(26, 26, 26, 0.5);
         }
 
         ::-webkit-scrollbar-thumb {
-            background: #d4af37;
-            border-radius: 10px;
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            border-radius: 5px;
         }
 
         ::-webkit-scrollbar-thumb:hover {
-            background: #b8941f;
+            background: #FFD700;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.8em;
+            }
+
+            .message-content {
+                max-width: 85%;
+            }
+
+            .chat-container {
+                margin: 10px;
+                border-radius: 10px;
+            }
+
+            .quick-questions {
+                flex-direction: column;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- Botão Voltar -->
-    <a href="http://pokerdequinta.github.io/site" class="back-btn" title="Voltar ao Site">
-        <i class="fas fa-home"></i>
-    </a>
-
-    <!-- Container do Chatbot -->
-    <div class="chatbot-container">
-        <!-- Cabeçalho -->
-        <div class="chatbot-header">
-            <div class="chatbot-avatar">
-                <img src="logo pdq.png" alt="Logo Poker de Quinta" onerror="this.onerror=null; this.innerHTML='<i class=\'fas fa-crown\'></i>'; this.style.display='flex'; this.style.alignItems='center'; this.style.justifyContent='center';">
-            </div>
-            <div class="chatbot-info">
-                <h1>BOT DO POKER DE QUINTA</h1>
-                <p>Modo ULTRA AGRESSIVO - Baralhão Edition</p>
-                <div class="status-indicator">
-                    <div class="status-dot"></div>
-                    <span>Online - Pronto para xingar preguiçosos</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- Área do Chat -->
-        <div class="chat-area" id="chatArea">
-            <!-- Mensagem inicial ULTRA AGRESSIVA -->
-            <div class="message bot-message">
-                <div class="message-sender">
-                    <i class="fas fa-robot"></i>
-                    BOT DO POKER DE QUINTA
-                </div>
-                <p><strong>E AÍ, BARALHÃO!</strong> 🃏</p>
-                <p>Mais um preguiçoso que não quer ler o regulamento?</p>
-                <p>Pergunta aí, mas se for besteira eu vou te xingar até você aprender a ler!</p>
-                <p><span class="aggressive-text">AVISO: Vou chamar você de BARALHÃO e se perguntar merda, vai ouvir!</span></p>
-                <p><em>Aperta enter aí, seu lesado!</em></p>
-            </div>
-        </div>
-
-        <!-- Área de Entrada -->
-        <div class="input-area">
-            <input type="text" id="userInput" placeholder="PERGUNTA AÍ, BARALHÃO! MAS SE FOR BOBAGEM VAI OUVIR..." onkeypress="handleKeyPress(event)">
-            <button id="sendButton" onclick="sendMessage()">
-                <i class="fas fa-paper-plane"></i>
-            </button>
+    <div class="header">
+        <h1>🃏 Chatbot Poker de Quinta 🃏</h1>
+        <p>Seu assistente virtual agressivo e sincero!</p>
+        <div class="suits">
+            <span class="spade">♠</span>
+            <span class="heart">♥</span>
+            <span class="diamond">♦</span>
+            <span class="club">♣</span>
         </div>
     </div>
 
+    <div class="chat-container">
+        <div class="messages" id="messages">
+            <div class="message bot">
+                <div class="message-avatar">🎰</div>
+                <div class="message-content">
+                    E aí, baralhão! Bem-vindo ao chatbot mais sincero do Poker de Quinta! 🎲<br><br>
+                    Pergunta aí sobre o regulamento, ranking, valores, ou qualquer coisa. Mas se vier com preguiça, vou mandar tu ler o regulamento inteiro! 😤
+                </div>
+            </div>
+        </div>
+
+        <div class="typing-indicator" id="typingIndicator">
+            <div class="typing-dot"></div>
+            <div class="typing-dot"></div>
+            <div class="typing-dot"></div>
+        </div>
+
+        <div class="quick-questions">
+            <button class="quick-btn" onclick="askQuestion('Quando é a próxima etapa?')">📅 Próxima Etapa</button>
+            <button class="quick-btn" onclick="askQuestion('Quanto custa o buy-in?')">💰 Valores</button>
+            <button class="quick-btn" onclick="askQuestion('Qual o ranking atual?')">🏆 Ranking</button>
+            <button class="quick-btn" onclick="askQuestion('Como funciona o KO?')">💥 Sistema KO</button>
+            <button class="quick-btn" onclick="askQuestion('Horário das etapas')">⏰ Horário</button>
+        </div>
+
+        <div class="input-container">
+            <input type="text" id="userInput" placeholder="Digite sua pergunta aqui, baralhão..." />
+            <button id="sendBtn" onclick="sendMessage()">Enviar 🎯</button>
+        </div>
+    </div>
+
+    <div class="footer">
+        ♠ ♥ ♦ ♣ © 2026 Poker de Quinta - Todos os direitos reservados ♠ ♥ ♦ ♣
+    </div>
+
     <script>
-        // Base de conhecimento ULTRA AGRESSIVA
-        const knowledgeBase = {
-            "janta": {
-                title: "🍖 A JANTA - VOCÊ É BURRO, BARALHÃO?",
-                content: "CARALHO, BARALHÃO! Isso tá no regulamento!<br><br>" +
-                         "<span class='info-badge'>R$30,00 DO SEU BUY-IN</span> é pra janta, seu animal!<br>" +
-                         "• TEM quitute de chef (melhor que sua comida podre)<br>" +
-                         "• NÃO QUER COMER? PAGA MESMO ASSIM, SEU MÃO DE VACA!<br>" +
-                         "• Total: R$100,00 (50 pote + 30 janta + 20 limpeza)<br><br>" +
-                         "<span class='aggressive-text'>Não sabe ler regulamento, BARALHÃO?</span>"
+        // Base de conhecimento do Poker de Quinta
+        const pokerData = {
+            proximaEtapa: {
+                numero: 2,
+                data: "26/02/2026",
+                horario: "20:00",
+                local: "Luck BAR - R. Prof. Sebastião Paraná, 765 - Vila Izabel, Curitiba PR"
             },
-            
-            "lider": {
-                title: "👑 QUEM MANDA? VOCÊ NÃO, BARALHÃO!",
-                content: "PORRA, BARALHÃO! Não tem 'líder', tem ORGANIZAÇÃO!<br><br>" +
-                         "Mas já que é tão preguiçoso:<br>" +
-                         "• <strong>Sergio</strong>: Campeão da 1ª Etapa (31 pontos)<br>" +
-                         "• <strong>Amarildo</strong>: Matou 5 como você (Matador de KO)<br>" +
-                         "• <strong>Van Van</strong>: Fez Quadra de 7 (você nem pares faz)<br><br>" +
-                         "<span class='aggressive-text'>Quem manda é quem lê o regulamento, seu analfabeto!</span>"
+            valores: {
+                buyin: 100,
+                janta: 30,
+                limpeza: 20,
+                poker: 50,
+                rebuy: 30,
+                rebuyDuplo: 60,
+                addon: 50
             },
-            
-            "proxima": {
-                title: "📅 PRÓXIMA ETAPA - 26/02, SEU DISTRAÍDO!",
-                content: "TA DORMINDO, BARALHÃO? OLHA NO SITE!<br><br>" +
-                         "<strong>26 DE FEVEREIRO - 20 HORAS</strong><br>" +
-                         "📍 <strong>Luck BAR</strong> - R. Prof. Sebastião Paraná, 765<br><br>" +
-                         "<span class='info-badge'>BUY-IN: R$100,00</span> (que você vai perder)<br>" +
-                         "<span class='info-badge'>REBUY: R$30,00</span> (que você vai precisar)<br>" +
-                         "<span class='info-badge'>ADDON: R$50,00</span> (só 1, seu ganancioso)<br><br>" +
-                         "Chega antes das 20h ou perde 3.000 fichas, seu atrasado!"
+            etapa1: {
+                campeao: "Sergio",
+                pontos: 31,
+                melhorMao: "Quadra de 7",
+                melhorMaoJogador: "Van Van",
+                matadorKO: "Amarildo",
+                eliminacoesKO: 5,
+                roleta: "Cleversson",
+                premioRoleta: "1 Abraço do Bruxo"
             },
-            
-            "valores": {
-                title: "💰 VALORES - TEM QUE PAGAR, SEU PÃO DURO!",
-                content: "R$100,00, BARALHÃO! Quer jogar de graça? VAI PRO PARQUE!<br><br>" +
-                         "<strong>SEU BUY-IN TEM:</strong><br>" +
-                         "• R$50,00 pro pote (que você NUNCA vai ganhar)<br>" +
-                         "• R$30,00 pra janta (come ou não, PAGA igual)<br>" +
-                         "• R$20,00 limpeza (pra limpar sua sujeira)<br><br>" +
-                         "<strong>EXTRAS PRA QUEM PERDE RÁPIDO:</strong><br>" +
-                         "• <span class='info-badge'>Rebuy simples:</span> R$30,00 = 15.000 fichas<br>" +
-                         "• <span class='info-badge'>Rebuy duplo:</span> R$60,00 = 30.000 fichas<br>" +
-                         "• <span class='info-badge'>Add-on:</span> R$50,00 = 50.000 fichas (SÓ 1!)<br><br>" +
-                         "<span class='aggressive-text'>PAGAMENTO: SÓ PIX! Esquece dinheiro, seu antigo!</span>"
-            },
-            
-            "regulamento": {
-                title: "📜 REGULAMENTO - LÊ, SEU ANALFABETO!",
-                content: "VOU RESUMIR PRA VOCÊ, SEU PREGUIÇOSO:<br><br>" +
-                         "<strong>INSCRIÇÕES:</strong><br>" +
-                         "• Segunda 7h no site (acorda cedo, dorminhoco)<br>" +
-                         "• Máximo 20 jogadores (espero que você não entre)<br>" +
-                         "• Prioridade grupo do WhatsApp (entra no grupo, seu isolado)<br><br>" +
-                         "<strong>SE FALTAR:</strong><br>" +
-                         "• Sem aviso: -90 pontos + R$100,00 (merecido)<br>" +
-                         "• Desistência: -20 pontos (fracote)<br><br>" +
-                         "<strong>JOGO:</strong><br>" +
-                         "• 30 segundos pra decidir (não é xadrez, seu lento)<br>" +
-                         "• Cartas NA MESA (não no colo, seu espertinho)<br>" +
-                         "• Respeite os DEALERS (ou cai fora, seu mal-educado)<br><br>" +
-                         "<span class='aggressive-text'>REGULAMENTO COMPLETO: http://pokerdequinta.github.io/regulamento<br>LÊ, BARALHÃO!</span>"
-            },
-            
-            "campeao": {
-                title: "🏆 CAMPEÃO - NÃO FOI VOCÊ, BARALHÃO!",
-                content: "<strong>SERGIO</strong> venceu a 1ª Etapa! VOCÊ NÃO!<br><br>" +
-                         "• 31 pontos (você nem 5 faz)<br>" +
-                         "• Título inaugural (você só sabe perder)<br><br>" +
-                         "<strong>OUTROS QUE SABEM JOGAR (DIFERENTE DE VOCÊ):</strong><br>" +
-                         "🎯 <strong>Van Van</strong> - Quadra de 7 (você só sabe foldar)<br>" +
-                         "💥 <strong>Amarildo</strong> - 5 eliminações (você só é eliminado)<br>" +
-                         "🎡 <strong>Cleversson</strong> - Abraço do Bruxo (você só leva abraço de dealer com pena)<br><br>" +
-                         "<span class='aggressive-text'>Melhor mão ganha ADDON na próxima! Você nem vai precisar...</span>"
-            },
-            
-            "ko": {
-                title: "💥 SISTEMA KO - PRA QUEM SABE ELIMINAR (NÃO VOCÊ)",
-                content: "SISTEMA KNOCKOUT, BARALHÃO!<br><br>" +
-                         "• Cada um começa com 1 ficha KO<br>" +
-                         "• Eliminações só valem APÓS intervalo<br>" +
-                         "• Elimina alguém? Pega a ficha dele<br>" +
-                         "• Sua pontuação = pontos colocação + fichas KO<br><br>" +
-                         "<span class='aggressive-text'>Matador de KO da Temporada: R$200,00<br>Não é pra você, seu perdedor!</span>"
-            },
-            
-            "ranking": {
-                title: "📊 RANKING - VOCÊ TÁ LÁ EMBAIXO, BARALHÃO!",
-                content: "PONTUAÇÃO PRA QUEM SABE JOGAR:<br><br>" +
-                         "1°: 27 pts | 2°: 25 | 3°: 23 | 4°: 21 | 5°: 19<br>" +
-                         "6°: 17 | 7°: 15 | 8°: 13 | 9°: 11 | 10°: 9<br>" +
-                         "11°: 7 | 12°: 6 | 13°-20°: 5 (ESSE É SEU LUGAR!)<br><br>" +
-                         "<strong>+ 1 ponto por cada KO (que você não vai fazer)</strong><br><br>" +
-                         "<span class='aggressive-text'>Desempate: 1-Pontos, 2-Participações, 3-Vitórias, 4-KOs, 5-Locurinha<br>Você não chega nem no desempate!</span>"
-            },
-            
-            "timebank": {
-                title: "⏱️ TIME BANK - 30s + 3 CARTÕES, SEU LENTO!",
-                content: "PRA QUEM PENSA DEVAGAR (TIPO VOCÊ):<br><br>" +
-                         "1. 30 segundos pra decidir (é muito pra você)<br>" +
-                         "2. Time Bank: +30 segundos por cartão<br>" +
-                         "3. Cada um: 3 cartões físicos<br>" +
-                         "4. Usou 3 numa rodada e não agiu? <strong>FOLD, SEU BURRO!</strong><br><br>" +
-                         "<span class='aggressive-text'>Cartões são SEUS! Não empresta, seu trouxa!</span>"
-            },
-            
-            "dealers": {
-                title: "🎰 DEALERS - RESPEITA, SEU MAL-EDUCADO!",
-                content: "DOIS DEALERS PROFISSIONAIS!<br><br>" +
-                         "• Eles mandam, você OBEDECE!<br>" +
-                         "• Desrespeitou? <strong>EXCLUÍDO, SEU ARRUACEIRO!</strong><br>" +
-                         "• Trocam a cada hora (5min intervalo)<br><br>" +
-                         "<span class='aggressive-text'>Capilé (gorjeta): PODE dar, mas NÃO É OBRIGATÓRIO!<br>Se der pouco, pelo menos deu, seu pão duro!</span>"
-            },
-            
-            "pagamento": {
-                title: "💸 PAGAMENTO - SÓ PIX, SEU DA IDADE DA PEDRA!",
-                content: "ESCUTA AQUI, BARALHÃO:<br><br>" +
-                         "<strong>BUY-IN/REBUYS/ADDONS:</strong> SÓ PIX (QR CODE)<br>" +
-                         "<strong>PRÊMIOS:</strong> PIX (até 12h do dia útil seguinte)<br>" +
-                         "<strong>NÃO ACEITA:</strong> Dinheiro em espécie (é 2026, seu jurássico!)<br><br>" +
-                         "<span class='aggressive-text'>Chave PIX cadastrada = onde cai seu prêmio (que você não vai ganhar)</span>"
-            },
-            
-            "whatsapp": {
-                title: "📱 WHATSAPP - NÃO É SUA CASA, BARALHÃO!",
-                content: "NO GRUPO NÃO PODE:<br><br>" +
-                         "1. Pornografia/racismo (sua mente podre)<br>" +
-                         "2. Anúncios (sua lojinha de mentira)<br>" +
-                         "3. Eventos de terceiros (ninguém quer seu rolê)<br>" +
-                         "4. Listas de outros pokers (foca no nosso, seu traíra)<br><br>" +
-                         "<span class='aggressive-text'>PODE: Resenhas sobre poker (que você não entende) e futebol (que seu time perde)<br>DESCUMPRIR? REMOVIDO, SEU CHATO!</span>"
-            },
-            
-            "ultima": {
-                title: "🏁 ÚLTIMA ETAPA - 10/12, SEU DESORGANIZADO!",
-                content: "<strong>10/12/2026 - ÚLTIMA ETAPA</strong><br><br>" +
-                         "• Pote > R$2.000,00 (que não é seu)<br>" +
-                         "• Top 10 do ranking: BUY-IN FREE (você não chega)<br>" +
-                         "• Pagam só: R$30,00 janta + R$20,00 limpeza<br>" +
-                         "• Prêmios top 5: R$600, R$450, R$360, R$270, R$180 (não é pra você)<br><br>" +
-                         "<span class='aggressive-text'>Requisito: Mínimo 5 participações (você falta metade)</span>"
+            regras: {
+                fichasIniciais: 15000,
+                rebuyFichas: 15000,
+                addonFichas: 50000,
+                bonusPontualidade: 3000,
+                limiteJogadores: 20,
+                blindTime: 15,
+                koInicio: "após o intervalo"
             }
         };
 
-        // Mapeamento de palavras-chave
-        const questionMapping = {
-            "janta": "janta", "comida": "janta", "alimenta": "janta", "refeição": "janta", "jantar": "janta",
-            "lider": "lider", "chefe": "lider", "dono": "lider", "organizador": "lider", "criador": "lider", "quem manda": "lider",
-            "proxima": "proxima", "quando": "proxima", "data": "proxima", "etapa": "proxima", "próxima": "proxima", "quinta": "proxima",
-            "valor": "valores", "custa": "valores", "preço": "valores", "buyin": "valores", "pagar": "valores", "dinheiro": "valores", "rebuys": "valores", "addon": "valores",
-            "regulamento": "regulamento", "regras": "regulamento", "normas": "regulamento", "como funciona": "regulamento",
-            "campeao": "campeao", "vencedor": "campeao", "sergio": "campeao", "ganhador": "campeao", "quem ganhou": "campeao",
-            "ko": "ko", "knockout": "ko", "eliminação": "ko", "matador": "ko", "k.o.": "ko",
-            "ranking": "ranking", "pontuação": "ranking", "pontos": "ranking", "classificação": "ranking",
-            "time bank": "timebank", "tempo": "timebank", "30 segundos": "timebank", "cartão": "timebank",
-            "dealer": "dealers", "croupier": "dealers", "capilé": "dealers", "gorjeta": "dealers",
-            "pagamento": "pagamento", "pix": "pagamento", "qr code": "pagamento", "prêmio": "pagamento", "receber": "pagamento",
-            "whatsapp": "whatsapp", "zap": "whatsapp", "grupo": "whatsapp", "chat": "whatsapp",
-            "ultima": "ultima", "final": "ultima", "13": "ultima", "última etapa": "ultima", "december": "ultima"
-        };
-
-        // Frases ULTRA AGRESSIVAS
-        const ultraAggressivePhrases = [
-            "CARALHO, BARALHÃO! Você é burro ou se faz?",
-            "PORRA, BARALHÃO! Isso tá no regulamento! LÊ, SEU ANALFABETO!",
-            "VAI TOMAR NO CU, BARALHÃO! Pergunta idiota da porra!",
-            "TA DE SACANAGEM, BARALHÃO? Isso é tão óbvio que dói!",
-            "SEU PREGUIÇOSO DO CARALHO! VAI LER O REGULAMENTO!",
-            "BARALHÃO BURRO DA PORRA! Não sabe ler não?",
-            "VAI SE FUDER, BARALHÃO! Pergunta merda dessas?",
-            "SEU ANIMAL! Você acha que eu sou Google? LÊ O REGULAMENTO!",
-            "TA MALUCO, BARALHÃO? Isso tá no site! Olha lá, seu cego!",
-            "SEU LESADO! Pergunta óbvia da desgraça!"
-        ];
-
-        // Frases quando não encontra resposta
-        const notFoundPhrases = [
-            "SEU PREGUIÇOSO DO CARALHO! Isso não existe! VAI LER O REGULAMENTO, BARALHÃO!",
-            "BARALHÃO BURRO! Inventando coisa! O regulamento tá lá, seu analfabeto!",
-            "VAI TOMAR NO SEU CU! Isso aí é invenção da sua cabeça oca! LÊ O REGULAMENTO!",
-            "SEU ANIMAL! Tá perguntando merda! O regulamento tem 50 páginas, lê uma!",
-            "PORRA, BARALHÃO! Para de inventar pergunta idiota! REGULAMENTO, SEU BURRO!"
-        ];
-
-        // DOM
-        const chatArea = document.getElementById('chatArea');
-        const userInput = document.getElementById('userInput');
-
-        // Adicionar mensagem
-        function addMessage(message, isUser = false) {
-            const messageDiv = document.createElement('div');
-            messageDiv.className = `message ${isUser ? 'user-message' : 'bot-message'}`;
-            
-            if (isUser) {
-                messageDiv.innerHTML = `
-                    <div class="message-sender">
-                        <i class="fas fa-user"></i>
-                        BARALHÃO
-                    </div>
-                    <p>${message}</p>
-                `;
-            } else {
-                messageDiv.innerHTML = `
-                    <div class="message-sender">
-                        <i class="fas fa-robot"></i>
-                        BOT DO POKER DE QUINTA
-                    </div>
-                    <p>${message}</p>
-                `;
-            }
-            
-            chatArea.appendChild(messageDiv);
-            chatArea.scrollTop = chatArea.scrollHeight;
-        }
-
-        // Mostrar indicador de digitação
-        function showTyping() {
-            const typingDiv = document.createElement('div');
-            typingDiv.className = 'typing-indicator';
-            typingDiv.id = 'typingIndicator';
-            typingDiv.innerHTML = `
-                <div class="typing-dot"></div>
-                <div class="typing-dot"></div>
-                <div class="typing-dot"></div>
-            `;
-            chatArea.appendChild(typingDiv);
-            chatArea.scrollTop = chatArea.scrollHeight;
-        }
-
-        // Remover indicador
-        function removeTyping() {
-            const typing = document.getElementById('typingIndicator');
-            if (typing) typing.remove();
-        }
-
-        // Encontrar resposta
-        function findAnswer(question) {
-            const lowerQ = question.toLowerCase();
-            
-            // Se pergunta muito curta
-            if (question.length < 3) {
-                const randomPhrase = ultraAggressivePhrases[Math.floor(Math.random() * ultraAggressivePhrases.length)];
-                return {
-                    title: randomPhrase,
-                    content: "FALA DIREITO, SEU GAGO! Pergunta completa ou vai tomar no cu!"
-                };
-            }
-            
-            // Buscar na base
-            for (const [key, category] of Object.entries(questionMapping)) {
-                if (lowerQ.includes(key)) {
-                    return knowledgeBase[category];
-                }
-            }
-            
-            // Não encontrou - resposta ULTRA AGRESSIVA
-            const randomNotFound = notFoundPhrases[Math.floor(Math.random() * notFoundPhrases.length)];
-            return {
-                title: randomNotFound,
-                content: "<span class='aggressive-text'>REGULAMENTO COMPLETO: http://pokerdequinta.github.io/regulamento<br>SITE OFICIAL: http://pokerdequinta.github.io/site<br><br>LÊ, SEU PREGUIÇOSO DO CARALHO! PARA DE ENCHER O SACO!</span>"
-            };
-        }
-
-        // Enviar mensagem
         function sendMessage() {
-            const question = userInput.value.trim();
-            if (!question) {
-                addMessage("ESCREVE ALGO, SEU BURRO! Tá com medo do teclado?", false);
-                return;
-            }
-            
-            // Mensagem do usuário
-            addMessage(question, true);
-            userInput.value = '';
-            
-            // Mostrar "digitando"
+            const input = document.getElementById('userInput');
+            const message = input.value.trim();
+
+            if (message === '') return;
+
+            addMessage(message, 'user');
+            input.value = '';
+
             showTyping();
-            
-            // Resposta com delay
+
             setTimeout(() => {
-                removeTyping();
-                const answer = findAnswer(question);
-                
-                // 50% de chance de adicionar insulto extra
-                let finalContent = answer.content;
-                if (Math.random() < 0.5) {
-                    finalContent += "<br><br><span class='aggressive-text'>ENTENDEU OU QUER QUE EU DESENHE, SEU ANIMAL?</span>";
-                }
-                
-                // 30% de chance de adicionar outro insulto
-                if (Math.random() < 0.3) {
-                    finalContent += "<br><span class='aggressive-text'>VAI LER O REGULAMENTO, BARALHÃO! PARA DE SER PREGUIÇOSO!</span>";
-                }
-                
-                addMessage(`<strong>${answer.title}</strong><br><br>${finalContent}`);
-            }, 500 + Math.random() * 700);
+                const response = generateResponse(message.toLowerCase());
+                hideTyping();
+                addMessage(response, 'bot');
+            }, 1000 + Math.random() * 1000);
         }
 
-        // Tecla Enter
-        function handleKeyPress(event) {
-            if (event.key === 'Enter') {
+        function askQuestion(question) {
+            document.getElementById('userInput').value = question;
+            sendMessage();
+        }
+
+        function addMessage(text, sender) {
+            const messagesDiv = document.getElementById('messages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${sender}`;
+
+            const avatar = document.createElement('div');
+            avatar.className = 'message-avatar';
+            avatar.textContent = sender === 'bot' ? '🎰' : '👤';
+
+            const content = document.createElement('div');
+            content.className = 'message-content';
+            content.innerHTML = text;
+
+            messageDiv.appendChild(avatar);
+            messageDiv.appendChild(content);
+            messagesDiv.appendChild(messageDiv);
+
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+        }
+
+        function showTyping() {
+            document.getElementById('typingIndicator').classList.add('active');
+        }
+
+        function hideTyping() {
+            document.getElementById('typingIndicator').classList.remove('active');
+        }
+
+        function generateResponse(message) {
+            // Próxima etapa
+            if (message.includes('proxima') || message.includes('próxima') || message.includes('quando')) {
+                return `🗓️ <strong>Próxima Etapa (${pokerData.proximaEtapa.numero}ª Etapa)</strong><br><br>
+                        📅 <strong>Data:</strong> ${pokerData.proximaEtapa.data}<br>
+                        ⏰ <strong>Horário:</strong> ${pokerData.proximaEtapa.horario}<br>
+                        📍 <strong>Local:</strong> ${pokerData.proximaEtapa.local}<br><br>
+                        Chega antes das 20h pra ganhar <strong>3K em fichas</strong> de bônus, baralhão! ⚡`;
+            }
+
+            // Valores
+            if (message.includes('valor') || message.includes('quanto') || message.includes('buyin') || message.includes('buy-in') || message.includes('custa')) {
+                return `💰 <strong>Valores da Etapa</strong><br><br>
+                        🎲 <strong>Buy-in Total:</strong> R$ ${pokerData.valores.buyin},00<br>
+                        &nbsp;&nbsp;&nbsp;↳ Poker: R$ ${pokerData.valores.poker},00<br>
+                        &nbsp;&nbsp;&nbsp;↳ Janta: R$ ${pokerData.valores.janta},00<br>
+                        &nbsp;&nbsp;&nbsp;↳ Taxa Limpeza: R$ ${pokerData.valores.limpeza},00<br><br>
+                        🔄 <strong>Rebuy Simples:</strong> R$ ${pokerData.valores.rebuy},00 (${pokerData.regras.rebuyFichas} fichas)<br>
+                        🔄🔄 <strong>Rebuy Duplo:</strong> R$ ${pokerData.valores.rebuyDuplo},00 (30.000 fichas)<br>
+                        ➕ <strong>Add-on:</strong> R$ ${pokerData.valores.addon},00 (${pokerData.regras.addonFichas} fichas)<br><br>
+                        ⚠️ <strong>ATENÇÃO:</strong> Só aceita PIX! Nada de dinheiro em espécie, baralhão! 📱`;
+            }
+
+            // Ranking Geral
+            if (message.includes('ranking') && !message.includes('ko')) {
+                return `🏆 <strong>Ranking Geral - Temporada 2026</strong><br><br>
+                        <strong>Após a 1ª Etapa:</strong><br><br>
+                        👑 <strong>1º Lugar:</strong> Sergio - ${pokerData.etapa1.pontos} pontos (Rei da Mesa!)<br>
+                        💥 <strong>Matador de KO:</strong> ${pokerData.etapa1.matadorKO} - ${pokerData.etapa1.eliminacoesKO} eliminações<br><br>
+                        O ranking completo e atualizado está no site:<br>
+                        🔗 <a href="http://pokerdequinta.github.io/ranking" target="_blank" style="color: #FFD700;">pokerdequinta.github.io/ranking</a><br><br>
+                        Vai lá conferir, não seja preguiçoso! 😤`;
+            }
+
+            // Ranking KO
+            if (message.includes('ko') && message.includes('ranking')) {
+                return `💥 <strong>Ranking de KO - Temporada 2026</strong><br><br>
+                        <strong>Líder após 1ª Etapa:</strong><br>
+                        🥊 ${pokerData.etapa1.matadorKO} - ${pokerData.etapa1.eliminacoesKO} eliminações<br><br>
+                        O sistema de KO vale ponto! Cada eliminação = 1 ponto extra no ranking.<br><br>
+                        <strong>💰 Prêmio Final:</strong> O Matador de KO da temporada leva R$ 200,00!<br><br>
+                        Ranking completo de KO no site:<br>
+                        🔗 <a href="http://pokerdequinta.github.io/ranking" target="_blank" style="color: #FFD700;">pokerdequinta.github.io/ranking</a>`;
+            }
+
+            // Sistema KO
+            if (message.includes('ko') || message.includes('knockout') || message.includes('eliminacao') || message.includes('eliminação')) {
+                return `💥 <strong>Sistema Knockout (KO)</strong><br><br>
+                        🎯 Todo jogador começa com 1 ficha de KO<br>
+                        ⏰ KOs só contam <strong>APÓS O INTERVALO</strong><br>
+                        🏆 Cada eliminação = 1 ponto extra no ranking<br>
+                        👑 O Rei da Mesa vale 2 fichas de KO!<br><br>
+                        <strong>Como funciona:</strong><br>
+                        1. Eliminou alguém? Pega a ficha de KO dele<br>
+                        2. Foi eliminado? Entrega sua ficha inicial pro algoz<br>
+                        3. Suas fichas conquistadas ficam com você<br><br>
+                        💰 Matador de KO da temporada leva <strong>R$ 200,00</strong>!<br><br>
+                        Bora virar o terror das mesas! 😈`;
+            }
+
+            // Campeão atual
+            if (message.includes('campeao') || message.includes('campeão') || message.includes('vencedor') || message.includes('ganhou')) {
+                return `👑 <strong>Campeão da 1ª Etapa</strong><br><br>
+                        🏆 <strong>${pokerData.etapa1.campeao}</strong> - ${pokerData.etapa1.pontos} pontos<br><br>
+                        Agora ele é o <strong>REI DA MESA</strong>! 👑<br>
+                        Quem eliminar ele na próxima etapa ganha DOBRO de fichas de KO! 💰<br><br>
+                        Bora caçar o rei! 🎯`;
+            }
+
+            // Melhor mão
+            if (message.includes('melhor mao') || message.includes('melhor mão')) {
+                return `🃏 <strong>Melhor Mão da 1ª Etapa</strong><br><br>
+                        ${pokerData.etapa1.melhorMao}<br>
+                        Feito por: <strong>${pokerData.etapa1.melhorMaoJogador}</strong><br><br>
+                        <strong>Prêmio:</strong> 1 Add-on GRATUITO na próxima etapa! 🎁<br><br>
+                        <strong>Regras:</strong><br>
+                        - Tem que ter showdown (mostrar as cartas)<br>
+                        - Mínimo: Full House<br>
+                        - Tem que usar AS DUAS cartas da mão<br><br>
+                        Faz um monstro aí! 💪`;
+            }
+
+            // Roleta da Sorte
+            if (message.includes('roleta')) {
+                return `🎡 <strong>Roleta da Sorte</strong><br><br>
+                        <strong>Ativação:</strong><br>
+                        🔸 Quebre um par de Ases (A-A) no showdown<br>
+                        🔸 Ou complete o desafio definido na enquete da semana<br><br>
+                        <strong>Prêmios possíveis:</strong><br>
+                        💰 De 1K a 50K em fichas<br>
+                        💥 1 Ficha de KO<br>
+                        🤗 Abraços especiais (Dealer, Sr Milton, Bruxo)<br>
+                        🍺 Cerveja ou refrigerante<br>
+                        🥜 Amendoim com alho<br>
+                        💩 SE FODEU! (sim, é possível dar ruim)<br><br>
+                        <strong>Última roleta:</strong><br>
+                        ${pokerData.etapa1.roleta} ganhou: ${pokerData.etapa1.premioRoleta}! 😂<br><br>
+                        Só vale até o intervalo! ⏰`;
+            }
+
+            // Horário
+            if (message.includes('horario') || message.includes('horário') || message.includes('hora')) {
+                return `⏰ <strong>Horários do Poker de Quinta</strong><br><br>
+                        🎲 <strong>Início:</strong> 20:00h (pontualmente!)<br>
+                        ⚡ <strong>Bônus Pontualidade:</strong> Chega antes das 20h = 3K fichas extras<br>
+                        ⏱️ <strong>Blinds:</strong> ${pokerData.regras.blindTime} minutos cada nível (até nível 10)<br>
+                        ☕ <strong>Intervalo:</strong> Após o 10º nível (janta e add-ons)<br>
+                        🔥 <strong>Após intervalo:</strong> Blinds de 12min, depois 10min<br><br>
+                        <strong>Dia da semana:</strong> Quintas-feiras 📅<br><br>
+                        Não chega atrasado, baralhão! O jogo não espera! 😤`;
+            }
+
+            // Regras gerais
+            if (message.includes('regra') || message.includes('como funciona') || message.includes('como joga')) {
+                return `📋 <strong>Regras Básicas - Resumão</strong><br><br>
+                        💰 Buy-in: R$ 100 (15K fichas)<br>
+                        🔄 Rebuys ilimitados até nível 10<br>
+                        ➕ 1 Add-on de R$ 50 (50K fichas)<br>
+                        ⏰ Blinds sobem a cada 15min<br>
+                        👥 Máximo 20 jogadores (2 mesas)<br>
+                        💥 Sistema de KO (após intervalo)<br>
+                        🎡 Roleta da Sorte<br>
+                        👑 Rei da Mesa (campeão anterior)<br><br>
+                        💸 <strong>Premiação:</strong><br>
+                        1º - 36% | 2º - 26% | 3º - 19%<br>
+                        4º - 12% | 5º - 7%<br><br>
+                        Quer mais detalhes? 👉 <strong>LÊ O REGULAMENTO COMPLETO!</strong> 📖<br>
+                        🔗 <a href="http://pokerdequinta.github.io/site" target="_blank" style="color: #FFD700;">pokerdequinta.github.io/site</a>`;
+            }
+
+            // Time Bank
+            if (message.includes('time bank') || message.includes('tempo')) {
+                return `⏱️ <strong>Time Bank - Sistema de Tempo Extra</strong><br><br>
+                        ⏰ <strong>Tempo padrão:</strong> 30 segundos por decisão<br>
+                        🎫 <strong>Cartões:</strong> Cada jogador recebe 3 cartões de Time Bank<br>
+                        ➕ <strong>Cada cartão:</strong> +30 segundos extras<br><br>
+                        <strong>Como usar:</strong><br>
+                        1. Acabou os 30s? Entrega 1 cartão ao dealer<br>
+                        2. Ganha mais 30s pra pensar<br>
+                        3. Acabaram os 3 cartões? É fold automático!<br><br>
+                        ⚠️ <strong>PROIBIDO:</strong> Trocar, emprestar ou vender cartões!<br><br>
+                        Pensa rápido, baralhão! Poker não é xadrez! ⚡`;
+            }
+
+            // Inscrição
+            if (message.includes('inscrever') || message.includes('inscricao') || message.includes('inscrição') || message.includes('lista')) {
+                return `✅ <strong>Como se Inscrever</strong><br><br>
+                        📱 A inscrição é EXCLUSIVAMENTE pelo site oficial!<br>
+                        🔗 <a href="http://pokerdequinta.github.io/site" target="_blank" style="color: #FFD700;">pokerdequinta.github.io/site</a><br><br>
+                        <strong>Abertura da lista:</strong><br>
+                        📅 Segunda-feira às 7h da manhã (antes da etapa)<br>
+                        👥 Até 20 jogadores<br>
+                        🎯 Por ordem de confirmação<br><br>
+                        <strong>⚠️ ATENÇÃO:</strong><br>
+                        🚫 Desistiu na quinta? <strong>-20 pontos</strong> no ranking<br>
+                        🚫 Não apareceu? <strong>-90 pontos</strong> + paga R$ 100 pra organização<br><br>
+                        Confirma e APARECE, baralhão! 😤`;
+            }
+
+            // Última etapa
+            if (message.includes('ultima') || message.includes('última') || message.includes('final') || message.includes('13')) {
+                return `🏆 <strong>13ª ETAPA - GRANDE FINAL</strong><br><br>
+                        📅 <strong>Data:</strong> 10/12/2026<br>
+                        💰 <strong>Pote Garantido:</strong> Mais de R$ 2.000,00!<br><br>
+                        <strong>🎁 TOP 10 Freeroll:</strong><br>
+                        Os 10 melhores do ranking jogam DE GRAÇA!<br>
+                        (Pagam só janta + limpeza = R$ 50)<br><br>
+                        <strong>💸 Premiação Extra:</strong><br>
+                        1º - R$ 600 | 2º - R$ 450 | 3º - R$ 360<br>
+                        4º - R$ 270 | 5º - R$ 180<br>
+                        💥 Matador KO - R$ 200<br><br>
+                        <strong>Requisito:</strong> Mínimo 5 presenças na temporada<br><br>
+                        Bora garantir a vaga no G10! 🔥`;
+            }
+
+            // Premiação
+            if (message.includes('premiacao') || message.includes('premiação') || message.includes('premio') || message.includes('prêmio') || message.includes('paga')) {
+                return `💸 <strong>Premiação das Etapas</strong><br><br>
+                        <strong>% do Pote:</strong><br>
+                        🥇 1º Lugar - 36%<br>
+                        🥈 2º Lugar - 26%<br>
+                        🥉 3º Lugar - 19%<br>
+                        4️⃣ 4º Lugar - 12%<br>
+                        5️⃣ 5º Lugar - 7%<br><br>
+                        💳 <strong>Pagamento:</strong> Via PIX<br>
+                        ⏰ <strong>Prazo:</strong> Na noite da etapa ou até 12h do dia útil seguinte<br><br>
+                        <strong>🏆 Premiação da Temporada (G10):</strong><br>
+                        1º - R$ 600 | 2º - R$ 450 | 3º - R$ 360<br>
+                        4º - R$ 270 | 5º - R$ 180<br>
+                        💥 Matador KO - R$ 200<br><br>
+                        Joga bem e embolsa a grana! 💰`;
+            }
+
+            // Dealer
+            if (message.includes('dealer') || message.includes('capile') || message.includes('capilé') || message.includes('gorjeta')) {
+                return `🎴 <strong>Sobre os Dealers</strong><br><br>
+                        👥 <strong>Profissionais:</strong> 2 dealers contratados por etapa<br>
+                        💰 <strong>Pagamento:</strong> Responsabilidade da organização<br>
+                        🤝 <strong>Capilé (gorjeta):</strong> VOLUNTÁRIO e pessoal<br><br>
+                        <strong>⚠️ Importante:</strong><br>
+                        - Capilé não é obrigatório<br>
+                        - Sem pressão, sem cobrança<br>
+                        - Organização NÃO intermedia<br>
+                        - Acerto direto com o dealer<br><br>
+                        🎯 <strong>Respeito é obrigatório!</strong><br>
+                        Desrespeitar o dealer = exclusão do grupo<br><br>
+                        Troca de mesa a cada 1 hora ⏰`;
+            }
+
+            // Local
+            if (message.includes('local') || message.includes('onde') || message.includes('lugar') || message.includes('luck')) {
+                return `📍 <strong>Local do Poker de Quinta</strong><br><br>
+                        🍺 <strong>Luck BAR</strong><br>
+                        📍 R. Prof. Sebastião Paraná, 765<br>
+                        🏘️ Vila Izabel - Curitiba/PR<br><br>
+                        ⏰ Às quintas-feiras, 20h<br>
+                        🎲 13 etapas na temporada 2026<br><br>
+                        Vem pro melhor poker de Curitiba! 🔥`;
+            }
+
+            // Grupo WhatsApp
+            if (message.includes('grupo') || message.includes('whats') || message.includes('zap')) {
+                return `📱 <strong>Grupo do WhatsApp - Regras</strong><br><br>
+                        <strong>✅ PERMITIDO:</strong><br>
+                        ⚽ Resenha de futebol<br>
+                        🎲 Resenha de poker<br>
+                        🃏 Assuntos do Poker de Quinta<br><br>
+                        <strong>🚫 PROIBIDO:</strong><br>
+                        ❌ Pornografia ou conteúdo ofensivo<br>
+                        ❌ Política e racismo<br>
+                        ❌ Vendas e anúncios<br>
+                        ❌ Divulgação de outros eventos<br>
+                        ❌ Listas de outros poker<br><br>
+                        <strong>⚠️ Penalidade:</strong><br>
+                        Desrespeitar = <strong>EXCLUSÃO PERMANENTE</strong><br><br>
+                        Mantenha a resenha limpa! 💪`;
+            }
+
+            // Rei da Mesa
+            if (message.includes('rei') && message.includes('mesa')) {
+                return `👑 <strong>Recompensa do Rei da Mesa</strong><br><br>
+                        <strong>Quem é o Rei?</strong><br>
+                        O campeão da etapa anterior! 🏆<br><br>
+                        <strong>Vantagem:</strong><br>
+                        💥 Começa com <strong>2 FICHAS DE KO</strong> (em vez de 1)<br>
+                        🎯 Sua "cabeça" vale DOBRO!<br><br>
+                        <strong>Se o Rei não vier:</strong><br>
+                        Passa pro 2º colocado, depois 3º, etc.<br><br>
+                        <strong>Rei atual:</strong><br>
+                        👑 <strong>${pokerData.etapa1.campeao}</strong> (Campeão da 1ª Etapa)<br><br>
+                        💰 Eliminar o Rei = 2 pontos de KO!<br>
+                        🔥 Título consecutivo = DOBRA a recompensa!<br><br>
+                        Bora caçar o rei! 🎯`;
+            }
+
+            // Pontuação
+            if (message.includes('ponto') || message.includes('pontuacao') || message.includes('pontuação')) {
+                return `📊 <strong>Sistema de Pontuação</strong><br><br>
+                        <strong>Pontos por Colocação:</strong><br>
+                        🥇 1º - 27 pts | 🥈 2º - 25 pts | 🥉 3º - 23 pts<br>
+                        4º - 21 pts | 5º - 19 pts | 6º - 17 pts<br>
+                        7º - 15 pts | 8º - 13 pts | 9º - 11 pts<br>
+                        10º - 9 pts | 11º - 7 pts | 12º - 6 pts<br>
+                        13º ao 20º - 5 pts<br><br>
+                        💥 <strong>+1 ponto</strong> por cada ficha de KO conquistada!<br><br>
+                        <strong>Desempate (na ordem):</strong><br>
+                        1. Total de pontos<br>
+                        2. Nº de participações<br>
+                        3. Nº de 1º lugares<br>
+                        4. Nº de KOs acumulados<br>
+                        5. Locurinha (melhor de 3)<br><br>
+                        Joga, soma pontos e garante o G10! 🔥`;
+            }
+
+            // Blinds
+            if (message.includes('blind') || message.includes('estrutura')) {
+                return `⏱️ <strong>Estrutura de Blinds</strong><br><br>
+                        <strong>Níveis 1-10:</strong> 15 minutos cada<br>
+                        💤 <strong>INTERVALO</strong> (Janta + Add-ons)<br>
+                        <strong>Níveis 11-18:</strong> 12 minutos cada<br>
+                        <strong>Níveis 19+:</strong> 10 minutos cada<br><br>
+                        <strong>Big Blind Ante:</strong><br>
+                        📍 Começa após o intervalo (nível 11)<br>
+                        💰 O BB paga o ante da mesa toda<br><br>
+                        <strong>⚠️ No nível 10:</strong><br>
+                        🔥 Últimas 3 mãos com mesmo blind<br>
+                        💰 Última chance de rebuy/add-on<br>
+                        🍽️ Depois vem a janta!<br><br>
+                        A estrutura completa tá no regulamento, baralhão! 📋`;
+            }
+
+            // Fichas
+            if (message.includes('ficha') && !message.includes('ko')) {
+                return `🎰 <strong>Stack de Fichas</strong><br><br>
+                        <strong>💰 Buy-in (R$ 100):</strong><br>
+                        15.000 fichas<br><br>
+                        <strong>🔄 Rebuy Simples (R$ 30):</strong><br>
+                        15.000 fichas - ILIMITADO até nível 10<br><br>
+                        <strong>🔄🔄 Rebuy Duplo (R$ 60):</strong><br>
+                        30.000 fichas - ILIMITADO até nível 10<br><br>
+                        <strong>➕ Add-on (R$ 50):</strong><br>
+                        50.000 fichas - APENAS 1 (no fim do nível 10)<br><br>
+                        <strong>⚡ Bônus Pontualidade:</strong><br>
+                        3.000 fichas (chegar antes das 20h)<br><br>
+                        💡 <strong>Dica:</strong> Add-on é o melhor custo-benefício!<br>
+                        50K por R$ 50 = 1000 fichas por real! 🔥`;
+            }
+
+            // Site
+            if (message.includes('site') || message.includes('link')) {
+                return `🌐 <strong>Sites Oficiais do Poker de Quinta</strong><br><br>
+                        <strong>🏠 Site Principal:</strong><br>
+                        <a href="http://pokerdequinta.github.io/site" target="_blank" style="color: #FFD700;">pokerdequinta.github.io/site</a><br>
+                        (Calendário, inscrições, regulamento, novidades)<br><br>
+                        <strong>🏆 Ranking:</strong><br>
+                        <a href="http://pokerdequinta.github.io/ranking" target="_blank" style="color: #FFD700;">pokerdequinta.github.io/ranking</a><br>
+                        (Ranking geral e de KO atualizados)<br><br>
+                        Salva nos favoritos e fica de olho! 👀`;
+            }
+
+            // Janta
+            if (message.includes('janta') || message.includes('comida') || message.includes('comer')) {
+                return `🍽️ <strong>Sobre a Janta</strong><br><br>
+                        💰 <strong>Valor:</strong> R$ 30 (já incluso no buy-in)<br>
+                        👨‍🍳 <strong>Chef:</strong> Cada etapa tem um quitute especial<br>
+                        ⏰ <strong>Quando:</strong> No intervalo (após nível 10)<br><br>
+                        <strong>⚠️ IMPORTANTE:</strong><br>
+                        Não come? <strong>PAGA IGUAL!</strong><br>
+                        O valor é obrigatório no buy-in de R$ 100<br><br>
+                        🍺 <strong>Bebidas:</strong> Por conta de cada um no bar<br><br>
+                        Aproveita a janta, é de qualidade! 😋`;
+            }
+
+            // Mesa de cash
+            if (message.includes('cash') || message.includes('dinheiro')) {
+                return `💵 <strong>Mesa de Cash Game</strong><br><br>
+                        <strong>Disponibilidade:</strong><br>
+                        🎯 Apenas após formação da mesa final<br>
+                        👥 Para jogadores eliminados<br><br>
+                        <strong>Características:</strong><br>
+                        🎲 Fichas diferentes do torneio<br>
+                        🔄 Troca de dealer a cada 1 hora<br>
+                        ⏰ Termina junto com o torneio<br><br>
+                        <strong>Capilé:</strong><br>
+                        💰 Acerto direto com o dealer<br>
+                        🚫 Organização não intermedia<br><br>
+                        Eliminado cedo? Bora pro cash! 💸`;
+            }
+
+            // Calendário
+            if (message.includes('calendario') || message.includes('calendário') || message.includes('datas') || message.includes('etapas')) {
+                return `📅 <strong>Calendário 2026 - Poker de Quinta</strong><br><br>
+                        <strong>13 Etapas confirmadas:</strong><br>
+                        📍 Todas às quintas-feiras, 20h<br>
+                        📍 Local: Luck BAR<br><br>
+                        <strong>Próximas datas:</strong><br>
+                        🔸 2ª Etapa: 26/02/2026<br>
+                        <em>Calendário completo no site oficial</em><br><br>
+                        🏆 <strong>Grande Final:</strong> 10/12/2026<br><br>
+                        🔗 Confira todas as datas:<br>
+                        <a href="http://pokerdequinta.github.io/site" target="_blank" style="color: #FFD700;">pokerdequinta.github.io/site</a><br><br>
+                        Marca na agenda, baralhão! 📝`;
+            }
+
+            // Balanceamento
+            if (message.includes('balanc') || message.includes('mesa') && message.includes('troca')) {
+                return `⚖️ <strong>Balanceamento de Mesas</strong><br><br>
+                        <strong>Quando acontece:</strong><br>
+                        Quando houver diferença no número de jogadores entre as mesas<br><br>
+                        <strong>Quem muda:</strong><br>
+                        🎯 Jogador mais próximo do big blind da mesa com mais gente<br>
+                        📍 Normalmente quem tá no small blind ou próximo<br><br>
+                        <strong>Nova posição:</strong><br>
+                        Equivalente ou próxima ao big blind na mesa de destino<br><br>
+                        É pra manter o jogo justo e equilibrado! ⚖️`;
+            }
+
+            // Votação
+            if (message.includes('votacao') || message.includes('votação') || message.includes('acordo') || message.includes('deal')) {
+                return `🗳️ <strong>Sistema de Votações</strong><br><br>
+                        <strong>Quando usar:</strong><br>
+                        💰 Divisão de premiação<br>
+                        🤝 Acordos na mesa final<br>
+                        ⚖️ Outras decisões coletivas<br><br>
+                        <strong>Como funciona:</strong><br>
+                        🔴 Carta VERMELHA = SIM<br>
+                        ⚫ Carta PRETA = NÃO<br><br>
+                        <strong>⚠️ REGRA CRUCIAL:</strong><br>
+                        Decisão só passa se for <strong>UNÂNIME!</strong><br>
+                        Uma carta diferente = votação negativa<br><br>
+                        <strong>Nova votação:</strong><br>
+                        Só após eliminação de um jogador<br><br>
+                        Democracia no poker! 🎲`;
+            }
+
+            // Desempate
+            if (message.includes('desempate') || message.includes('empatou')) {
+                return `🤝 <strong>Critérios de Desempate</strong><br><br>
+                        <strong>Durante a etapa:</strong><br>
+                        Se dois jogadores caem na mesma mão, melhor colocação = quem tinha mais fichas no início daquela mão<br><br>
+                        <strong>No ranking da temporada:</strong><br>
+                        1️⃣ Número de pontos<br>
+                        2️⃣ Maior número de participações<br>
+                        3️⃣ Maior número de 1º lugares<br>
+                        4️⃣ Maior número de KOs acumulados<br>
+                        5️⃣ Locurinha (melhor de 3)<br><br>
+                        💡 A locurinha é tipo um showdown épico!<br>
+                        Duas cartas abertas + flop/turn/river abertos<br>
+                        Melhor mão ganha! 🃏`;
+            }
+
+            // Convidado / Novo jogador
+            if (message.includes('convidado') || message.includes('novo') || message.includes('amigo')) {
+                return `👥 <strong>Como Trazer um Convidado</strong><br><br>
+                        <strong>Responsabilidade:</strong><br>
+                        Você responde por TUDO do seu convidado:<br>
+                        💰 Pagamentos<br>
+                        🍺 Contas do bar<br>
+                        📋 Cumprimento das regras<br><br>
+                        <strong>Processo:</strong><br>
+                        1. Adiciona ele na <strong>LISTA DE ESPERA</strong><br>
+                        2. Se lista oficial não encher até quarta 10h<br>
+                        3. Lista de espera é liberada automaticamente<br><br>
+                        <strong>Avaliação:</strong><br>
+                        ✅ Organização analisa o convidado<br>
+                        ✅ Se aprovado, entra no grupo do WhatsApp<br><br>
+                        Traga gente boa pro poker! 🤝`;
+            }
+
+            // Penalidades / Faltas
+            if (message.includes('penalidade') || message.includes('falta') || message.includes('nao foi') || message.includes('não foi')) {
+                return `⚠️ <strong>Penalidades por Falta</strong><br><br>
+                        <strong>Desistiu na QUINTA-FEIRA:</strong><br>
+                        📉 <strong>-20 pontos</strong> no ranking<br>
+                        📋 Vai pro fim da fila em futuras inscrições<br><br>
+                        <strong>NÃO APARECEU na etapa:</strong><br>
+                        📉 <strong>-90 pontos</strong> no ranking<br>
+                        💰 <strong>Paga R$ 100</strong> pra organização<br>
+                        📋 Vai pro fim da fila em futuras inscrições<br>
+                        🚫 Não pagar = pode ser EXPULSO do grupo<br><br>
+                        <strong>⚠️ IMPORTANTE:</strong><br>
+                        Desistiu? Avisa logo no grupo!<br>
+                        Tem lista de espera esperando a vaga!<br><br>
+                        Seja responsável, baralhão! 😤`;
+            }
+
+            // Ajuda / Comandos
+            if (message.includes('ajuda') || message.includes('help') || message.includes('comandos') || message.includes('perguntas')) {
+                return `❓ <strong>Perguntas Frequentes</strong><br><br>
+                        <strong>📋 Informações Gerais:</strong><br>
+                        • Próxima etapa / Quando<br>
+                        • Valores / Quanto custa<br>
+                        • Horário / Que horas<br>
+                        • Local / Onde<br><br>
+                        <strong>🏆 Rankings & Pontos:</strong><br>
+                        • Ranking geral / Classificação<br>
+                        • Ranking KO<br>
+                        • Sistema de pontuação<br>
+                        • Campeão / Rei da Mesa<br><br>
+                        <strong>🎲 Regras & Sistemas:</strong><br>
+                        • Como funciona o KO<br>
+                        • Roleta da Sorte<br>
+                        • Time Bank<br>
+                        • Estrutura de blinds<br>
+                        • Melhor mão<br><br>
+                        <strong>💰 Financeiro:</strong><br>
+                        • Premiação<br>
+                        • Fichas / Stack<br>
+                        • Rebuy / Add-on<br><br>
+                        <strong>📱 Organização:</strong><br>
+                        • Como se inscrever<br>
+                        • Regras do grupo<br>
+                        • Trazer convidado<br>
+                        • Última etapa<br><br>
+                        Só perguntar, baralhão! 😎`;
+            }
+
+            // Cumprimentos
+            if (message.includes('oi') || message.includes('olá') || message.includes('ola') || message.includes('bom dia') || message.includes('boa tarde') || message.includes('boa noite')) {
+                const cumprimentos = [
+                    "E aí, baralhão! Pronto pra levar bad beat? 😈",
+                    "Fala, jogador! Vamo que vamo pro all-in! 🎲",
+                    "Salve, mano! Trouxe a carteira? Vai precisar! 💰",
+                    "Opa! Chegou o próximo eliminado! 😂",
+                    "Bem-vindo, baralhão! Pergunta logo aí! 🃏"
+                ];
+                return cumprimentos[Math.floor(Math.random() * cumprimentos.length)];
+            }
+
+            // Agradecimentos
+            if (message.includes('obrigad') || message.includes('valeu') || message.includes('vlw')) {
+                const agradecimentos = [
+                    "De nada, baralhão! Bora dominar esse poker! 💪",
+                    "Tranquilo! Qualquer coisa é só gritar! 🎯",
+                    "Tmj, mano! Boa sorte nas mesas! 🍀",
+                    "É nóis! Agora vai lá e representa! 🔥"
+                ];
+                return agradecimentos[Math.floor(Math.random() * agradecimentos.length)];
+            }
+
+            // Não entendeu / Não sabe
+            const respostasAgressivas = [
+                "Olha, baralhão... Essa eu não sei não! 🤷‍♂️<br><br>Para de ser preguiçoso e vai ler o <strong>REGULAMENTO COMPLETO</strong>! 📖<br><br>🔗 <a href='http://pokerdequinta.github.io/site' target='_blank' style='color: #FFD700;'>pokerdequinta.github.io/site</a><br><br>Ou reformula a pergunta que eu tento de novo! 😤",
+
+                "Eita, complicou! 😅<br><br>Essa pergunta tá muito específica ou eu não entendi direito.<br><br>Faz o seguinte: vai lá no <strong>REGULAMENTO OFICIAL</strong> que lá tem TUDO nos mínimos detalhes!<br><br>🔗 <a href='http://pokerdequinta.github.io/site' target='_blank' style='color: #FFD700;'>pokerdequinta.github.io/site</a><br><br>Ou pergunta de outro jeito que eu tento ajudar! 💪",
+
+                "Mano, não sei essa não! 🤨<br><br>Cê quer me fazer de bobo? Lê o regulamento, pô!<br><br>Tá tudo lá mastigadinho: <a href='http://pokerdequinta.github.io/site' target='_blank' style='color: #FFD700;'>pokerdequinta.github.io/site</a><br><br>Se ainda tiver dúvida, pergunta no grupo ou fala com a organização! 📱",
+
+                "Rapaz... 😑<br><br>Eu sou bom, mas não sou MÁGICO!<br><br>Essa pergunta passou do meu limite de conhecimento. Vai direto na fonte:<br><br>📋 <strong>Regulamento Completo:</strong><br><a href='http://pokerdequinta.github.io/site' target='_blank' style='color: #FFD700;'>pokerdequinta.github.io/site</a><br><br>📱 <strong>Ou pergunta no grupo do WhatsApp!</strong><br><br>Não seja preguiçoso! 😤"
+            ];
+
+            return respostasAgressivas[Math.floor(Math.random() * respostasAgressivas.length)];
+        }
+
+        // Enter para enviar
+        document.getElementById('userInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
                 sendMessage();
             }
-        }
-
-        // Efeito no botão enviar
-        document.getElementById('sendButton').addEventListener('click', function() {
-            this.style.transform = 'scale(0.9)';
-            setTimeout(() => {
-                this.style.transform = 'scale(1)';
-            }, 150);
         });
 
-        // Efeito no botão voltar
-        document.querySelector('.back-btn').addEventListener('mouseenter', function() {
-            this.style.transform = 'translateY(-3px) rotate(-5deg)';
+        // Auto-scroll nas mensagens
+        const messagesDiv = document.getElementById('messages');
+        const observer = new MutationObserver(() => {
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
         });
-        
-        document.querySelector('.back-btn').addEventListener('mouseleave', function() {
-            this.style.transform = 'translateY(0) rotate(0)';
-        });
-
-        // Focar no input ao carregar
-        window.onload = function() {
-            userInput.focus();
-            
-            // Adicionar mensagem inicial automática
-            setTimeout(() => {
-                if (chatArea.children.length <= 1) {
-                    addMessage("TÁ ESPERANDO O QUÊ, SEU BARALHÃO? PERGUNTA LOGO OU VAI TOMAR NO CU!", false);
-                }
-            }, 800);
-        };
+        observer.observe(messagesDiv, { childList: true });
     </script>
 </body>
 </html>
+
