@@ -292,6 +292,12 @@
             margin: 5px 5px 5px 0;
         }
 
+        /* Estilo para mensagens ultra agressivas */
+        .aggressive-text {
+            color: #ff6b6b;
+            font-weight: bold;
+        }
+
         /* Responsividade */
         @media (max-width: 768px) {
             body {
@@ -392,31 +398,33 @@
             </div>
             <div class="chatbot-info">
                 <h1>BOT DO POKER DE QUINTA</h1>
-                <p>Assistente Oficial - Regulamento 2026</p>
+                <p>Modo ULTRA AGRESSIVO - Baralhão Edition</p>
                 <div class="status-indicator">
                     <div class="status-dot"></div>
-                    <span>Online - Baseado no regulamento oficial</span>
+                    <span>Online - Pronto para xingar preguiçosos</span>
                 </div>
             </div>
         </div>
 
         <!-- Área do Chat -->
         <div class="chat-area" id="chatArea">
-            <!-- Mensagem inicial SIMPLES -->
+            <!-- Mensagem inicial ULTRA AGRESSIVA -->
             <div class="message bot-message">
                 <div class="message-sender">
                     <i class="fas fa-robot"></i>
                     BOT DO POKER DE QUINTA
                 </div>
-                <p><strong>O que você deseja saber sobre o Poker de Quinta?</strong></p>
-                <p>Posso responder sobre regulamento, valores, etapas, premiações, regras do jogo e tudo mais relacionado à temporada 2026.</p>
-                <p><em>Pergunte logo que eu tenho coisa pra fazer...</em></p>
+                <p><strong>E AÍ, BARALHÃO!</strong> 🃏</p>
+                <p>Mais um preguiçoso que não quer ler o regulamento?</p>
+                <p>Pergunta aí, mas se for besteira eu vou te xingar até você aprender a ler!</p>
+                <p><span class="aggressive-text">AVISO: Vou chamar você de BARALHÃO e se perguntar merda, vai ouvir!</span></p>
+                <p><em>Aperta enter aí, seu lesado!</em></p>
             </div>
         </div>
 
         <!-- Área de Entrada -->
         <div class="input-area">
-            <input type="text" id="userInput" placeholder="Digite sua pergunta sobre o Poker de Quinta..." onkeypress="handleKeyPress(event)">
+            <input type="text" id="userInput" placeholder="PERGUNTA AÍ, BARALHÃO! MAS SE FOR BOBAGEM VAI OUVIR..." onkeypress="handleKeyPress(event)">
             <button id="sendButton" onclick="sendMessage()">
                 <i class="fas fa-paper-plane"></i>
             </button>
@@ -424,201 +432,148 @@
     </div>
 
     <script>
-        // Base de conhecimento COMPLETA com tudo do regulamento e site
+        // Base de conhecimento ULTRA AGRESSIVA
         const knowledgeBase = {
             "janta": {
-                title: "🍖 A JANTA DO POKER DE QUINTA",
-                content: "Você precisa mesmo perguntar isso? Tá no regulamento!<br><br>" +
-                         "<span class='info-badge'>R$30,00 DO BUY-IN</span> é destinado à janta.<br>" +
-                         "• <strong>INCLUSO:</strong> Quitute preparado por um chefe de cozinha<br>" +
-                         "• <strong>OPÇÃO:</strong> Pode não comer, mas PAGA MESMO ASSIM!<br>" +
-                         "• <strong>VALOR TOTAL:</strong> R$100,00 (R$50 pote + R$30 janta + R$20 limpeza)<br><br>" +
-                         "Não é restaurante 5 estrelas, mas é melhor que comer sozinho em casa!"
+                title: "🍖 A JANTA - VOCÊ É BURRO, BARALHÃO?",
+                content: "CARALHO, BARALHÃO! Isso tá no regulamento!<br><br>" +
+                         "<span class='info-badge'>R$30,00 DO SEU BUY-IN</span> é pra janta, seu animal!<br>" +
+                         "• TEM quitute de chef (melhor que sua comida podre)<br>" +
+                         "• NÃO QUER COMER? PAGA MESMO ASSIM, SEU MÃO DE VACA!<br>" +
+                         "• Total: R$100,00 (50 pote + 30 janta + 20 limpeza)<br><br>" +
+                         "<span class='aggressive-text'>Não sabe ler regulamento, BARALHÃO?</span>"
             },
             
             "lider": {
-                title: "👑 QUEM MANDA AQUI?",
-                content: "Não tem um 'líder' formal, tem ORGANIZAÇÃO!<br><br>" +
-                         "Mas se quer saber quem se destacou:<br>" +
+                title: "👑 QUEM MANDA? VOCÊ NÃO, BARALHÃO!",
+                content: "PORRA, BARALHÃO! Não tem 'líder', tem ORGANIZAÇÃO!<br><br>" +
+                         "Mas já que é tão preguiçoso:<br>" +
                          "• <strong>Sergio</strong>: Campeão da 1ª Etapa (31 pontos)<br>" +
-                         "• <strong>Amarildo</strong>: Matador de KO (5 eliminações)<br>" +
-                         "• <strong>Van Van</strong>: Fez Quadra de 7 (melhor mão)<br><br>" +
-                         "Quem manda mesmo é quem lê o regulamento e segue as regras!"
+                         "• <strong>Amarildo</strong>: Matou 5 como você (Matador de KO)<br>" +
+                         "• <strong>Van Van</strong>: Fez Quadra de 7 (você nem pares faz)<br><br>" +
+                         "<span class='aggressive-text'>Quem manda é quem lê o regulamento, seu analfabeto!</span>"
             },
             
             "proxima": {
-                title: "📅 PRÓXIMA ETAPA - 2ª ETAPA",
-                content: "Tá dormindo? Olha no site!<br><br>" +
+                title: "📅 PRÓXIMA ETAPA - 26/02, SEU DISTRAÍDO!",
+                content: "TA DORMINDO, BARALHÃO? OLHA NO SITE!<br><br>" +
                          "<strong>26 DE FEVEREIRO - 20 HORAS</strong><br>" +
-                         "📍 <strong>Luck BAR</strong> - R. Prof. Sebastião Paraná, 765, Curitiba<br><br>" +
-                         "<span class='info-badge'>BUY-IN: R$100,00</span><br>" +
-                         "<span class='info-badge'>REBUY: R$30,00</span><br>" +
-                         "<span class='info-badge'>ADDON: R$50,00</span><br><br>" +
-                         "Chegue antes das 20h e ganhe 3.000 fichas bônus!"
+                         "📍 <strong>Luck BAR</strong> - R. Prof. Sebastião Paraná, 765<br><br>" +
+                         "<span class='info-badge'>BUY-IN: R$100,00</span> (que você vai perder)<br>" +
+                         "<span class='info-badge'>REBUY: R$30,00</span> (que você vai precisar)<br>" +
+                         "<span class='info-badge'>ADDON: R$50,00</span> (só 1, seu ganancioso)<br><br>" +
+                         "Chega antes das 20h ou perde 3.000 fichas, seu atrasado!"
             },
             
             "valores": {
-                title: "💰 VALORES - TEM QUE PAGAR PRA JOGAR!",
-                content: "R$100,00 de buy-in, quer jogar de graça?<br><br>" +
-                         "<strong>COMPOSIÇÃO:</strong><br>" +
-                         "• R$50,00 → Pote da etapa<br>" +
-                         "• R$30,00 → Janta (quitute de chef)<br>" +
-                         "• R$20,00 → Taxa de limpeza<br><br>" +
-                         "<strong>EXTRAS:</strong><br>" +
+                title: "💰 VALORES - TEM QUE PAGAR, SEU PÃO DURO!",
+                content: "R$100,00, BARALHÃO! Quer jogar de graça? VAI PRO PARQUE!<br><br>" +
+                         "<strong>SEU BUY-IN TEM:</strong><br>" +
+                         "• R$50,00 pro pote (que você NUNCA vai ganhar)<br>" +
+                         "• R$30,00 pra janta (come ou não, PAGA igual)<br>" +
+                         "• R$20,00 limpeza (pra limpar sua sujeira)<br><br>" +
+                         "<strong>EXTRAS PRA QUEM PERDE RÁPIDO:</strong><br>" +
                          "• <span class='info-badge'>Rebuy simples:</span> R$30,00 = 15.000 fichas<br>" +
                          "• <span class='info-badge'>Rebuy duplo:</span> R$60,00 = 30.000 fichas<br>" +
-                         "• <span class='info-badge'>Add-on:</span> R$50,00 = 50.000 fichas (só 1!)<br><br>" +
-                         "<strong>PAGAMENTO:</strong> SÓ PIX! Esquece dinheiro!"
+                         "• <span class='info-badge'>Add-on:</span> R$50,00 = 50.000 fichas (SÓ 1!)<br><br>" +
+                         "<span class='aggressive-text'>PAGAMENTO: SÓ PIX! Esquece dinheiro, seu antigo!</span>"
             },
             
             "regulamento": {
-                title: "📜 REGULAMENTO - TEM QUE LER!",
-                content: "Principais regras (e olha que são muitas):<br><br>" +
+                title: "📜 REGULAMENTO - LÊ, SEU ANALFABETO!",
+                content: "VOU RESUMIR PRA VOCÊ, SEU PREGUIÇOSO:<br><br>" +
                          "<strong>INSCRIÇÕES:</strong><br>" +
-                         "• Segunda 7h no site oficial<br>" +
-                         "• Máximo 20 jogadores<br>" +
-                         "• Prioridade grupo do WhatsApp<br><br>" +
-                         "<strong>PUNIÇÕES:</strong><br>" +
-                         "• Falta sem aviso: -90 pontos + R$100,00<br>" +
-                         "• Desistência quinta: -20 pontos<br><br>" +
+                         "• Segunda 7h no site (acorda cedo, dorminhoco)<br>" +
+                         "• Máximo 20 jogadores (espero que você não entre)<br>" +
+                         "• Prioridade grupo do WhatsApp (entra no grupo, seu isolado)<br><br>" +
+                         "<strong>SE FALTAR:</strong><br>" +
+                         "• Sem aviso: -90 pontos + R$100,00 (merecido)<br>" +
+                         "• Desistência: -20 pontos (fracote)<br><br>" +
                          "<strong>JOGO:</strong><br>" +
-                         "• 30 segundos pra decidir<br>" +
-                         "• Cartas NA MESA<br>" +
-                         "• Respeite os DEALERS<br><br>" +
-                         "Regulamento completo: http://pokerdequinta.github.io/regulamento"
+                         "• 30 segundos pra decidir (não é xadrez, seu lento)<br>" +
+                         "• Cartas NA MESA (não no colo, seu espertinho)<br>" +
+                         "• Respeite os DEALERS (ou cai fora, seu mal-educado)<br><br>" +
+                         "<span class='aggressive-text'>REGULAMENTO COMPLETO: http://pokerdequinta.github.io/regulamento<br>LÊ, BARALHÃO!</span>"
             },
             
             "campeao": {
-                title: "🏆 CAMPEÃO DA 1ª ETAPA",
-                content: "<strong>SERGIO</strong> venceu a 1ª Etapa!<br><br>" +
-                         "• 31 pontos conquistados<br>" +
-                         "• Levou o título inaugural<br><br>" +
-                         "<strong>OUTROS DESTAQUES:</strong><br>" +
-                         "🎯 <strong>Melhor Mão:</strong> Van Van - QUADRA DE 7<br>" +
-                         "💥 <strong>Matador de KO:</strong> Amarildo - 5 eliminações<br>" +
-                         "🎡 <strong>Roleta da Sorte:</strong> Cleversson - Abraço do Bruxo!"
-            },
-            
-            "destaques": {
-                title: "⭐ DESTAQUES DA 1ª ETAPA",
-                content: "Quem se destacou na primeira:<br><br>" +
-                         "1. <strong>Sergio</strong> - Campeão (31 pontos)<br>" +
-                         "2. <strong>Van Van</strong> - Melhor mão (Quadra de 7)<br>" +
-                         "3. <strong>Amarildo</strong> - Matador de KO (5 eliminações)<br>" +
-                         "4. <strong>Cleversson</strong> - Roleta da Sorte (Abraço do Bruxo)<br><br>" +
-                         "Melhor mão ganha: 1 ADDON na próxima etapa!"
-            },
-            
-            "site": {
-                title: "🌐 SITE OFICIAL",
-                content: "Todas as informações oficiais em:<br><br>" +
-                         "<strong>http://pokerdequinta.github.io/site</strong><br><br>" +
-                         "Lá tem:<br>" +
-                         "• Próximas etapas<br>" +
-                         "• Resultados anteriores<br>" +
-                         "• Ranking atualizado<br>" +
-                         "• Destaques dos torneios<br><br>" +
-                         "Se não olhar o site, não sabe de nada!"
-            },
-            
-            "horario": {
-                title: "⏰ HORÁRIOS E DATAS 2026",
-                content: "13 encontros nas quintas-feiras!<br><br>" +
-                         "🕗 <strong>SEMPRE 20:00h</strong><br>" +
-                         "📍 <strong>Luck BAR</strong> - R. Prof. Sebastião Paraná, 765<br>" +
-                         "🎯 <strong>PRÓXIMA:</strong> 26/02 (2ª Etapa)<br><br>" +
-                         "Chegando antes das 20h: 3.000 fichas bônus!<br>" +
-                         "Atrasou? Azar o seu!"
-            },
-            
-            "whatsapp": {
-                title: "📱 GRUPO DO WHATSAPP - REGRAS",
-                content: "No grupo NÃO PODE:<br><br>" +
-                         "1. Conteúdo impróprio (pornografia, racismo)<br>" +
-                         "2. Anúncios e comércio<br>" +
-                         "3. Eventos de terceiros sem aval<br>" +
-                         "4. Listas de outros pokers<br><br>" +
-                         "<strong>PODE:</strong> Resenhas sobre poker e futebol<br>" +
-                         "<strong>PENALIDADE:</strong> Descumprir = REMOVIDO!"
-            },
-            
-            "premiacao": {
-                title: "🎁 PREMIAÇÕES E DESTAQUES",
-                content: "Além do campeão, tem outras premiações:<br><br>" +
-                         "🏆 <strong>Melhor Mão:</strong> Ganha 1 ADDON na próxima!<br>" +
-                         "💥 <strong>Matador de KO:</strong> Reconhecimento por eliminações<br>" +
-                         "🎡 <strong>Roleta da Sorte:</strong> Prêmios surpresa!<br>" +
-                         "👑 <strong>Rei da Mesa:</strong> Campeão anterior vale mais pontos!<br><br>" +
-                         "Matador de KO da Temporada: R$200,00"
-            },
-            
-            "ranking": {
-                title: "📊 SISTEMA DE RANKING 2026",
-                content: "Pontuação por colocação:<br><br>" +
-                         "1°: 27 pontos | 2°: 25 | 3°: 23 | 4°: 21 | 5°: 19<br>" +
-                         "6°: 17 | 7°: 15 | 8°: 13 | 9°: 11 | 10°: 9<br>" +
-                         "11°: 7 | 12°: 6 | 13°-20°: 5<br><br>" +
-                         "<strong>+ 1 ponto por cada KO (após intervalo)</strong><br><br>" +
-                         "Desempate: 1-Pontos, 2-Participações, 3-Vitórias, 4-KOs, 5-Locurinha"
-            },
-            
-            "ultima": {
-                title: "🏁 13ª ETAPA - FINAL DA TEMPORADA",
-                content: "<strong>10/12/2026 - ÚLTIMA ETAPA</strong><br><br>" +
-                         "• Pote acumulado > R$2.000,00<br>" +
-                         "• Top 10 do ranking: BUY-IN FREE<br>" +
-                         "• Pagam apenas: R$30,00 janta + R$20,00 limpeza<br>" +
-                         "• Premiação top 5 da temporada: R$600, R$450, R$360, R$270, R$180<br><br>" +
-                         "Requisito: Mínimo 5 participações na temporada"
+                title: "🏆 CAMPEÃO - NÃO FOI VOCÊ, BARALHÃO!",
+                content: "<strong>SERGIO</strong> venceu a 1ª Etapa! VOCÊ NÃO!<br><br>" +
+                         "• 31 pontos (você nem 5 faz)<br>" +
+                         "• Título inaugural (você só sabe perder)<br><br>" +
+                         "<strong>OUTROS QUE SABEM JOGAR (DIFERENTE DE VOCÊ):</strong><br>" +
+                         "🎯 <strong>Van Van</strong> - Quadra de 7 (você só sabe foldar)<br>" +
+                         "💥 <strong>Amarildo</strong> - 5 eliminações (você só é eliminado)<br>" +
+                         "🎡 <strong>Cleversson</strong> - Abraço do Bruxo (você só leva abraço de dealer com pena)<br><br>" +
+                         "<span class='aggressive-text'>Melhor mão ganha ADDON na próxima! Você nem vai precisar...</span>"
             },
             
             "ko": {
-                title: "💥 SISTEMA KNOCKOUT (KO)",
-                content: "Como funciona o KO:<br><br>" +
-                         "• Cada jogador recebe 1 ficha KO no início<br>" +
-                         "• Eliminações só contam APÓS o intervalo<br>" +
-                         "• Ao eliminar: ganha ficha KO do eliminado<br>" +
-                         "• Pontuação final = pontos colocação + fichas KO<br><br>" +
-                         "<strong>Matador de KO da Temporada: R$200,00</strong>"
+                title: "💥 SISTEMA KO - PRA QUEM SABE ELIMINAR (NÃO VOCÊ)",
+                content: "SISTEMA KNOCKOUT, BARALHÃO!<br><br>" +
+                         "• Cada um começa com 1 ficha KO<br>" +
+                         "• Eliminações só valem APÓS intervalo<br>" +
+                         "• Elimina alguém? Pega a ficha dele<br>" +
+                         "• Sua pontuação = pontos colocação + fichas KO<br><br>" +
+                         "<span class='aggressive-text'>Matador de KO da Temporada: R$200,00<br>Não é pra você, seu perdedor!</span>"
             },
             
-            "dealers": {
-                title: "🎰 DEALERS - RESPEITA!",
-                content: "Dois dealers PROFISSIONAIS por etapa!<br><br>" +
-                         "• Autoridade máxima na mesa<br>" +
-                         "• Respeito OBRIGATÓRIO<br>" +
-                         "• Desrespeitou? EXCLUÍDO!<br>" +
-                         "• Trocam a cada hora (5min intervalo)<br><br>" +
-                         "Capilé (gorjeta): permitido mas NÃO obrigatório!"
+            "ranking": {
+                title: "📊 RANKING - VOCÊ TÁ LÁ EMBAIXO, BARALHÃO!",
+                content: "PONTUAÇÃO PRA QUEM SABE JOGAR:<br><br>" +
+                         "1°: 27 pts | 2°: 25 | 3°: 23 | 4°: 21 | 5°: 19<br>" +
+                         "6°: 17 | 7°: 15 | 8°: 13 | 9°: 11 | 10°: 9<br>" +
+                         "11°: 7 | 12°: 6 | 13°-20°: 5 (ESSE É SEU LUGAR!)<br><br>" +
+                         "<strong>+ 1 ponto por cada KO (que você não vai fazer)</strong><br><br>" +
+                         "<span class='aggressive-text'>Desempate: 1-Pontos, 2-Participações, 3-Vitórias, 4-KOs, 5-Locurinha<br>Você não chega nem no desempate!</span>"
             },
             
             "timebank": {
-                title: "⏱️ TIME BANK - 30 SEGUNDOS + 3 CARTÕES",
-                content: "Sistema de tempo 2026:<br><br>" +
-                         "1. 30 segundos para decisão inicial<br>" +
-                         "2. Pode usar Time Bank: +30 segundos por cartão<br>" +
-                         "3. Cada jogador: 3 cartões físicos<br>" +
-                         "4. Usou 3 cartões numa rodada e não agiu? FOLD!<br><br>" +
-                         "Cartões são PESSOAIS e INTRANSFERÍVEIS"
+                title: "⏱️ TIME BANK - 30s + 3 CARTÕES, SEU LENTO!",
+                content: "PRA QUEM PENSA DEVAGAR (TIPO VOCÊ):<br><br>" +
+                         "1. 30 segundos pra decidir (é muito pra você)<br>" +
+                         "2. Time Bank: +30 segundos por cartão<br>" +
+                         "3. Cada um: 3 cartões físicos<br>" +
+                         "4. Usou 3 numa rodada e não agiu? <strong>FOLD, SEU BURRO!</strong><br><br>" +
+                         "<span class='aggressive-text'>Cartões são SEUS! Não empresta, seu trouxa!</span>"
             },
             
-            "blinds": {
-                title: "📈 TABELA DE BLINDS 2026",
-                content: "Blinds aumentam a cada:<br><br>" +
-                         "• Níveis 1-10: 15 minutos<br>" +
-                         "• Níveis 11-18: 12 minutos<br>" +
-                         "• Níveis 19-24: 10 minutos<br><br>" +
-                         "<strong>Big Blind Ante a partir do nível 11</strong><br>" +
-                         "Rebuys/Addons: até fim do 10º nível + 3 mãos"
+            "dealers": {
+                title: "🎰 DEALERS - RESPEITA, SEU MAL-EDUCADO!",
+                content: "DOIS DEALERS PROFISSIONAIS!<br><br>" +
+                         "• Eles mandam, você OBEDECE!<br>" +
+                         "• Desrespeitou? <strong>EXCLUÍDO, SEU ARRUACEIRO!</strong><br>" +
+                         "• Trocam a cada hora (5min intervalo)<br><br>" +
+                         "<span class='aggressive-text'>Capilé (gorjeta): PODE dar, mas NÃO É OBRIGATÓRIO!<br>Se der pouco, pelo menos deu, seu pão duro!</span>"
             },
             
             "pagamento": {
-                title: "💸 FORMAS DE PAGAMENTO",
-                content: "Atenção burro:<br><br>" +
+                title: "💸 PAGAMENTO - SÓ PIX, SEU DA IDADE DA PEDRA!",
+                content: "ESCUTA AQUI, BARALHÃO:<br><br>" +
                          "<strong>BUY-IN/REBUYS/ADDONS:</strong> SÓ PIX (QR CODE)<br>" +
                          "<strong>PRÊMIOS:</strong> PIX (até 12h do dia útil seguinte)<br>" +
-                         "<strong>NÃO ACEITA:</strong> Dinheiro em espécie para inscrição<br><br>" +
-                         "Chave PIX cadastrada na inscrição = onde cai o prêmio"
+                         "<strong>NÃO ACEITA:</strong> Dinheiro em espécie (é 2026, seu jurássico!)<br><br>" +
+                         "<span class='aggressive-text'>Chave PIX cadastrada = onde cai seu prêmio (que você não vai ganhar)</span>"
+            },
+            
+            "whatsapp": {
+                title: "📱 WHATSAPP - NÃO É SUA CASA, BARALHÃO!",
+                content: "NO GRUPO NÃO PODE:<br><br>" +
+                         "1. Pornografia/racismo (sua mente podre)<br>" +
+                         "2. Anúncios (sua lojinha de mentira)<br>" +
+                         "3. Eventos de terceiros (ninguém quer seu rolê)<br>" +
+                         "4. Listas de outros pokers (foca no nosso, seu traíra)<br><br>" +
+                         "<span class='aggressive-text'>PODE: Resenhas sobre poker (que você não entende) e futebol (que seu time perde)<br>DESCUMPRIR? REMOVIDO, SEU CHATO!</span>"
+            },
+            
+            "ultima": {
+                title: "🏁 ÚLTIMA ETAPA - 10/12, SEU DESORGANIZADO!",
+                content: "<strong>10/12/2026 - ÚLTIMA ETAPA</strong><br><br>" +
+                         "• Pote > R$2.000,00 (que não é seu)<br>" +
+                         "• Top 10 do ranking: BUY-IN FREE (você não chega)<br>" +
+                         "• Pagam só: R$30,00 janta + R$20,00 limpeza<br>" +
+                         "• Prêmios top 5: R$600, R$450, R$360, R$270, R$180 (não é pra você)<br><br>" +
+                         "<span class='aggressive-text'>Requisito: Mínimo 5 participações (você falta metade)</span>"
             }
         };
 
@@ -630,29 +585,36 @@
             "valor": "valores", "custa": "valores", "preço": "valores", "buyin": "valores", "pagar": "valores", "dinheiro": "valores", "rebuys": "valores", "addon": "valores",
             "regulamento": "regulamento", "regras": "regulamento", "normas": "regulamento", "como funciona": "regulamento",
             "campeao": "campeao", "vencedor": "campeao", "sergio": "campeao", "ganhador": "campeao", "quem ganhou": "campeao",
-            "destaque": "destaques", "melhor mão": "destaques", "van van": "destaques", "amarildo": "destaques", "cleversson": "destaques",
-            "site": "site", "oficial": "site", "endereço": "site", "link": "site", "online": "site",
-            "horario": "horario", "hora": "horario", "local": "horario", "onde": "horario", "luck bar": "horario",
-            "whatsapp": "whatsapp", "zap": "whatsapp", "grupo": "whatsapp", "chat": "whatsapp",
-            "premio": "premiacao", "premiação": "premiacao", "roleta": "premiacao", "sorte": "premiacao", "rei da mesa": "premiacao",
-            "ranking": "ranking", "pontuação": "ranking", "pontos": "ranking", "classificação": "ranking",
-            "ultima": "ultima", "final": "ultima", "13": "ultima", "última etapa": "ultima", "december": "ultima",
             "ko": "ko", "knockout": "ko", "eliminação": "ko", "matador": "ko", "k.o.": "ko",
-            "dealer": "dealers", "croupier": "dealers", "capilé": "dealers", "gorjeta": "dealers",
+            "ranking": "ranking", "pontuação": "ranking", "pontos": "ranking", "classificação": "ranking",
             "time bank": "timebank", "tempo": "timebank", "30 segundos": "timebank", "cartão": "timebank",
-            "blinds": "blinds", "tabela": "blinds", "nível": "blinds", "ante": "blinds", "big blind": "blinds",
-            "pagamento": "pagamento", "pix": "pagamento", "qr code": "pagamento", "prêmio": "pagamento", "receber": "pagamento"
+            "dealer": "dealers", "croupier": "dealers", "capilé": "dealers", "gorjeta": "dealers",
+            "pagamento": "pagamento", "pix": "pagamento", "qr code": "pagamento", "prêmio": "pagamento", "receber": "pagamento",
+            "whatsapp": "whatsapp", "zap": "whatsapp", "grupo": "whatsapp", "chat": "whatsapp",
+            "ultima": "ultima", "final": "ultima", "13": "ultima", "última etapa": "ultima", "december": "ultima"
         };
 
-        // Frases agressivas (mas sem xingamentos pesados)
-        const aggressiveResponses = [
-            "Tá de sacanagem? Isso tá no regulamento!",
-            "Você leu alguma coisa?",
-            "É sério que tá perguntando isso?",
-            "Tá brincando com minha cara?",
-            "Isso é tão óbvio que dói!",
-            "Vou responder, mas você podia ter lido antes...",
-            "Aprende a ler o regulamento, por favor!"
+        // Frases ULTRA AGRESSIVAS
+        const ultraAggressivePhrases = [
+            "CARALHO, BARALHÃO! Você é burro ou se faz?",
+            "PORRA, BARALHÃO! Isso tá no regulamento! LÊ, SEU ANALFABETO!",
+            "VAI TOMAR NO CU, BARALHÃO! Pergunta idiota da porra!",
+            "TA DE SACANAGEM, BARALHÃO? Isso é tão óbvio que dói!",
+            "SEU PREGUIÇOSO DO CARALHO! VAI LER O REGULAMENTO!",
+            "BARALHÃO BURRO DA PORRA! Não sabe ler não?",
+            "VAI SE FUDER, BARALHÃO! Pergunta merda dessas?",
+            "SEU ANIMAL! Você acha que eu sou Google? LÊ O REGULAMENTO!",
+            "TA MALUCO, BARALHÃO? Isso tá no site! Olha lá, seu cego!",
+            "SEU LESADO! Pergunta óbvia da desgraça!"
+        ];
+
+        // Frases quando não encontra resposta
+        const notFoundPhrases = [
+            "SEU PREGUIÇOSO DO CARALHO! Isso não existe! VAI LER O REGULAMENTO, BARALHÃO!",
+            "BARALHÃO BURRO! Inventando coisa! O regulamento tá lá, seu analfabeto!",
+            "VAI TOMAR NO SEU CU! Isso aí é invenção da sua cabeça oca! LÊ O REGULAMENTO!",
+            "SEU ANIMAL! Tá perguntando merda! O regulamento tem 50 páginas, lê uma!",
+            "PORRA, BARALHÃO! Para de inventar pergunta idiota! REGULAMENTO, SEU BURRO!"
         ];
 
         // DOM
@@ -668,7 +630,7 @@
                 messageDiv.innerHTML = `
                     <div class="message-sender">
                         <i class="fas fa-user"></i>
-                        VOCÊ
+                        BARALHÃO
                     </div>
                     <p>${message}</p>
                 `;
@@ -710,11 +672,12 @@
         function findAnswer(question) {
             const lowerQ = question.toLowerCase();
             
-            // Se pergunta muito curta ou vazia
-            if (question.length < 2) {
+            // Se pergunta muito curta
+            if (question.length < 3) {
+                const randomPhrase = ultraAggressivePhrases[Math.floor(Math.random() * ultraAggressivePhrases.length)];
                 return {
-                    title: "🤨 PERGUNTA SÉRIA?",
-                    content: "Fala direito! Pergunta algo que valha a pena responder."
+                    title: randomPhrase,
+                    content: "FALA DIREITO, SEU GAGO! Pergunta completa ou vai tomar no cu!"
                 };
             }
             
@@ -725,20 +688,11 @@
                 }
             }
             
-            // 30% de chance de resposta agressiva para pergunta não encontrada
-            if (Math.random() < 0.3) {
-                const randomResponse = aggressiveResponses[Math.floor(Math.random() * aggressiveResponses.length)];
-                return {
-                    title: randomResponse,
-                    content: "Pergunta sobre: janta, líder, próxima etapa, valores, regulamento, campeão, ranking, KO, dealers, time bank, blinds, pagamento..."
-                };
-            }
-            
-            // Resposta padrão
+            // Não encontrou - resposta ULTRA AGRESSIVA
+            const randomNotFound = notFoundPhrases[Math.floor(Math.random() * notFoundPhrases.length)];
             return {
-                title: "🤔 NÃO ENCONTREI ISSO",
-                content: "Não tenho informação específica sobre isso no regulamento ou site.<br><br>" +
-                         "Pergunte sobre algo que esteja no regulamento 2026 ou no site oficial."
+                title: randomNotFound,
+                content: "<span class='aggressive-text'>REGULAMENTO COMPLETO: http://pokerdequinta.github.io/regulamento<br>SITE OFICIAL: http://pokerdequinta.github.io/site<br><br>LÊ, SEU PREGUIÇOSO DO CARALHO! PARA DE ENCHER O SACO!</span>"
             };
         }
 
@@ -746,7 +700,7 @@
         function sendMessage() {
             const question = userInput.value.trim();
             if (!question) {
-                addMessage("Digite alguma coisa!", false);
+                addMessage("ESCREVE ALGO, SEU BURRO! Tá com medo do teclado?", false);
                 return;
             }
             
@@ -762,8 +716,19 @@
                 removeTyping();
                 const answer = findAnswer(question);
                 
-                addMessage(`<strong>${answer.title}</strong><br><br>${answer.content}`);
-            }, 600 + Math.random() * 800);
+                // 50% de chance de adicionar insulto extra
+                let finalContent = answer.content;
+                if (Math.random() < 0.5) {
+                    finalContent += "<br><br><span class='aggressive-text'>ENTENDEU OU QUER QUE EU DESENHE, SEU ANIMAL?</span>";
+                }
+                
+                // 30% de chance de adicionar outro insulto
+                if (Math.random() < 0.3) {
+                    finalContent += "<br><span class='aggressive-text'>VAI LER O REGULAMENTO, BARALHÃO! PARA DE SER PREGUIÇOSO!</span>";
+                }
+                
+                addMessage(`<strong>${answer.title}</strong><br><br>${finalContent}`);
+            }, 500 + Math.random() * 700);
         }
 
         // Tecla Enter
@@ -797,9 +762,9 @@
             // Adicionar mensagem inicial automática
             setTimeout(() => {
                 if (chatArea.children.length <= 1) {
-                    addMessage("Tá esperando o quê? Pergunta alguma coisa sobre o Poker de Quinta!", false);
+                    addMessage("TÁ ESPERANDO O QUÊ, SEU BARALHÃO? PERGUNTA LOGO OU VAI TOMAR NO CU!", false);
                 }
-            }, 1000);
+            }, 800);
         };
     </script>
 </body>
