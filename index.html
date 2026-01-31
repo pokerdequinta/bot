@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chatbot Poker de Quinta - Baralhão Azarado</title>
+    <title>Bot do Poker de Quinta</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
@@ -23,7 +23,7 @@
             padding: 15px;
         }
 
-        /* Botão Voltar - LADO DIREITO */
+        /* Botão Voltar */
         .back-btn {
             position: fixed;
             top: 20px;
@@ -51,11 +51,7 @@
             box-shadow: 0 8px 20px rgba(212, 175, 55, 0.4);
         }
 
-        .back-btn i {
-            font-size: 1.3rem;
-        }
-
-        /* Container principal do chatbot */
+        /* Container do chatbot */
         .chatbot-container {
             width: 100%;
             max-width: 500px;
@@ -69,7 +65,7 @@
             border: 4px solid #d4af37;
         }
 
-        /* Cabeçalho do chatbot */
+        /* Cabeçalho */
         .chatbot-header {
             background: linear-gradient(to right, #1b5e20, #0d3b1e);
             padding: 20px;
@@ -77,7 +73,6 @@
             align-items: center;
             gap: 15px;
             border-bottom: 3px solid #d4af37;
-            position: relative;
         }
 
         .chatbot-avatar {
@@ -200,35 +195,6 @@
             color: #0c3619;
         }
 
-        /* Bad Beat Section - Apenas ao final */
-        .bad-beat {
-            background: linear-gradient(135deg, #8b0000 0%, #b22222 100%);
-            border: 2px solid #ff6b6b;
-            border-radius: 15px;
-            padding: 15px;
-            margin-top: 10px;
-            text-align: center;
-            animation: shake 0.5s ease;
-            display: none; /* Começa escondido */
-        }
-
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-5px); }
-            75% { transform: translateX(5px); }
-        }
-
-        .bad-beat h4 {
-            color: #ffd700;
-            margin-bottom: 8px;
-            font-size: 1rem;
-        }
-
-        .bad-beat p {
-            font-size: 0.9rem;
-            color: #fff;
-        }
-
         /* Área de entrada */
         .input-area {
             padding: 20px;
@@ -259,7 +225,6 @@
 
         .input-area input::placeholder {
             color: rgba(255, 255, 255, 0.5);
-            font-style: italic;
         }
 
         .input-area button {
@@ -346,18 +311,7 @@
             40% { transform: translateY(-10px); opacity: 1; }
         }
 
-        /* Bad Beat Messages */
-        .bad-beat-messages {
-            font-style: italic;
-            color: #ffd700;
-            margin-top: 10px;
-            padding: 10px;
-            border-left: 3px solid #ff6b6b;
-            background-color: rgba(139, 0, 0, 0.2);
-            border-radius: 0 10px 10px 0;
-        }
-
-        /* Responsividade Mobile */
+        /* Responsividade */
         @media (max-width: 768px) {
             body {
                 padding: 10px;
@@ -430,17 +384,13 @@
                 height: 40px;
             }
             
-            .back-btn i {
-                font-size: 1.1rem;
-            }
-            
             .quick-btn {
                 padding: 7px 12px;
                 font-size: 0.75rem;
             }
         }
 
-        /* Scrollbar personalizada */
+        /* Scrollbar */
         ::-webkit-scrollbar {
             width: 8px;
         }
@@ -450,18 +400,18 @@
             border-radius: 10px;
         }
 
-        ::webkit-scrollbar-thumb {
+        ::-webkit-scrollbar-thumb {
             background: #d4af37;
             border-radius: 10px;
         }
 
-        ::webkit-scrollbar-thumb:hover {
+        ::-webkit-scrollbar-thumb:hover {
             background: #b8941f;
         }
     </style>
 </head>
 <body>
-    <!-- Botão Voltar - LADO DIREITO -->
+    <!-- Botão Voltar -->
     <a href="http://pokerdequinta.github.io/site" class="back-btn" title="Voltar ao Site">
         <i class="fas fa-home"></i>
     </a>
@@ -471,55 +421,58 @@
         <!-- Cabeçalho -->
         <div class="chatbot-header">
             <div class="chatbot-avatar">
-                <img src="logo pdq.png" alt="Logo Poker de Quinta" onerror="this.onerror=null; this.innerHTML='<i class=\'fas fa-crown\'></i>'; this.style.display=\'flex\'; this.style.alignItems=\'center\'; this.style.justifyContent=\'center\';">
+                <img src="logo pdq.png" alt="Logo Poker de Quinta" onerror="this.onerror=null; this.innerHTML='<i class=\'fas fa-crown\'></i>'; this.style.display='flex'; this.style.alignItems='center'; this.style.justifyContent='center';">
             </div>
             <div class="chatbot-info">
-                <h1>CHATBOT DO BARALHÃO</h1>
-                <p>Poker de Quinta - Temporada 2026</p>
+                <h1>BOT DO POKER DE QUINTA</h1>
+                <p>Site Oficial - Informações e Regulamento</p>
                 <div class="status-indicator">
                     <div class="status-dot"></div>
-                    <span>Online - Pronto para humilhar</span>
+                    <span>Online - Baseado nas informações oficiais</span>
                 </div>
             </div>
         </div>
 
         <!-- Área do Chat -->
         <div class="chat-area" id="chatArea">
-            <!-- Mensagem de boas-vindas - SEM PERGUNTA -->
+            <!-- Mensagem inicial DIRETA -->
             <div class="message bot-message">
                 <div class="message-sender">
                     <i class="fas fa-robot"></i>
-                    DEALER OFICIAL
+                    BOT DO POKER DE QUINTA
                 </div>
-                <p>E AÍ, BARALHÃO AZARADO! 🃏</p>
-                <p>Chegou mais um perdedor habitual! Tá preparado pra levar outro bad beat ou veio só chorar as pitias?</p>
-                <p>O chat tá aqui, BARALHÃO. PERGUNTA O QUE QUISER, mas já aviso: cada resposta vai mostrar o quanto você é RUIM!</p>
-                
-                <div class="bad-beat-messages">
-                    <p><strong>⚠️ LEMBRETE:</strong> Não comecei com pergunta. A bola tá com VOCÊ, BARALHÃO!</p>
-                </div>
+                <p><strong>O que você deseja saber?</strong></p>
+                <p>Sou o bot oficial do Poker de Quinta. Posso te informar sobre:</p>
+                <p>• Próxima etapa e valores<br>• Campeões e destaques<br>• Regulamento do torneio<br>• Janta e organização<br>• E muito mais!</p>
+                <p><em>Pergunte logo, estou esperando...</em></p>
             </div>
         </div>
 
         <!-- Botões Rápidos -->
         <div class="quick-buttons">
+            <button class="quick-btn" onclick="askQuestion('Quem é o líder do Poker de Quinta?')">
+                <i class="fas fa-crown"></i> LÍDER
+            </button>
+            <button class="quick-btn" onclick="askQuestion('O que é a janta?')">
+                <i class="fas fa-utensils"></i> JANTA
+            </button>
+            <button class="quick-btn" onclick="askQuestion('Quando é a próxima etapa?')">
+                <i class="fas fa-calendar"></i> PRÓXIMA ETAPA
+            </button>
             <button class="quick-btn" onclick="askQuestion('Quanto custa jogar?')">
-                <i class="fas fa-money-bill-wave"></i> VALOR
+                <i class="fas fa-money-bill-wave"></i> VALORES
             </button>
-            <button class="quick-btn" onclick="askQuestion('Como me inscrevo?')">
-                <i class="fas fa-user-plus"></i> INSCRIÇÃO
+            <button class="quick-btn" onclick="askQuestion('Quem foi o campeão da 1ª etapa?')">
+                <i class="fas fa-trophy"></i> CAMPEÃO
             </button>
-            <button class="quick-btn" onclick="askQuestion('Posso pagar em dinheiro?')">
-                <i class="fas fa-cash-register"></i> PAGAMENTO
-            </button>
-            <button class="quick-btn" onclick="askQuestion('O que acontece se faltar?')">
-                <i class="fas fa-user-slash"></i> SE FALTAR
+            <button class="quick-btn" onclick="askQuestion('Qual é o regulamento?')">
+                <i class="fas fa-book"></i> REGULAMENTO
             </button>
         </div>
 
         <!-- Área de Entrada -->
         <div class="input-area">
-            <input type="text" id="userInput" placeholder="PERGUNTA AÍ, BARALHÃO! MAS SEJA RÁPIDO..." onkeypress="handleKeyPress(event)">
+            <input type="text" id="userInput" placeholder="Digite sua pergunta sobre o Poker de Quinta..." onkeypress="handleKeyPress(event)">
             <button id="sendButton" onclick="sendMessage()">
                 <i class="fas fa-paper-plane"></i>
             </button>
@@ -527,111 +480,139 @@
     </div>
 
     <script>
-        // Base de conhecimento AGRESSIVA
+        // Base de conhecimento ATUALIZADA com informações do site e regulamento
         const knowledgeBase = {
-            "valores": {
-                title: "💰 VALORES - PRA QUEM TEM DINHEIRO, BARALHÃO!",
-                content: "R$100,00 de buy-in, seu mão de vaca!<br><br>" +
-                         "• R$50,00 pro pote (que você NUNCA vai ganhar)<br>" +
-                         "• R$30,00 pra janta (come ou não, PAGA igual!)<br>" +
-                         "• R$20,00 limpeza<br><br>" +
-                         "Rebuy: R$30,00 = 15k fichas (vai precisar!)<br>" +
-                         "Add-on: R$50,00 = 50k fichas (SÓ 1!)<br>" +
-                         "Bônus 3k fichas se chegar ANTES das 20h (você vai chegar atrasado, né?)"
-            },
-            
-            "inscricao": {
-                title: "📝 INSCRIÇÃO - NÃO É TÃO DIFÍCIL, BARALHÃO!",
-                content: "Segunda 7h no site! 20 vagas só!<br><br>" +
-                         "Prioridade pro grupo do WhatsApp.<br>" +
-                         "Trouxe amigo? RESPONDE por ele!<br>" +
-                         "Lista de espera: Quarta 10h.<br><br>" +
-                         "<strong>FALTOU SEM AVISAR?</strong><br>" +
-                         "• -90 pontos no ranking<br>" +
-                         "• Paga R$100,00<br>" +
-                         "• Último da lista de espera<br>" +
-                         "NÃO CUMPRIR? EXCLUÍDO!"
-            },
-            
-            "pagamento": {
-                title: "💸 PAGAMENTO - SÉCULO 21, BARALHÃO!",
-                content: "ESQUECE DINHEIRO, TIOZÃO!<br><br>" +
-                         "SÓ PIX pelo QR CODE!<br>" +
-                         "Não sabe usar PIX? APRENDE!<br>" +
-                         "2026, BARALHÃO! Se adapta!"
-            },
-            
-            "regras": {
-                title: "⚖️ REGRAS - PRA QUEM SABE JOGAR!",
-                content: "Cartas NA MESA, não no colo!<br>" +
-                         "30 segundos pra decidir!<br>" +
-                         "Fichas NA MESA! Tirou? PERDEU!<br>" +
-                         "Mostrou pra um = mostrou pra TODOS!<br>" +
-                         "RESPEITE os DEALERS!"
-            },
-            
-            "whatsapp": {
-                title: "📱 WHATSAPP - NÃO É LIXEIRA!",
-                content: "PROIBIDO:<br>" +
-                         "• Pornografia/Conteúdo ofensivo<br>" +
-                         "• Anúncios/Vendas<br>" +
-                         "• Eventos de terceiros<br>" +
-                         "• Listas de outros pokers<br><br>" +
-                         "DESCUMPRIR? REMOVIDO NA HORA!"
+            "lider": {
+                title: "👑 LÍDER DO POKER DE QUINTA",
+                content: "Baseado nas informações disponíveis, não há um 'líder' formalmente declarado no site.<br><br>" +
+                         "A organização parece ser coletiva, mas há destaques:<br>" +
+                         "• <strong>Sergio</strong>: Campeão da 1ª Etapa com 31 pontos<br>" +
+                         "• <strong>Amarildo</strong>: Matador de KO com 5 eliminações<br>" +
+                         "• <strong>Van Van</strong>: Fez Quadra de 7 (melhor mão)<br><br>" +
+                         "Quem manda mesmo? Provavelmente quem organiza os eventos!"
             },
             
             "janta": {
-                title: "🍖 JANTA - NÃO É BUFFET, BARALHÃO!",
-                content: "Tem quitute de chef, mas não é restaurante!<br><br>" +
-                         "R$30,00 É PRA JANTA!<br>" +
-                         "Não quer comer? PAGA MESMO ASSIM!<br>" +
-                         "Reclama da comida? FICA EM CASA!"
+                title: "🍖 A JANTA DO POKER DE QUINTA",
+                content: "Segundo o regulamento oficial:<br><br>" +
+                         "• <strong>VALOR:</strong> R$30,00 do buy-in é DESTINADO à janta<br>" +
+                         "• <strong>INCLUSO:</strong> Toda etapa tem um quitute preparado por um chefe de cozinha<br>" +
+                         "• <strong>OPÇÃO:</strong> Pode optar por não comer, mas PAGA MESMO ASSIM!<br>" +
+                         "• <strong>VALOR TOTAL:</strong> R$100,00 (R$50 pote + R$30 janta + R$20 limpeza)<br><br>" +
+                         "Não é restaurante 5 estrelas, mas é melhor que miojo!"
             },
             
-            "dealers": {
-                title: "🎰 DEALERS - RESPEITA OU VAZA!",
-                content: "Dois dealers PROFISSIONAIS!<br>" +
-                         "Eles mandam, você OBEDECE!<br>" +
-                         "Desrespeitou? EXCLUÍDO!<br>" +
-                         "Trocam a cada hora, têm intervalo.<br>" +
-                         "Problema? FALA COM A ORGANIZAÇÃO!"
+            "proxima": {
+                title: "📅 PRÓXIMA ETAPA",
+                content: "<strong>2ª ETAPA - 26 de Fevereiro</strong><br><br>" +
+                         "📅 <strong>DATA:</strong> 26 de Fevereiro<br>" +
+                         "⏰ <strong>HORÁRIO:</strong> 20 horas<br>" +
+                         "💰 <strong>BUY-IN:</strong> R$ 100,00<br>" +
+                         "🔄 <strong>REBUY SIMPLES:</strong> R$ 30,00<br>" +
+                         "🔄🔄 <strong>REBUY DUPLO:</strong> R$ 60,00<br>" +
+                         "➕ <strong>ADDON:</strong> R$ 50,00<br><br>" +
+                         "Se for jogar, chegue ANTES das 20h para ganhar 3k fichas bônus!"
+            },
+            
+            "valores": {
+                title: "💰 VALORES - TEM QUE PAGAR PRA JOGAR!",
+                content: "<strong>BUY-IN COMPLETO: R$100,00</strong><br><br>" +
+                         "• R$50,00 → Pote da etapa<br>" +
+                         "• R$30,00 → Janta (quitute de chef)<br>" +
+                         "• R$20,00 → Taxa de limpeza<br><br>" +
+                         "<strong>EXTRAS:</strong><br>" +
+                         "• Rebuy simples: R$30,00 = 15.000 fichas<br>" +
+                         "• Rebuy duplo: R$60,00 = 30.000 fichas<br>" +
+                         "• Add-on: R$50,00 = 50.000 fichas (só 1 por jogador)<br><br>" +
+                         "PAGAMENTO: Só PIX pelo QR CODE! Esquece dinheiro!"
+            },
+            
+            "campeao": {
+                title: "🏆 CAMPEÃO DA 1ª ETAPA",
+                content: "<strong>SERGIO</strong> - Vencedor da 1ª Etapa!<br><br>" +
+                         "• Conquistou 31 pontos<br>" +
+                         "• Levou o título inaugural<br><br>" +
+                         "<strong>OUTROS DESTAQUES DA 1ª ETAPA:</strong><br>" +
+                         "🎯 <strong>Melhor Mão:</strong> Van Van fez QUADRA DE 7<br>" +
+                         "   → Ganha: 1 ADDON na próxima Etapa!<br>" +
+                         "💥 <strong>Matador de KO:</strong> Amarildo com 5 eliminações<br>" +
+                         "🎡 <strong>Roleta da Sorte:</strong> Cleversson ganhou 1 Abraço do Bruxo!"
+            },
+            
+            "regulamento": {
+                title: "📜 REGULAMENTO OFICIAL",
+                content: "Principais regras do Poker de Quinta:<br><br>" +
+                         "<strong>INSCRIÇÕES:</strong><br>" +
+                         "• Segunda 7h no site oficial<br>" +
+                         "• Máximo 20 jogadores por etapa<br>" +
+                         "• Prioridade para grupo do WhatsApp<br><br>" +
+                         "<strong>PAGAMENTO:</strong><br>" +
+                         "• SOMENTE PIX (QR CODE)<br>" +
+                         "• Não aceita dinheiro em espécie<br><br>" +
+                         "<strong>PUNIÇÕES:</strong><br>" +
+                         "• Falta sem aviso: -90 pontos + R$100,00<br>" +
+                         "• Desistência: -20 pontos<br><br>" +
+                         "Para o regulamento COMPLETO: http://pokerdequinta.github.io/regulamento"
+            },
+            
+            "site": {
+                title: "🌐 SITE OFICIAL",
+                content: "Todas as informações oficiais estão em:<br><br>" +
+                         "<strong>http://pokerdequinta.github.io/site</strong><br><br>" +
+                         "• Próximas etapas<br>" +
+                         "• Resultados anteriores<br>" +
+                         "• Ranking atualizado<br>" +
+                         "• Destaques dos torneios<br><br>" +
+                         "Fique ligado no site para não perder nada!"
+            },
+            
+            "horario": {
+                title: "⏰ HORÁRIOS E DATAS",
+                content: "<strong>TEMPORADA 2026:</strong> 13 encontros nas quintas-feiras<br><br>" +
+                         "🕗 <strong>HORÁRIO:</strong> Sempre 20:00h<br>" +
+                         "📍 <strong>LOCAL:</strong> Luck BAR - R. Prof. Sebastião Paraná, 765, Curitiba<br>" +
+                         "🎯 <strong>PRÓXIMA:</strong> 26/02 (2ª Etapa)<br><br>" +
+                         "Chegando antes das 20h: Ganha 3.000 fichas bônus!<br>" +
+                         "Atrasado? Se ferrou!"
+            },
+            
+            "whatsapp": {
+                title: "📱 GRUPO DO WHATSAPP",
+                content: "Regras do grupo oficial:<br><br>" +
+                         "<strong>PROIBIDO:</strong><br>" +
+                         "• Conteúdo impróprio (pornografia, racismo, política)<br>" +
+                         "• Anúncios e comércio<br>" +
+                         "• Divulgação de eventos de terceiros<br>" +
+                         "• Listas de outros eventos de poker<br><br>" +
+                         "<strong>PERMITIDO:</strong> Resenhas sobre poker e futebol<br>" +
+                         "<strong>PENALIDADE:</strong> Descumprir = Remoção imediata!"
+            },
+            
+            "premiacao": {
+                title: "🎁 PREMIAÇÕES E DESTAQUES",
+                content: "Além do campeão, tem outras premiações:<br><br>" +
+                         "🏆 <strong>Melhor Mão da Etapa:</strong> Ganha 1 ADDON na próxima!<br>" +
+                         "   → Exemplo: Van Van fez Quadra de 7 na 1ª etapa<br><br>" +
+                         "💥 <strong>Matador de KO:</strong> Reconhecimento por eliminações<br>" +
+                         "   → Exemplo: Amarildo com 5 eliminações<br><br>" +
+                         "🎡 <strong>Roleta da Sorte:</strong> Prêmios surpresa!<br>" +
+                         "   → Exemplo: Cleversson ganhou 1 Abraço do Bruxo!"
             }
         };
 
         // Mapeamento de perguntas
         const questionMapping = {
-            "quanto": "valores", "custa": "valores", "valor": "valores", "preço": "valores", "buyin": "valores",
-            "dinheiro": "pagamento", "pix": "pagamento", "pagamento": "pagamento", "pagar": "pagamento",
-            "inscri": "inscricao", "inscrever": "inscricao", "lista": "inscricao", "participar": "inscricao",
+            "lider": "lider", "chefe": "lider", "dono": "lider", "organizador": "lider", "criador": "lider",
+            "janta": "janta", "comida": "janta", "alimenta": "janta", "refeição": "janta",
+            "proxima": "proxima", "quando": "proxima", "data": "proxima", "etapa": "proxima", "próxima": "proxima",
+            "valor": "valores", "custa": "valores", "preço": "valores", "buyin": "valores", "pagar": "valores",
+            "campeao": "campeao", "vencedor": "campeao", "sergio": "campeao", "ganhador": "campeao",
+            "regulamento": "regulamento", "regras": "regulamento", "normas": "regulamento",
+            "site": "site", "oficial": "site", "endereço": "site", "link": "site",
+            "horario": "horario", "hora": "horario", "local": "horario", "onde": "horario",
             "whatsapp": "whatsapp", "zap": "whatsapp", "grupo": "whatsapp",
-            "regras": "regras", "jogo": "regras", "cartas": "regras", "fichas": "regras",
-            "janta": "janta", "comida": "janta", "alimenta": "janta",
-            "dealer": "dealers", "croupier": "dealers"
+            "premio": "premiacao", "premiação": "premiacao", "destaque": "premiacao", "van": "premiacao", "amarildo": "premiacao"
         };
-
-        // Frases de Bad Beat (azar do Baralhão) - PARA O FINAL
-        const badBeatPhrases = [
-            "Claro que você ia perder! Azar é seu sobrenome!",
-            "Te avisei! Até fichas de plástico você perde!",
-            "Com seu azar, nem com AA contra 72!",
-            "Toma outro bad beat! Tá virando especialidade!",
-            "Azarado assim só visto! Dá dó!",
-            "Você joga tão mal! E ainda tem azar!",
-            "Com esse azar, nem no coin flip!",
-            "Baralhão, você nasceu pra perder!"
-        ];
-
-        // Frases agressivas
-        const aggressivePhrases = [
-            "FALA MAIS ALTO, BARALHÃO!",
-            "ENROLA MENOS, PERGUNTA MAIS!",
-            "TEMPO É DINHEIRO, BARALHÃO!",
-            "VAI DIRETO AO PONTO!",
-            "PARE DE ENCHER!"
-        ];
-
-        // Variável para controlar o Bad Beat Final
-        let badBeatAdded = false;
 
         // DOM
         const chatArea = document.getElementById('chatArea');
@@ -646,7 +627,7 @@
                 messageDiv.innerHTML = `
                     <div class="message-sender">
                         <i class="fas fa-user"></i>
-                        BARALHÃO AZARADO
+                        VOCÊ
                     </div>
                     <p>${message}</p>
                 `;
@@ -654,7 +635,7 @@
                 messageDiv.innerHTML = `
                     <div class="message-sender">
                         <i class="fas fa-robot"></i>
-                        DEALER OFICIAL
+                        BOT DO POKER DE QUINTA
                     </div>
                     <p>${message}</p>
                 `;
@@ -662,32 +643,6 @@
             
             chatArea.appendChild(messageDiv);
             chatArea.scrollTop = chatArea.scrollHeight;
-        }
-
-        // Adicionar Bad Beat FINAL (após interação completa)
-        function addFinalBadBeat() {
-            if (badBeatAdded) return;
-            
-            badBeatAdded = true;
-            
-            setTimeout(() => {
-                const badBeatDiv = document.createElement('div');
-                badBeatDiv.className = 'bad-beat';
-                badBeatDiv.style.display = 'block';
-                
-                const randomPhrase = badBeatPhrases[Math.floor(Math.random() * badBeatPhrases.length)];
-                
-                badBeatDiv.innerHTML = `
-                    <h4>🎯 BAD BEAT FINAL DO BARALHÃO 🎯</h4>
-                    <p><strong>${randomPhrase}</strong></p>
-                    <p style="font-size: 0.8rem; margin-top: 8px;">
-                        <i>Azar não é defeito, é característica! E você tem DE SOBRA!</i>
-                    </p>
-                `;
-                
-                chatArea.appendChild(badBeatDiv);
-                chatArea.scrollTop = chatArea.scrollHeight;
-            }, 1000);
         }
 
         // Mostrar indicador de digitação
@@ -714,14 +669,6 @@
         function findAnswer(question) {
             const lowerQ = question.toLowerCase();
             
-            // Verificar se é pergunta muito curta
-            if (question.length < 3) {
-                return {
-                    title: aggressivePhrases[Math.floor(Math.random() * aggressivePhrases.length)],
-                    content: "Isso é pergunta? Parece grunhido! Pergunta direito, BARALHÃO!"
-                };
-            }
-            
             // Buscar na base
             for (const [key, category] of Object.entries(questionMapping)) {
                 if (lowerQ.includes(key)) {
@@ -729,10 +676,17 @@
                 }
             }
             
-            // Resposta padrão
+            // Resposta padrão (sem xingamento)
             return {
-                title: "NÃO ENTENDI, BARALHÃO!",
-                content: "Fala direito! Pergunta sobre: VALORES, INSCRIÇÃO, PAGAMENTO, REGRAS, WHATSAPP, JANTA ou DEALERS!"
+                title: "🤔 NÃO ENCONTREI ISSO",
+                content: "Não tenho informação específica sobre isso.<br><br>" +
+                         "Tente perguntar sobre:<br>" +
+                         "• Líder do Poker de Quinta<br>" +
+                         "• Próxima etapa (26/02)<br>" +
+                         "• Valores e buy-in<br>" +
+                         "• Janta incluída<br>" +
+                         "• Regulamento<br>" +
+                         "• Campeões e destaques"
             };
         }
 
@@ -740,7 +694,7 @@
         function sendMessage() {
             const question = userInput.value.trim();
             if (!question) {
-                addMessage("ESCREVE ALGO, BARALHÃO! Tá com medo?", false);
+                addMessage("Digite alguma coisa!", false);
                 return;
             }
             
@@ -756,17 +710,8 @@
                 removeTyping();
                 const answer = findAnswer(question);
                 
-                // 25% de chance de resposta extra agressiva
-                let finalContent = answer.content;
-                if (Math.random() < 0.25) {
-                    finalContent += `<br><br><strong style="color:#ff6b6b">ENTENDEU OU QUER QUE DESENHE, BARALHÃO?</strong>`;
-                }
-                
-                addMessage(`<strong>${answer.title}</strong><br><br>${finalContent}`);
-                
-                // Adicionar Bad Beat FINAL após a resposta
-                addFinalBadBeat();
-            }, 800 + Math.random() * 1000);
+                addMessage(`<strong>${answer.title}</strong><br><br>${answer.content}`);
+            }, 600 + Math.random() * 800);
         }
 
         // Pergunta rápida
