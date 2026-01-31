@@ -1,0 +1,310 @@
+    <div class="chat-container">
+        <div class="chat-history" id="chatHistory">
+            <!-- Bot's initial message -->
+            <div class="message bot-message">
+                <div class="message-header">
+                    <i class="fas fa-robot bot-icon"></i>
+                    <strong>Assistente Poker de Quinta</strong>
+                </div>
+                <p>Olá! Sou seu assistente para esclarecer dúvidas sobre o regulamento do <strong>Poker de Quinta - Temporada 2026</strong>.</p>
+                <p>Posso responder sobre valores de buy-in, regras do jogo, inscrições, penalidades e muito mais.</p>
+                <div class="info-box">
+                    <p><strong>Informação Oficial:</strong> Todas as respostas são baseadas no regulamento oficial disponível em <a href="http://pokerdequinta.github.io/regulamento" target="_blank">pokerdequinta.github.io/regulamento</a></p>
+                </div>
+                <p>O que você gostaria de saber?</p>
+            </div>
+        </div>
+
+        <div class="quick-questions" id="quickQuestions">
+            <button class="quick-question" onclick="askQuestion('Qual é o valor do buy-in?')">
+                <i class="fas fa-money-bill-wave"></i> Valor do buy-in
+            </button>
+            <button class="quick-question" onclick="askQuestion('Como funciona a inscrição?')">
+                <i class="fas fa-calendar-check"></i> Inscrições
+            </button>
+            <button class="quick-question" onclick="askQuestion('Quais são as regras do grupo de WhatsApp?')">
+                <i class="fas fa-comments"></i> Regras do grupo
+            </button>
+            <button class="quick-question" onclick="askQuestion('O que acontece se eu me atrasar?')">
+                <i class="fas fa-clock"></i> Atrasos e faltas
+            </button>
+        </div>
+
+        <div class="input-area">
+            <input type="text" id="userInput" placeholder="Digite sua pergunta sobre o regulamento..." onkeypress="handleKeyPress(event)">
+            <button id="sendButton" onclick="sendMessage()">
+                <i class="fas fa-paper-plane"></i>
+            </button>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>Este assistente consulta o regulamento oficial do <strong>Poker de Quinta - Temporada 2026</strong>.</p>
+        <p>Para informações completas e atualizações, consulte: <a href="http://pokerdequinta.github.io/regulamento" target="_blank">Site Oficial do Regulamento</a></p>
+    </div>
+</div>
+
+<script>
+    // Knowledge base based on the provided regulation
+    const knowledgeBase = {
+        // General information
+        "geral": {
+            title: "Informações Gerais",
+            content: "O Poker de Quinta 2026 acontece em 13 encontros nas quintas-feiras às 20:00h no Luck BAR (R. Prof. Sebastião Paraná, 765 - Vila Izabel – Curitiba PR). Ao inserir seu nome na lista, você declara ter lido e aceito todas as regras. O regulamento vigente é o publicado no site oficial."
+        },
+        
+        // Values and buy-in
+        "valores": {
+            title: "Valores e Buy-in",
+            content: "<strong>Buy-in total:</strong> R$100,00 composto por:<br>" +
+                     "• R$50,00 para o pote da etapa<br>" +
+                     "• R$30,00 para a janta<br>" +
+                     "• R$20,00 para taxa de limpeza<br><br>" +
+                     "<strong>Rebuy:</strong> R$30,00 = 15.000 fichas (ilimitados até o 10° nível + 3 mãos após)<br>" +
+                     "<strong>Rebuy Duplo:</strong> R$60,00 = 30.000 fichas (mesmas condições)<br>" +
+                     "<strong>Add-on:</strong> R$50,00 = 50.000 fichas (apenas 1 por jogador, no fim do 10° nível)<br>" +
+                     "<strong>Bônus de pontualidade:</strong> Chegando antes das 20:00h, recebe 3.000 fichas extras."
+        },
+        
+        // Registration
+        "inscricao": {
+            title: "Inscrições e Lista",
+            content: "A inscrição deve ser feita no site oficial na segunda-feira que antecede a etapa, às 7h. Vagas preenchidas por ordem (máximo 20 jogadores). Prioridade para integrantes do grupo do WhatsApp. Cada jogador pode incluir 1 convidado na lista. Lista de espera liberada às 10:00h de quarta-feira se vagas não preenchidas."
+        },
+        
+        // Penalties
+        "penalidades": {
+            title: "Penalidades por Desistência",
+            content: "<strong>Desistência na quinta-feira sem substituição:</strong> -20 pontos no ranking e será o último da lista de espera.<br>" +
+                     "<strong>Falta sem aviso/pré-pagamento:</strong> -90 pontos no ranking, último da lista de espera e deve pagar R$100,00 à organização. Caso não pague, pode ser excluído do grupo."
+        },
+        
+        // WhatsApp group rules
+        "whatsapp": {
+            title: "Regras do Grupo de WhatsApp",
+            content: "<strong>Não permitido:</strong><br>" +
+                     "1. Conteúdo impróprio (pornografia, ofensivo, racista, político)<br>" +
+                     "2. Anúncios e comércio<br>" +
+                     "3. Divulgação de eventos de terceiros sem aval<br>" +
+                     "4. Listas de presença de outros eventos de poker<br><br>" +
+                     "<strong>Permitido:</strong> Resenhas sobre jogos de futebol e partidas de poker do grupo.<br>" +
+                     "<strong>Penalidade:</strong> Descumprimento resulta em remoção imediata e permanente do grupo."
+        },
+        
+        // Game rules
+        "jogo": {
+            title: "Regras do Jogo",
+            content: "Máximo de 2 mesas conforme número de jogadores. Jogador na mão deve manter cartas visíveis sobre a mesa. Tempo para decisão: 30 segundos. Após esgotar, usa time bank. Fichas devem permanecer sobre a mesa. Se retirar fichas, perdem validade. Mostrar carta para um = mostrar para todos. Deve estar no lugar quando a segunda carta for distribuída."
+        },
+        
+        // Dealers
+        "dealers": {
+            title: "Dealers e Mesa",
+            content: "Em todas as etapas, serão contratados dois dealers profissionais com autoridade máxima na mesa. Respeito aos dealers é obrigatório. Podem ser trocados a cada hora, com possível intervalo de 5 minutos. Em caso de atraso, organização pode autorizar voluntário até a chegada do dealer oficial."
+        },
+        
+        // Payment
+        "pagamento": {
+            title: "Forma de Pagamento",
+            content: "Valores aceitos SOMENTE via PIX através do QR CODE impresso pela organização. Não será aceito dinheiro em espécie. Quem não tem familiaridade com PIX deve buscar ajuda."
+        },
+        
+        // Food
+        "janta": {
+            title: "Janta e Alimentação",
+            content: "Toda etapa terá um quitute preparado por um chefe de cozinha (valor incluso no buy-in). O jogador pode optar por não comer, mas paga os R$100,00 integralmente mesmo assim."
+        },
+        
+        // New members
+        "novatos": {
+            title: "Novos Integrantes",
+            content: "Para adicionar novo integrante ao grupo, deve ser convidado por membro atual, que fica responsável por todas as ações do convidado (pagamentos, prejuízos, contas do bar). O convidado passa por avaliação da organização antes de ser incluído."
+        },
+        
+        // Administration fee
+        "taxa": {
+            title: "Taxa de Administração",
+            content: "Poderá ser retirado do pote valores necessários para cobrir despesas como baralhos, licença sistêmica, fichas, pagamento de dealers e demais despesas em prol do Poker de 5ª. Não é permitido contestação."
+        }
+    };
+
+    // Common questions mapping
+    const questionMapping = {
+        "buyin": "valores",
+        "valor": "valores",
+        "preço": "valores",
+        "inscrição": "inscricao",
+        "inscrever": "inscricao",
+        "lista": "inscricao",
+        "whatsapp": "whatsapp",
+        "grupo": "whatsapp",
+        "zap": "whatsapp",
+        "regras": "jogo",
+        "jogo": "jogo",
+        "cartas": "jogo",
+        "fichas": "jogo",
+        "dealer": "dealers",
+        "pix": "pagamento",
+        "pagamento": "pagamento",
+        "pagamento": "pagamento",
+        "janta": "janta",
+        "comida": "janta",
+        "alimentação": "janta",
+        "novo": "novatos",
+        "convidado": "novatos",
+        "taxa": "taxa",
+        "administração": "taxa",
+        "desistência": "penalidades",
+        "falta": "penalidades",
+        "atraso": "penalidades",
+        "penalidade": "penalidades"
+    };
+
+    // DOM elements
+    const chatHistory = document.getElementById('chatHistory');
+    const userInput = document.getElementById('userInput');
+    const sendButton = document.getElementById('sendButton');
+
+    // Function to add a message to chat
+    function addMessage(message, isUser = false) {
+        const messageDiv = document.createElement('div');
+        messageDiv.className = `message ${isUser ? 'user-message' : 'bot-message'}`;
+        
+        if (isUser) {
+            messageDiv.innerHTML = `
+                <div class="message-header">
+                    <i class="fas fa-user user-icon"></i>
+                    <strong>Você</strong>
+                </div>
+                <p>${message}</p>
+            `;
+        } else {
+            messageDiv.innerHTML = `
+                <div class="message-header">
+                    <i class="fas fa-robot bot-icon"></i>
+                    <strong>Assistente Poker de Quinta</strong>
+                </div>
+                <p>${message}</p>
+            `;
+        }
+        
+        chatHistory.appendChild(messageDiv);
+        chatHistory.scrollTop = chatHistory.scrollHeight;
+    }
+
+    // Function to show typing indicator
+    function showTypingIndicator() {
+        const typingDiv = document.createElement('div');
+        typingDiv.className = 'typing-indicator';
+        typingDiv.id = 'typingIndicator';
+        typingDiv.innerHTML = `
+            <div class="typing-dot"></div>
+            <div class="typing-dot"></div>
+            <div class="typing-dot"></div>
+        `;
+        chatHistory.appendChild(typingDiv);
+        chatHistory.scrollTop = chatHistory.scrollHeight;
+    }
+
+    // Function to remove typing indicator
+    function removeTypingIndicator() {
+        const typingIndicator = document.getElementById('typingIndicator');
+        if (typingIndicator) {
+            typingIndicator.remove();
+        }
+    }
+
+    // Function to find the best matching answer
+    function findAnswer(question) {
+        const lowerQuestion = question.toLowerCase();
+        
+        // Check for direct matches
+        for (const [key, category] of Object.entries(questionMapping)) {
+            if (lowerQuestion.includes(key)) {
+                return knowledgeBase[category];
+            }
+        }
+        
+        // Check for specific phrases
+        if (lowerQuestion.includes("horário") || lowerQuestion.includes("quando")) {
+            return {
+                title: "Horários e Datas",
+                content: "As etapas acontecem nas <strong>quintas-feiras às 20:00h</strong> no Luck BAR (R. Prof. Sebastião Paraná, 765 - Vila Izabel – Curitiba PR). São 13 encontros na Temporada 2026. Jogadores que chegarem antes das 20:00h recebem bônus de 3.000 fichas."
+            };
+        }
+        
+        if (lowerQuestion.includes("local") || lowerQuestion.includes("onde")) {
+            return {
+                title: "Local do Evento",
+                content: "Todas as etapas acontecem no <strong>Luck BAR</strong>, situado na <strong>R. Prof. Sebastião Paraná, 765 - Vila Izabel – Curitiba PR</strong>."
+            };
+        }
+        
+        if (lowerQuestion.includes("ranking") || lowerQuestion.includes("pontos")) {
+            return {
+                title: "Sistema de Ranking",
+                content: "O ranking oficial está disponível no site do Poker de Quinta. Desistências e faltas resultam em perda de pontos: -20 pontos por desistência na quinta sem substituição, -90 pontos por falta sem aviso/pré-pagamento."
+            };
+        }
+        
+        // Default response if no match found
+        return {
+            title: "Informação Geral",
+            content: "Com base no regulamento do Poker de Quinta 2026, posso te ajudar com informações sobre: <strong>valores do buy-in, inscrições, regras do jogo, regras do grupo de WhatsApp, dealers, formas de pagamento, janta, novos integrantes e penalidades</strong>. Para uma resposta mais precisa, reformule sua pergunta ou use os botões de perguntas rápidas acima."
+        };
+    }
+
+    // Function to send a message
+    function sendMessage() {
+        const question = userInput.value.trim();
+        if (!question) return;
+        
+        // Add user message
+        addMessage(question, true);
+        userInput.value = '';
+        
+        // Show typing indicator
+        showTypingIndicator();
+        
+        // Simulate delay for "thinking"
+        setTimeout(() => {
+            removeTypingIndicator();
+            
+            // Find and add bot response
+            const answer = findAnswer(question);
+            addMessage(`<strong>${answer.title}</strong><br><br>${answer.content}<br><br><em>Fonte: Regulamento Oficial Poker de Quinta 2026</em>`);
+        }, 1000 + Math.random() * 1000);
+    }
+
+    // Function to handle quick question buttons
+    function askQuestion(question) {
+        userInput.value = question;
+        sendMessage();
+    }
+
+    // Function to handle Enter key press
+    function handleKeyPress(event) {
+        if (event.key === 'Enter') {
+            sendMessage();
+        }
+    }
+
+    // Initialize with a welcome message if chat is empty
+    window.onload = function() {
+        // Add a sample question/answer pair to demonstrate
+        setTimeout(() => {
+            const sampleQuestion = "Quanto custa para participar?";
+            const sampleAnswer = knowledgeBase.valores;
+            
+            addMessage(sampleQuestion, true);
+            setTimeout(() => {
+                addMessage(`<strong>${sampleAnswer.title}</strong><br><br>${sampleAnswer.content}<br><br><em>Fonte: Regulamento Oficial Poker de Quinta 2026</em>`);
+            }, 800);
+        }, 1500);
+    };
+</script>
+
+</body>
+
+
+</html>
