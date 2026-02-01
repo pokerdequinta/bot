@@ -298,11 +298,9 @@
                 <div class="message-content">
                     E AÍ, BARALHÃO! 😤<br><br>
                     Chegou o bot OFICIAL mais COMPLETO do Poker de Quinta!<br><br>
-                    Tenho TODO O REGULAMENTO 2026 decorado:<br>
-                    📅 13 etapas | 💰 Valores | 🏆 Ranking | 💥 KO<br>
-                    🎡 Roleta | 🃏 Melhor Mão | 👑 Rei da Mesa<br><br>
-                    Pergunta QUALQUER COISA!<br><br>
-                    <strong>MAS SE VIER COM PREGUIÇA, VOU MANDAR TU LER! 📖💥</strong><br><br>
+                    Tenho TODO O REGULAMENTO 2026 decorado!<br>
+                    Pergunta QUALQUER COISA sobre ranking, valores, regras, datas, janta, KO, roleta, tudo!<br><br>
+                    <strong>MAS SE VIER COM PREGUIÇA, VOU MANDAR TU LER O REGULAMENTO! 📖💥</strong><br><br>
                     <strong>BORA, PERGUNTA AÍ!</strong> 🔥
                 </div>
             </div>
@@ -316,7 +314,7 @@
 
         <div class="input-container">
             <input type="text" id="userInput" placeholder="Pergunta aí, não tenho dia todo não... 😤" />
-            <button id="sendBtn" onclick="sendMessage()">Mandar 🎯</button>
+            <button id="sendBtn">Mandar 🎯</button>
         </div>
     </div>
 
@@ -325,10 +323,9 @@
             site: "https://pokerdequinta.my.canva.site",
             ranking: "http://pokerdequinta.github.io/ranking",
             local: "Luck BAR - R. Prof. Sebastião Paraná, 765 - Vila Izabel, Curitiba/PR",
+            proximaEtapa: { numero: 2, data: "26/02/2026" },
             etapa1: {
-                campeao: "Sergio", pontos: 31, kos: 4,
-                segundo: "Cleversson", pontosSegundo: 26, kosSegundo: 1,
-                terceiro: "Van Van", pontosTerceiro: 23, kosTerceiro: 0,
+                campeao: "Sergio", pontos: 31,
                 melhorMao: "Quadra de 7", melhorMaoJogador: "Van Van",
                 matadorKO: "Amarildo", eliminacoesKO: 5,
                 roleta: "Cleversson", premioRoleta: "1 Abraço do Bruxo",
@@ -336,29 +333,18 @@
             },
             valores: { buyin: 100, janta: 30, limpeza: 20, poker: 50, rebuy: 30, rebuyDuplo: 60, addon: 50 },
             fichas: { buyin: 15000, rebuy: 15000, rebuyDuplo: 30000, addon: 50000, bonus: 3000 },
-            calendario: [
-                "1ª - 29/01/2026 ✅", "2ª - 26/02/2026 👈 PRÓXIMA", "3ª - 26/03/2026",
-                "4ª - 30/04/2026", "5ª - 28/05/2026", "6ª - 25/06/2026",
-                "7ª - 30/07/2026", "8ª - 27/08/2026", "9ª - 24/09/2026",
-                "10ª - 29/10/2026", "11ª - 26/11/2026", "12ª - 17/12/2026",
-                "13ª - 10/12/2026 🏆 FINAL"
-            ],
             ranking: [
-                { pos: 1, nome: "Sergio", pts: 31, pres: 1, primeiros: 1, kos: 4 },
-                { pos: 2, nome: "Cleversson", pts: 26, pres: 1, primeiros: 0, kos: 1 },
-                { pos: 3, nome: "Van Van", pts: 23, pres: 1, primeiros: 0, kos: 0 },
-                { pos: 4, nome: "Amarildo", pts: 26, pres: 1, primeiros: 0, kos: 5 }
-            ],
-            rankingKO: [
-                { pos: 1, nome: "Amarildo", kos: 5 },
-                { pos: 2, nome: "Sergio", kos: 4 },
-                { pos: 3, nome: "Cleversson", kos: 1 }
+                { pos: 1, nome: "Sergio", pts: 31, kos: 4 },
+                { pos: 2, nome: "Cleversson", pts: 26, kos: 1 },
+                { pos: 3, nome: "Van Van", pts: 23, kos: 0 },
+                { pos: 4, nome: "Amarildo", pts: 26, kos: 5 }
             ]
         };
 
         function sendMessage() {
             const input = document.getElementById('userInput');
             const msg = input.value.trim();
+
             if (!msg) return;
 
             addMessage(msg, 'user');
@@ -366,20 +352,21 @@
             showTyping();
 
             setTimeout(() => {
-                addMessage(generateResponse(msg.toLowerCase()), 'bot');
                 hideTyping();
-            }, 800 + Math.random() * 1000);
+                addMessage(generateResponse(msg.toLowerCase()), 'bot');
+            }, 800 + Math.random() * 800);
         }
 
         function addMessage(text, sender) {
-            const div = document.createElement('div');
-            div.className = `message ${sender}`;
-            div.innerHTML = `
+            const messagesDiv = document.getElementById('messages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${sender}`;
+            messageDiv.innerHTML = `
                 <div class="message-avatar">${sender === 'bot' ? '🎰' : '👤'}</div>
                 <div class="message-content">${text}</div>
             `;
-            document.getElementById('messages').appendChild(div);
-            document.getElementById('messages').scrollTop = 999999;
+            messagesDiv.appendChild(messageDiv);
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
         }
 
         function showTyping() {
@@ -399,14 +386,10 @@
                     if (msg.includes(nome)) {
                         const j = poker.ranking.find(p => p.nome.toLowerCase() === nome);
                         if (j) {
-                            const k = poker.rankingKO.find(p => p.nome === j.nome);
                             return `📊 <strong>${j.nome.toUpperCase()}</strong><br><br>
-                                    🏆 <strong>${j.pos}º LUGAR</strong> - ${j.pts} pts<br>
-                                    📅 Presenças: ${j.pres}<br>
-                                    🥇 1º Lugares: ${j.primeiros}<br>
+                                    🏆 <strong>${j.pos}º LUGAR</strong> - ${j.pts} pontos<br>
                                     💥 KOs: ${j.kos}<br><br>
-                                    ${k ? `💥 Ranking KO: ${k.pos}º (${k.kos} eliminações)<br><br>` : ''}
-                                    ${j.pos === 1 ? '👑 <strong>REI DA MESA!</strong><br>' : ''}
+                                    ${j.pos === 1 ? '👑 <strong>REI DA MESA!</strong><br><br>' : ''}
                                     📊 Ranking: <a href="${poker.ranking}" style="color: #FFD700;">${poker.ranking}</a>`;
                         }
                     }
@@ -418,71 +401,47 @@
             if (msg.includes('janta') || msg.includes('comida')) {
                 if (msg.includes('proxima') || msg.includes('2')) {
                     return `🍽️ <strong>JANTA DA 2ª ETAPA</strong><br><br>
-                            O cardápio será divulgado na semana!<br>
+                            Será divulgado na semana da etapa!<br>
                             Vai ter enquete no grupo! 🗳️<br><br>
-                            💰 R$ 30 (OBRIGATÓRIO no buy-in)<br><br>
-                            <strong>Última janta:</strong><br>
-                            🍲 ${poker.etapa1.janta}<br><br>
-                            <strong>🚫 NÃO COME? PAGA IGUAL!</strong><br>
-                            Não tem choro! 😤`;
+                            💰 R$ 30 (OBRIGATÓRIO)<br><br>
+                            <strong>Última:</strong> ${poker.etapa1.janta}<br><br>
+                            <strong>🚫 NÃO COME? PAGA IGUAL! 😤</strong>`;
                 }
-                if (msg.includes('1') || msg.includes('primeira') || msg.includes('ultima')) {
+                if (msg.includes('1') || msg.includes('primeira')) {
                     return `🍽️ <strong>JANTA DA 1ª ETAPA</strong><br><br>
                             🍲 ${poker.etapa1.janta}<br><br>
-                            💰 R$ 30 (obrigatório)<br>
-                            <strong>NÃO COMEU? PAGOU IGUAL!</strong> 😤`;
+                            💰 R$ 30<br>
+                            <strong>NÃO COMEU? PAGOU IGUAL! 😤</strong>`;
                 }
                 return `🍽️ <strong>SOBRE A JANTA</strong><br><br>
                         💰 R$ 30 (OBRIGATÓRIO no buy-in)<br>
-                        👨‍🍳 Chef especial cada etapa<br>
-                        🗳️ Escolha por enquete<br><br>
+                        👨‍🍳 Chef especial cada etapa<br><br>
                         <strong>Última:</strong> ${poker.etapa1.janta}<br><br>
-                        <strong>NÃO COME? PAGA IGUAL!</strong> 😤`;
+                        <strong>NÃO COME? PAGA IGUAL! 😤</strong>`;
             }
 
             // MELHOR MÃO
             if (msg.includes('melhor mao') || msg.includes('melhor mão')) {
-                if (msg.includes('como') || msg.includes('regra')) {
-                    return `🃏 <strong>MELHOR MÃO - REGRAS</strong><br><br>
-                            🎁 <strong>PRÊMIO: 1 ADD-ON GRÁTIS!</strong><br>
-                            (R$ 50 + 50K fichas DE GRAÇA)<br><br>
-                            📋 <strong>REGRAS:</strong><br>
-                            ✅ Showdown obrigatório<br>
-                            ✅ Mínimo: FULL HOUSE<br>
-                            ✅ Usar AS DUAS cartas da mão<br><br>
-                            <strong>1ª Etapa:</strong><br>
-                            ${poker.etapa1.melhorMao} (${poker.etapa1.melhorMaoJogador})<br><br>
-                            🚫 Não vem? PERDE!<br><br>
-                            <strong>BORA FAZER UM MONSTRO! 💪</strong>`;
-                }
                 return `🃏 <strong>MELHOR MÃO DA 1ª ETAPA</strong><br><br>
-                        🎰 ${poker.etapa1.melhorMao}<br>
-                        👤 ${poker.etapa1.melhorMaoJogador}<br><br>
+                        ${poker.etapa1.melhorMao}<br>
+                        Feito por: <strong>${poker.etapa1.melhorMaoJogador}</strong><br><br>
                         🎁 Ganhou add-on grátis na 2ª!<br><br>
+                        <strong>📋 Regras:</strong><br>
+                        ✅ Showdown obrigatório<br>
+                        ✅ Mínimo: Full House<br>
+                        ✅ Usar AS DUAS cartas<br><br>
                         <strong>Faz uma melhor! 💪</strong>`;
-            }
-
-            // CALENDÁRIO
-            if (msg.includes('calendario') || msg.includes('datas') || msg.includes('etapas')) {
-                return `📅 <strong>CALENDÁRIO 2026</strong><br><br>
-                        ${poker.calendario.map(e => `${e}<br>`).join('')}<br>
-                        📍 ${poker.local}<br>
-                        ⏰ Todas às quintas, 20h<br><br>
-                        🔗 <a href="${poker.site}" style="color: #FFD700;">${poker.site}</a><br><br>
-                        <strong>MARCA E NÃO FALTA! 😤</strong>`;
             }
 
             // PRÓXIMA ETAPA
             if (msg.includes('proxima') || msg.includes('quando')) {
-                return `🗓️ <strong>2ª ETAPA - 26/02/2026</strong><br><br>
-                        ⏰ 20:00h EM PONTO!<br>
+                return `🗓️ <strong>${poker.proximaEtapa.numero}ª ETAPA</strong><br><br>
+                        📅 ${poker.proximaEtapa.data}<br>
+                        ⏰ 20:00h PONTUAL!<br>
                         📍 ${poker.local}<br><br>
-                        💰 <strong>VALORES:</strong><br>
-                        Buy-in: R$ ${poker.valores.buyin} = ${poker.fichas.buyin} fichas<br>
-                        Rebuy: R$ ${poker.valores.rebuy} = ${poker.fichas.rebuy} fichas<br>
-                        Add-on: R$ ${poker.valores.addon} = ${poker.fichas.addon} fichas<br><br>
+                        💰 Buy-in: R$ ${poker.valores.buyin}<br>
                         ⚡ Chega antes 20h = +${poker.fichas.bonus} fichas!<br><br>
-                        👑 Rei da Mesa: ${poker.etapa1.campeao}<br><br>
+                        👑 Rei: ${poker.etapa1.campeao}<br><br>
                         📋 Inscrição: Segunda 7h<br>
                         🔗 <a href="${poker.site}" style="color: #FFD700;">${poker.site}</a><br><br>
                         <strong>CONFIRMA E APARECE! 😤</strong>`;
@@ -493,69 +452,53 @@
                 return `💰 <strong>VALORES 2026</strong><br><br>
                         <strong>BUY-IN: R$ ${poker.valores.buyin}</strong><br>
                         ↳ Poker: R$ ${poker.valores.poker}<br>
-                        ↳ Janta: R$ ${poker.valores.janta} (obrigatório)<br>
+                        ↳ Janta: R$ ${poker.valores.janta}<br>
                         ↳ Limpeza: R$ ${poker.valores.limpeza}<br>
                         = ${poker.fichas.buyin} fichas<br><br>
                         <strong>REBUY: R$ ${poker.valores.rebuy}</strong><br>
                         = ${poker.fichas.rebuy} fichas (ILIMITADO)<br><br>
-                        <strong>REBUY DUPLO: R$ ${poker.valores.rebuyDuplo}</strong><br>
-                        = ${poker.fichas.rebuyDuplo} fichas (ILIMITADO)<br><br>
                         <strong>ADD-ON: R$ ${poker.valores.addon}</strong><br>
-                        = ${poker.fichas.addon} fichas (APENAS 1)<br><br>
-                        ⚡ Bônus: ${poker.fichas.bonus} fichas (antes 20h)<br><br>
-                        🚫 Só PIX! Sem dinheiro! 💳`;
+                        = ${poker.fichas.addon} fichas (1 apenas)<br><br>
+                        ⚡ Bônus: ${poker.fichas.bonus} fichas<br><br>
+                        🚫 Só PIX! 💳`;
             }
 
-            // RANKING GERAL
-            if (msg.includes('ranking') && !msg.includes('ko')) {
+            // RANKING
+            if (msg.includes('ranking')) {
                 return gerarRanking();
             }
 
-            // RANKING KO
-            if (msg.includes('ko') && msg.includes('ranking')) {
-                return gerarRankingKO();
-            }
-
-            // SISTEMA KO
+            // KO
             if (msg.includes('ko') || msg.includes('knockout')) {
                 return `💥 <strong>SISTEMA KO</strong><br><br>
-                        ✅ 1 ficha KO no stack inicial<br>
+                        ✅ 1 ficha KO no stack<br>
                         ✅ Conta SÓ APÓS INTERVALO<br>
                         ✅ Cada ficha = +1 ponto<br>
-                        ✅ Rei da Mesa = 2 fichas!<br><br>
+                        ✅ Rei = 2 fichas!<br><br>
                         💰 Matador KO = R$ 200!<br><br>
                         <strong>Líder:</strong><br>
-                        🥊 ${poker.etapa1.matadorKO} - ${poker.etapa1.eliminacoesKO} eliminações<br><br>
+                        🥊 ${poker.etapa1.matadorKO} - ${poker.etapa1.eliminacoesKO} KOs<br><br>
                         <strong>VIRA O TERROR! 😈</strong>`;
             }
 
             // REI DA MESA
-            if (msg.includes('rei') && msg.includes('mesa')) {
+            if (msg.includes('rei')) {
                 return `👑 <strong>REI DA MESA</strong><br><br>
-                        <strong>REI ATUAL:</strong><br>
-                        ${poker.etapa1.campeao} (${poker.etapa1.pontos} pts)<br><br>
-                        💰 <strong>VANTAGENS:</strong><br>
-                        🎯 2 FICHAS KO na cabeça<br>
+                        ${poker.etapa1.campeao}<br><br>
+                        💰 Começa com 2 fichas KO<br>
                         💥 Cabeça vale DOBRO!<br>
                         🔥 Eliminar = 2 pontos!<br><br>
-                        📈 Título seguido DOBRA recompensa!<br><br>
                         <strong>CAÇA O REI! 🎯</strong>`;
             }
 
             // ROLETA
             if (msg.includes('roleta')) {
                 return `🎡 <strong>ROLETA DA SORTE</strong><br><br>
-                        ⏰ <strong>ATÉ O INTERVALO!</strong><br><br>
+                        ⏰ ATÉ O INTERVALO!<br><br>
                         <strong>ATIVAR:</strong><br>
-                        1️⃣ Quebrar A-A no showdown<br>
+                        1️⃣ Quebrar A-A<br>
                         2️⃣ Desafio da enquete<br>
-                        3️⃣ Rei do Rebuy (consolação)<br><br>
-                        <strong>PRÊMIOS:</strong><br>
-                        💰 1K a 50K fichas<br>
-                        💥 1 Ficha KO<br>
-                        🤗 Abraços especiais<br>
-                        🍺 Cerveja/Refri<br>
-                        💩 SE FODEU! 😂<br><br>
+                        3️⃣ Rei do Rebuy<br><br>
                         <strong>Última:</strong><br>
                         ${poker.etapa1.roleta}: ${poker.etapa1.premioRoleta}!<br><br>
                         <strong>BOA SORTE! 🎰</strong>`;
@@ -565,205 +508,65 @@
             if (msg.includes('time bank') || msg.includes('tempo')) {
                 return `⏱️ <strong>TIME BANK</strong><br><br>
                         ⏰ 30s por decisão<br>
-                        🎫 3 cartões de Time Bank<br>
-                        ➕ Cada cartão = +30s<br><br>
-                        <strong>USO:</strong><br>
-                        1️⃣ Acabou 30s? Entrega cartão<br>
-                        2️⃣ Ganha mais 30s<br>
-                        3️⃣ Usou 3? É FOLD!<br><br>
-                        🚫 Proibido trocar/emprestar<br>
-                        🚫 Perdeu? SEM REPOSIÇÃO!<br><br>
+                        🎫 3 cartões (+30s cada)<br><br>
+                        🚫 Proibido trocar<br>
+                        🚫 Perdeu? SEM reposição!<br><br>
                         <strong>PENSA RÁPIDO! ⚡</strong>`;
             }
 
-            // HORÁRIO
-            if (msg.includes('horario') || msg.includes('hora')) {
-                return `⏰ <strong>HORÁRIOS</strong><br><br>
-                        🎲 Início: 20:00h PONTUAL!<br>
-                        ⚡ Antes 20h = +3K fichas<br><br>
-                        <strong>BLINDS:</strong><br>
-                        📍 Níveis 1-10: 15min<br>
-                        ☕ INTERVALO<br>
-                        📍 Níveis 11-18: 12min<br>
-                        📍 Níveis 19+: 10min<br><br>
-                        💥 KO: Só após intervalo<br><br>
-                        <strong>NÃO ATRASA! 😤</strong>`;
+            // REGRAS
+            if (msg.includes('regra') || msg.includes('regulamento')) {
+                return `📋 <strong>RESUMÃO</strong><br><br>
+                        💰 Buy-in: R$ ${poker.valores.buyin}<br>
+                        🔄 Rebuys ilimitados<br>
+                        ➕ Add-on: R$ ${poker.valores.addon}<br>
+                        ⚡ Bônus: ${poker.fichas.bonus} fichas<br><br>
+                        👥 Máx: 20 jogadores<br>
+                        💥 KO após intervalo<br>
+                        🎡 Roleta até intervalo<br><br>
+                        🚫 Só PIX!<br>
+                        🚫 Faltou = -90 pts + R$ 100<br><br>
+                        📖 Regulamento:<br>
+                        🔗 <a href="${poker.site}" style="color: #FFD700;">${poker.site}</a>`;
             }
 
-            // INSCRIÇÃO
-            if (msg.includes('inscrever') || msg.includes('inscricao') || msg.includes('lista')) {
-                return `✅ <strong>INSCRIÇÃO</strong><br><br>
-                        📱 EXCLUSIVAMENTE pelo site!<br>
-                        🔗 <a href="${poker.site}" style="color: #FFD700;">${poker.site}</a><br><br>
-                        📅 Segunda 7h da manhã<br>
-                        👥 Até 20 jogadores<br><br>
-                        <strong>PENALIDADES:</strong><br>
-                        🚫 Desistiu quinta? -20 pts<br>
-                        🚫 Faltou? -90 pts + R$ 100!<br><br>
-                        <strong>CONFIRMA E APARECE! 😤</strong>`;
+            // CALENDÁRIO
+            if (msg.includes('calendario') || msg.includes('datas')) {
+                return `📅 <strong>CALENDÁRIO 2026</strong><br><br>
+                        13 etapas • Quintas 20h<br><br>
+                        📍 ${poker.local}<br><br>
+                        🏆 Final: 10/12/2026<br>
+                        💰 Pote R$ 2.000+<br><br>
+                        🔗 <a href="${poker.site}" style="color: #FFD700;">${poker.site}</a>`;
             }
 
             // ÚLTIMA ETAPA
-            if (msg.includes('ultima') || msg.includes('13') || msg.includes('final')) {
+            if (msg.includes('ultima') || msg.includes('final') || msg.includes('13')) {
                 return `🏆 <strong>13ª ETAPA - FINAL</strong><br><br>
                         📅 10/12/2026<br>
-                        💰 Pote R$ 2.000+ garantido!<br><br>
-                        🎁 <strong>TOP 10 FREEROLL!</strong><br>
-                        Jogam DE GRAÇA!<br>
-                        Pagam só janta+limpeza = R$ 50<br><br>
+                        💰 Pote R$ 2.000+<br><br>
+                        🎁 Top 10 jogam DE GRAÇA!<br><br>
                         <strong>PREMIAÇÃO G10:</strong><br>
-                        1º - R$ 600 | 2º - R$ 450 | 3º - R$ 360<br>
-                        4º - R$ 270 | 5º - R$ 180<br>
+                        1º - R$ 600 | 2º - R$ 450<br>
+                        3º - R$ 360 | 4º - R$ 270<br>
+                        5º - R$ 180<br>
                         Matador KO - R$ 200<br><br>
-                        📋 Mínimo 5 presenças<br><br>
-                        <strong>BORA GARANTIR G10! 🔥</strong>`;
+                        <strong>BORA G10! 🔥</strong>`;
             }
 
             // PREMIAÇÃO
-            if (msg.includes('premiacao') || msg.includes('premio') || msg.includes('paga')) {
+            if (msg.includes('premiacao') || msg.includes('premio')) {
                 return `💸 <strong>PREMIAÇÃO</strong><br><br>
-                        <strong>ETAPAS (% do pote):</strong><br>
+                        <strong>ETAPAS:</strong><br>
                         1º - 36% | 2º - 26% | 3º - 19%<br>
                         4º - 12% | 5º - 7%<br><br>
-                        💳 Via PIX<br>
-                        ⏰ Na noite ou até 12h útil seguinte<br><br>
-                        <strong>13ª ETAPA (G10):</strong><br>
-                        1º - R$ 600 | 2º - R$ 450 | 3º - R$ 360<br>
-                        4º - R$ 270 | 5º - R$ 180<br>
+                        💳 Via PIX<br><br>
+                        <strong>13ª (G10):</strong><br>
+                        1º - R$ 600 | 2º - R$ 450<br>
+                        3º - R$ 360 | 4º - R$ 270<br>
+                        5º - R$ 180<br>
                         Matador KO - R$ 200<br><br>
-                        <strong>JOGA E EMBOLSA! 💰</strong>`;
-            }
-
-            // PONTUAÇÃO
-            if (msg.includes('ponto') || msg.includes('pontuacao')) {
-                return `📊 <strong>PONTUAÇÃO</strong><br><br>
-                        1º-27 | 2º-25 | 3º-23 | 4º-21 | 5º-19<br>
-                        6º-17 | 7º-15 | 8º-13 | 9º-11 | 10º-9<br>
-                        11º-7 | 12º-6 | 13º ao 20º-5<br><br>
-                        💥 +1 ponto por KO!<br><br>
-                        <strong>Fórmula:</strong><br>
-                        PONTOS = COLOCAÇÃO + KOs<br><br>
-                        <strong>Exemplo:</strong><br>
-                        1º (27) + 4 KOs = 31 pts<br><br>
-                        <strong>SOMA PONTOS! 🔥</strong>`;
-            }
-
-            // REGRAS GERAIS
-            if (msg.includes('regra') || msg.includes('como funciona') || msg.includes('regulamento')) {
-                return `📋 <strong>RESUMÃO DAS REGRAS</strong><br><br>
-                        💰 Buy-in: R$ 100 = 15K fichas<br>
-                        🔄 Rebuys ilimitados até nível 10<br>
-                        ➕ Add-on: R$ 50 = 50K fichas<br>
-                        ⚡ Bônus: 3K (antes 20h)<br><br>
-                        ⏰ Blinds: 15min → 12min → 10min<br>
-                        👥 Máximo: 20 jogadores<br>
-                        💥 KO: Após intervalo<br>
-                        🎡 Roleta: Até intervalo<br><br>
-                        💸 Premiação:<br>
-                        1º-36% | 2º-26% | 3º-19% | 4º-12% | 5º-7%<br><br>
-                        🚫 Só PIX!<br>
-                        🚫 Faltou = -90 pts + R$ 100<br><br>
-                        📖 Regulamento completo:<br>
-                        🔗 <a href="${poker.site}" style="color: #FFD700;">${poker.site}</a><br><br>
-                        <strong>PARA DE SER PREGUIÇOSO E LÊ! 😤</strong>`;
-            }
-
-            // DEALER
-            if (msg.includes('dealer') || msg.includes('capile')) {
-                return `🎴 <strong>DEALERS</strong><br><br>
-                        👥 2 dealers profissionais<br>
-                        💰 Pagos pela organização<br>
-                        🔄 Troca a cada 1 hora<br><br>
-                        <strong>CAPILÉ:</strong><br>
-                        🤝 VOLUNTÁRIO e pessoal<br>
-                        ❌ Organização NÃO intermedia<br>
-                        ✅ Acerto direto com dealer<br><br>
-                        🎯 <strong>RESPEITO É OBRIGATÓRIO!</strong><br>
-                        Desrespeitar = EXCLUSÃO<br><br>
-                        <strong>RESPEITA O PROFISSIONAL! 💪</strong>`;
-            }
-
-            // LOCAL
-            if (msg.includes('local') || msg.includes('onde') || msg.includes('luck')) {
-                return `📍 <strong>LOCAL</strong><br><br>
-                        ${poker.local}<br><br>
-                        ⏰ Quintas, 20h<br>
-                        📅 13 etapas em 2026<br><br>
-                        🍺 Bar completo<br>
-                        🍽️ Janta inclusa<br><br>
-                        <strong>VEM PRO LUCK! 🔥</strong>`;
-            }
-
-            // GRUPO WHATSAPP
-            if (msg.includes('grupo') || msg.includes('whats')) {
-                return `📱 <strong>REGRAS DO GRUPO</strong><br><br>
-                        <strong>✅ PERMITIDO:</strong><br>
-                        ⚽ Resenha futebol<br>
-                        🎲 Resenha poker<br><br>
-                        <strong>🚫 PROIBIDO:</strong><br>
-                        ❌ Pornografia/ofensas<br>
-                        ❌ Política/racismo<br>
-                        ❌ Vendas/anúncios<br>
-                        ❌ Outros eventos<br><br>
-                        ⚠️ Desrespeitar = EXCLUSÃO PERMANENTE!<br><br>
-                        <strong>RESPEITA AS REGRAS! 💪</strong>`;
-            }
-
-            // BLINDS
-            if (msg.includes('blind') || msg.includes('estrutura')) {
-                return `⏱️ <strong>ESTRUTURA DE BLINDS</strong><br><br>
-                        <strong>Big Blind Ante:</strong><br>
-                        Começa nível 11 (após intervalo)<br><br>
-                        <strong>TEMPO:</strong><br>
-                        📍 1-10: 15min<br>
-                        ☕ INTERVALO<br>
-                        📍 11-18: 12min<br>
-                        📍 19+: 10min<br><br>
-                        🔥 Nível 10: últimas 3 mãos<br>
-                        Última chance rebuy/addon!<br><br>
-                        <strong>Estrutura completa no regulamento! 📋</strong>`;
-            }
-
-            // CASH GAME
-            if (msg.includes('cash')) {
-                return `💵 <strong>CASH GAME</strong><br><br>
-                        🎯 Só após mesa final<br>
-                        👥 Para eliminados<br>
-                        🎲 Fichas diferentes<br>
-                        🔄 Dealer troca 1h<br>
-                        ⏰ Termina com torneio<br><br>
-                        💰 Capilé: Direto com dealer<br><br>
-                        <strong>Eliminado? Bora pro cash! 💸</strong>`;
-            }
-
-            // BALANCEAMENTO
-            if (msg.includes('balanc')) {
-                return `⚖️ <strong>BALANCEAMENTO</strong><br><br>
-                        <strong>QUEM MUDA:</strong><br>
-                        Jogador mais próximo do BB<br>
-                        (Normalmente no SB)<br><br>
-                        <strong>DESTINO:</strong><br>
-                        Posição equivalente/próxima ao BB<br><br>
-                        <strong>Mantém jogo justo! ⚖️</strong>`;
-            }
-
-            // AJUDA
-            if (msg.includes('ajuda') || msg.includes('help')) {
-                return `❓ <strong>PERGUNTAS FREQUENTES</strong><br><br>
-                        📅 Próxima etapa / Quando<br>
-                        💰 Valores / Quanto custa<br>
-                        🏆 Ranking / Posição<br>
-                        💥 Sistema KO<br>
-                        🎡 Roleta da Sorte<br>
-                        🃏 Melhor Mão<br>
-                        👑 Rei da Mesa<br>
-                        ⏱️ Time Bank<br>
-                        🍽️ Janta<br>
-                        📅 Calendário<br>
-                        🏆 Última etapa<br>
-                        💸 Premiação<br>
-                        📋 Regras gerais<br><br>
-                        <strong>PERGUNTA AÍ! 😎</strong>`;
+                        <strong>EMBOLSA! 💰</strong>`;
             }
 
             // CUMPRIMENTOS
@@ -772,14 +575,8 @@
 (oi|olá|ola|bom dia|boa tarde|boa noite)
 \b
 /)) {
-                const cumps = [
-                    "E aí, baralhão! Pronto pra levar bad beat? 😈",
-                    "Fala! Vamo pro all-in! 🎲",
-                    "Salve! Trouxe a carteira? 💰",
-                    "Opa! Chegou! 😂",
-                    "Bem-vindo! Pergunta! 🃏"
-                ];
-                return cumps[Math.floor(Math.random() * cumps.length)];
+                const c = ["E aí! 😈", "Fala! 🎲", "Salve! 💰", "Opa! 😂", "Bem-vindo! 🃏"];
+                return c[Math.floor(Math.random() * c.length)];
             }
 
             // AGRADECIMENTOS
@@ -788,53 +585,37 @@
 (obrigad|valeu|vlw)
 \b
 /)) {
-                const agr = [
-                    "De nada! Bora dominar! 💪",
-                    "Tranquilo! Grita! 🎯",
-                    "Tmj! Boa sorte! 🍀",
-                    "É nóis! Vai lá! 🔥"
-                ];
-                return agr[Math.floor(Math.random() * agr.length)];
+                const a = ["De nada! 💪", "Tranquilo! 🎯", "Tmj! 🍀", "É nóis! 🔥"];
+                return a[Math.floor(Math.random() * a.length)];
             }
 
             // NÃO ENTENDEU
             const resp = [
-                "Olha, baralhão... Essa eu não sei! 🤷‍♂️<br><br>Para de ser preguiçoso e LÊ O REGULAMENTO! 📖<br><br>🔗 <a href='" + poker.site + "' style='color: #FFD700;'>" + poker.site + "</a><br><br>Ou reformula a pergunta! 😤",
-
-                "Eita! 😅<br><br>Muito específico ou não entendi.<br><br>Vai no REGULAMENTO que tem TUDO!<br><br>🔗 <a href='" + poker.site + "' style='color: #FFD700;'>" + poker.site + "</a><br><br>Ou pergunta diferente! 💪",
-
-                "Rapaz... 😑<br><br>Não sei essa não!<br><br>📋 <a href='" + poker.site + "' style='color: #FFD700;'>Regulamento Completo</a><br><br>📱 Ou pergunta no grupo!<br><br>Não seja preguiçoso! 😤"
+                "Rapaz... 😅<br><br>Não entendi essa!<br><br>Reformula ou vai no regulamento:<br>🔗 <a href='" + poker.site + "' style='color: #FFD700;'>" + poker.site + "</a>",
+                "Eita! 🤷‍♂️<br><br>Muito específico!<br><br>Lê o regulamento:<br>🔗 <a href='" + poker.site + "' style='color: #FFD700;'>" + poker.site + "</a>",
+                "Ó... 😤<br><br>Essa eu não sei!<br><br>Vai no regulamento:<br>🔗 <a href='" + poker.site + "' style='color: #FFD700;'>" + poker.site + "</a>"
             ];
-
             return resp[Math.floor(Math.random() * resp.length)];
         }
 
         function gerarRanking() {
-            let html = `🏆 <strong>RANKING GERAL 2026</strong><br><br>`;
-            html += `<table><tr><th>Pos</th><th>Nome</th><th>Pts</th><th>Pres</th><th>1°</th><th>KOs</th></tr>`;
+            let html = `🏆 <strong>RANKING 2026</strong><br><br><table><tr><th>Pos</th><th>Nome</th><th>Pts</th><th>KOs</th></tr>`;
             poker.ranking.forEach(j => {
                 const d = j.pos === 1 ? ' style="color: #FFD700;"' : '';
-                html += `<tr${d}><td>${j.pos === 1 ? '👑' : ''}${j.pos}º</td><td>${j.nome}</td><td>${j.pts}</td><td>${j.pres}</td><td>${j.primeiros}</td><td>${j.kos}</td></tr>`;
+                html += `<tr${d}><td>${j.pos === 1 ? '👑' : ''}${j.pos}º</td><td>${j.nome}</td><td>${j.pts}</td><td>${j.kos}</td></tr>`;
             });
             html += `</table><br>👑 ${poker.etapa1.campeao} é o REI!<br><br>`;
             html += `📊 <a href="${poker.ranking}" style="color: #FFD700;">Ranking completo</a>`;
             return html;
         }
 
-        function gerarRankingKO() {
-            let html = `💥 <strong>RANKING DE KO</strong><br><br>`;
-            html += `<table><tr><th>Pos</th><th>Nome</th><th>KOs</th></tr>`;
-            poker.rankingKO.forEach(j => {
-                const d = j.pos === 1 ? ' style="color: #FFD700;"' : '';
-                html += `<tr${d}><td>${j.pos === 1 ? '🥊' : ''}${j.pos}º</td><td>${j.nome}</td><td>${j.kos}</td></tr>`;
-            });
-            html += `</table><br>💰 Matador KO = R$ 200!<br><br>`;
-            html += `📊 <a href="${poker.ranking}" style="color: #FFD700;">Ranking completo</a>`;
-            return html;
-        }
+        // Event Listeners
+        document.getElementById('sendBtn').addEventListener('click', sendMessage);
 
-        document.getElementById('userInput').addEventListener('keypress', e => {
-            if (e.key === 'Enter') sendMessage();
+        document.getElementById('userInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
         });
     </script>
 </body>
