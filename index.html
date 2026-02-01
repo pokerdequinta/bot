@@ -292,17 +292,47 @@
             margin: 5px 5px 5px 0;
         }
 
-        /* Links de consulta */
-        .api-link {
+        /* Links */
+        .external-link {
             color: #4caf50;
             text-decoration: none;
             font-weight: bold;
             border-bottom: 1px dashed #4caf50;
+            transition: all 0.3s;
         }
 
-        .api-link:hover {
+        .external-link:hover {
             color: #d4af37;
             border-bottom: 1px solid #d4af37;
+        }
+
+        /* Tabela de ranking */
+        .ranking-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 10px 0;
+            font-size: 0.9rem;
+        }
+
+        .ranking-table th {
+            background-color: rgba(212, 175, 55, 0.3);
+            color: #d4af37;
+            padding: 8px;
+            text-align: left;
+            border-bottom: 2px solid #d4af37;
+        }
+
+        .ranking-table td {
+            padding: 8px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .ranking-table tr:nth-child(even) {
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+
+        .ranking-table tr:hover {
+            background-color: rgba(212, 175, 55, 0.1);
         }
 
         /* Responsividade */
@@ -353,6 +383,10 @@
                 height: 50px;
                 min-width: 50px;
             }
+            
+            .ranking-table {
+                font-size: 0.8rem;
+            }
         }
 
         @media (max-width: 480px) {
@@ -367,6 +401,10 @@
             .back-btn {
                 width: 40px;
                 height: 40px;
+            }
+            
+            .ranking-table {
+                font-size: 0.75rem;
             }
         }
 
@@ -389,19 +427,15 @@
             background: #b8941f;
         }
 
-        /* Loader para consultas */
-        .loader {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 3px solid rgba(255,255,255,.3);
-            border-radius: 50%;
-            border-top-color: #d4af37;
-            animation: spin 1s ease-in-out infinite;
+        /* Estilos agressivos moderados */
+        .aggressive-moderate {
+            color: #ff9800;
+            font-weight: bold;
         }
 
-        @keyframes spin {
-            to { transform: rotate(360deg); }
+        .warning {
+            color: #ff6b6b;
+            font-weight: bold;
         }
     </style>
 </head>
@@ -420,37 +454,41 @@
             </div>
             <div class="chatbot-info">
                 <h1>BOT DO POKER DE QUINTA</h1>
-                <p>Assistente Oficial - Consulta em Tempo Real</p>
+                <p>Assistente com Dados Reais do Site</p>
                 <div class="status-indicator">
                     <div class="status-dot"></div>
-                    <span>Online - Conectado ao GitHub Oficial</span>
+                    <span>Online - Baseado nas informações publicadas</span>
                 </div>
             </div>
         </div>
 
         <!-- Área do Chat -->
         <div class="chat-area" id="chatArea">
-            <!-- Mensagem inicial -->
+            <!-- Mensagem inicial com dados reais -->
             <div class="message bot-message">
                 <div class="message-sender">
                     <i class="fas fa-robot"></i>
                     BOT DO POKER DE QUINTA
                 </div>
                 <p><strong>Olá, jogador! 🃏</strong></p>
-                <p>Sou o bot oficial do Poker de Quinta e consigo consultar <strong>diretamente do GitHub</strong> todas as informações atualizadas!</p>
-                <p>Posso buscar para você:</p>
-                <p>• 📊 <strong>Ranking atualizado</strong> da temporada<br>
-                   • 📜 <strong>Regulamento completo</strong> 2026<br>
-                   • 📅 <strong>Próximas etapas</strong> e calendário<br>
-                   • 🏆 <strong>Resultados</strong> das etapas anteriores<br>
-                   • 📝 <strong>Enquetes</strong> e votações ativas</p>
-                <p><em>O que você gostaria de saber?</em></p>
+                <p>Tenho todas as informações <strong>REAIS</strong> do Poker de Quinta baseadas no que está publicado!</p>
+                
+                <p><span class="info-badge">PRÓXIMA ETAPA</span> <strong>26 de Fevereiro - 2ª Etapa</strong></p>
+                
+                <p><span class="info-badge">CAMPEÃO 1ª ETAPA</span> <strong>Sergio</strong> com 31 pontos</p>
+                
+                <p><span class="info-badge">MELHOR MÃO</span> <strong>Van Van</strong> - Quadra de 7</p>
+                
+                <p><span class="info-badge">MATADOR DE KO</span> <strong>Amarildo</strong> - 5 eliminações</p>
+                
+                <p><em>Pergunte sobre qualquer coisa do Poker de Quinta!</em></p>
+                <p class="aggressive-moderate">Mas seja direto, não tenho tempo pra enrolação...</p>
             </div>
         </div>
 
         <!-- Área de Entrada -->
         <div class="input-area">
-            <input type="text" id="userInput" placeholder="Pergunte sobre ranking, regulamento, etapas, enquetes..." onkeypress="handleKeyPress(event)">
+            <input type="text" id="userInput" placeholder="Pergunte sobre ranking, resultados, valores, regulamento..." onkeypress="handleKeyPress(event)">
             <button id="sendButton" onclick="sendMessage()">
                 <i class="fas fa-paper-plane"></i>
             </button>
@@ -458,95 +496,314 @@
     </div>
 
     <script>
-        // URLs do GitHub do Poker de Quinta
-        const GITHUB_URLS = {
-            site: 'https://pokerdequinta.github.io/site',
-            regulamento: 'https://pokerdequinta.github.io/regulamento',
-            // URLs para possíveis endpoints de API futuros
-            ranking: 'https://pokerdequinta.github.io/ranking',
-            resultados: 'https://pokerdequinta.github.io/resultados',
-            enquetes: 'https://pokerdequinta.github.io/enquetes'
+        // DADOS REAIS do Poker de Quinta (baseados no site e regulamento)
+        const REAL_DATA = {
+            // Dados da 1ª Etapa (do site)
+            primeiraEtapa: {
+                campeao: "Sergio",
+                pontos: 31,
+                melhorMao: {
+                    jogador: "Van Van",
+                    mao: "Quadra de 7",
+                    premio: "1 ADDON na próxima etapa"
+                },
+                matadorKO: {
+                    jogador: "Amarildo",
+                    eliminacoes: 5
+                },
+                roletaSorte: {
+                    jogador: "Cleversson",
+                    premio: "1 Abraço do Bruxo"
+                }
+            },
+            
+            // Próxima etapa (do site)
+            proximaEtapa: {
+                numero: "2ª Etapa",
+                data: "26 de Fevereiro",
+                horario: "20 horas",
+                local: "Luck BAR - R. Prof. Sebastião Paraná, 765, Curitiba",
+                valores: {
+                    buyin: "R$ 100,00",
+                    rebuySimples: "R$ 30,00",
+                    rebuyDuplo: "R$ 60,00",
+                    addon: "R$ 50,00"
+                }
+            },
+            
+            // Valores (do regulamento)
+            valores: {
+                buyinCompleto: "R$ 100,00",
+                composicao: {
+                    pote: "R$ 50,00",
+                    janta: "R$ 30,00",
+                    limpeza: "R$ 20,00"
+                },
+                extras: {
+                    rebuy: "R$ 30,00 = 15.000 fichas",
+                    rebuyDuplo: "R$ 60,00 = 30.000 fichas",
+                    addon: "R$ 50,00 = 50.000 fichas (apenas 1 por jogador)",
+                    bonusPontualidade: "3.000 fichas para quem chegar antes das 20h"
+                },
+                pagamento: "SOMENTE PIX via QR CODE"
+            },
+            
+            // Janta (do regulamento)
+            janta: {
+                valor: "R$ 30,00 (parte do buy-in)",
+                descricao: "Quitute preparado por um chefe de cozinha",
+                observacao: "O jogador pode optar por não comer, mas paga o valor integral mesmo assim"
+            },
+            
+            // Ranking sistema (do regulamento)
+            rankingSistema: {
+                pontuacao: {
+                    "1º": 27,
+                    "2º": 25,
+                    "3º": 23,
+                    "4º": 21,
+                    "5º": 19,
+                    "6º": 17,
+                    "7º": 15,
+                    "8º": 13,
+                    "9º": 11,
+                    "10º": 9,
+                    "11º": 7,
+                    "12º": 6,
+                    "13º-20º": 5
+                },
+                ko: "1 ponto por eliminação (após intervalo)",
+                desempate: ["Número de pontos", "Maior número de participações", "Maior número de 1° lugares", "Maior número de KO acumulado", "Locurinha (melhor de 3)"]
+            },
+            
+            // Regulamento principais (do documento)
+            regulamento: {
+                inscricoes: "Segunda-feira às 7h no site oficial, máximo 20 jogadores",
+                penalidades: {
+                    faltaSemAviso: "-90 pontos + R$ 100,00",
+                    desistenciaQuinta: "-20 pontos"
+                },
+                regrasJogo: [
+                    "30 segundos para decisão",
+                    "Cartas devem ficar sobre a mesa",
+                    "Respeito obrigatório aos dealers",
+                    "Time Bank: 3 cartões de 30 segundos cada",
+                    "Sistema KO: eliminações valem pontos após intervalo"
+                ],
+                ultimaEtapa: {
+                    data: "10/12/2026",
+                    premiosTop5: ["R$ 600", "R$ 450", "R$ 360", "R$ 270", "R$ 180"],
+                    matadorKOTemporada: "R$ 200,00"
+                }
+            },
+            
+            // Links oficiais
+            links: {
+                site: "http://pokerdequinta.github.io/site",
+                regulamento: "http://pokerdequinta.github.io/regulamento"
+            }
         };
 
-        // Cache para evitar múltiplas requisições
-        let cache = {
-            site: null,
-            regulamento: null,
-            ranking: null,
-            lastUpdated: null
-        };
-
-        // Base de conhecimento com fallback
+        // Base de conhecimento com dados REAIS
         const knowledgeBase = {
-            "janta": {
-                title: "🍖 A JANTA DO POKER DE QUINTA",
-                content: "Parte do buy-in é destinada à janta:<br><br>" +
-                         "<span class='info-badge'>R$30,00</span> do valor total de R$100,00<br>" +
-                         "• Quitute preparado por chef de cozinha<br>" +
-                         "• Opção de não comer, mas valor é o mesmo<br>" +
-                         "• Incluído no pacote completo"
+            "ranking": {
+                title: "📊 RANKING E SISTEMA DE PONTUAÇÃO",
+                content: `<strong>Sistema de Pontuação 2026:</strong><br><br>
+                         <table class="ranking-table">
+                             <tr><th>Colocação</th><th>Pontos</th><th>Colocação</th><th>Pontos</th></tr>
+                             <tr><td>1º Colocado</td><td>27</td><td>6º Colocado</td><td>17</td></tr>
+                             <tr><td>2º Colocado</td><td>25</td><td>7º Colocado</td><td>15</td></tr>
+                             <tr><td>3º Colocado</td><td>23</td><td>8º Colocado</td><td>13</td></tr>
+                             <tr><td>4º Colocado</td><td>21</td><td>9º Colocado</td><td>11</td></tr>
+                             <tr><td>5º Colocado</td><td>19</td><td>10º Colocado</td><td>9</td></tr>
+                             <tr><td colspan="4" style="text-align:center">11º: 7 pontos | 12º: 6 pontos | 13º-20º: 5 pontos</td></tr>
+                         </table>
+                         <br>
+                         <strong>+ Sistema KO:</strong> 1 ponto por eliminação (após intervalo)<br>
+                         <strong>Matador de KO da Temporada:</strong> R$ 200,00<br><br>
+                         <strong>Critérios de Desempate:</strong><br>
+                         1. Número de pontos<br>
+                         2. Maior número de participações<br>
+                         3. Maior número de 1° lugares<br>
+                         4. Maior número de KO acumulado<br>
+                         5. Locurinha (melhor de 3)<br><br>
+                         <span class="aggressive-moderate">Agora vai aprender a pontuar direito!</span>`
             },
             
             "proxima": {
-                title: "📅 PRÓXIMA ETAPA",
-                content: "Segundo o site oficial:<br><br>" +
-                         "<strong>2ª ETAPA - 26 de Fevereiro</strong><br>" +
-                         "⏰ <strong>Horário:</strong> 20 horas<br>" +
-                         "💰 <strong>Buy-in:</strong> R$ 100,00<br>" +
-                         "🔄 <strong>Rebuy:</strong> R$ 30,00<br>" +
-                         "➕ <strong>Addon:</strong> R$ 50,00<br><br>" +
-                         "<em>Chegue antes das 20h para ganhar 3.000 fichas bônus!</em>"
+                title: "📅 PRÓXIMA ETAPA - 26 DE FEVEREIRO",
+                content: `<strong>${REAL_DATA.proximaEtapa.numero}</strong><br><br>
+                         📅 <strong>Data:</strong> ${REAL_DATA.proximaEtapa.data}<br>
+                         ⏰ <strong>Horário:</strong> ${REAL_DATA.proximaEtapa.horario}<br>
+                         📍 <strong>Local:</strong> ${REAL_DATA.proximaEtapa.local}<br><br>
+                         <strong>Valores:</strong><br>
+                         💰 <strong>Buy-in:</strong> ${REAL_DATA.proximaEtapa.valores.buyin}<br>
+                         🔄 <strong>Rebuy simples:</strong> ${REAL_DATA.proximaEtapa.valores.rebuySimples}<br>
+                         🔄🔄 <strong>Rebuy duplo:</strong> ${REAL_DATA.proximaEtapa.valores.rebuyDuplo}<br>
+                         ➕ <strong>Add-on:</strong> ${REAL_DATA.proximaEtapa.valores.addon}<br><br>
+                         <span class="info-badge">BÔNUS</span> 3.000 fichas para quem chegar antes das 20h!<br><br>
+                         <span class="aggressive-moderate">Se for, chega no horário!</span>`
             },
             
-            "ranking": {
-                title: "📊 RANKING OFICIAL",
-                content: "Consultando ranking atual... <div class='loader'></div><br><br>" +
-                         "<em>Conectando ao GitHub do Poker de Quinta para dados em tempo real...</em><br><br>" +
-                         "<a href='https://pokerdequinta.github.io/ranking' target='_blank' class='api-link'>Ver ranking completo no GitHub</a>"
+            "resultados": {
+                title: "🏆 RESULTADOS DA 1ª ETAPA",
+                content: `<strong>CAMPEÃO: ${REAL_DATA.primeiraEtapa.campeao}</strong><br>
+                         <span class="info-badge">${REAL_DATA.primeiraEtapa.pontos} PONTOS</span><br><br>
+                         
+                         <strong>DESTAQUES:</strong><br>
+                         🎯 <strong>Melhor Mão:</strong> ${REAL_DATA.primeiraEtapa.melhorMao.jogador} - ${REAL_DATA.primeiraEtapa.melhorMao.mao}<br>
+                         &nbsp;&nbsp;&nbsp;&nbsp;<em>Ganha: ${REAL_DATA.primeiraEtapa.melhorMao.premio}</em><br><br>
+                         
+                         💥 <strong>Matador de KO:</strong> ${REAL_DATA.primeiraEtapa.matadorKO.jogador}<br>
+                         &nbsp;&nbsp;&nbsp;&nbsp;<em>${REAL_DATA.primeiraEtapa.matadorKO.eliminacoes} eliminações</em><br><br>
+                         
+                         🎡 <strong>Roleta da Sorte:</strong> ${REAL_DATA.primeiraEtapa.roletaSorte.jogador}<br>
+                         &nbsp;&nbsp;&nbsp;&nbsp;<em>Ganhou: ${REAL_DATA.primeiraEtapa.roletaSorte.premio}</em><br><br>
+                         
+                         <span class="aggressive-moderate">Bela atuação, diferente de você que só perde!</span>`
             },
             
-            "regulamento": {
-                title: "📜 REGULAMENTO COMPLETO",
-                content: "Acessando regulamento oficial... <div class='loader'></div><br><br>" +
-                         "<em>Buscando versão mais recente no GitHub...</em><br><br>" +
-                         "<a href='https://pokerdequinta.github.io/regulamento' target='_blank' class='api-link'>Abrir regulamento completo</a>"
-            },
-            
-            "site": {
-                title: "🌐 SITE OFICIAL",
-                content: "Todas as informações atualizadas em:<br><br>" +
-                         "<strong><a href='https://pokerdequinta.github.io/site' target='_blank' class='api-link'>pokerdequinta.github.io/site</a></strong><br><br>" +
-                         "• Próximas etapas<br>" +
-                         "• Resultados anteriores<br>" +
-                         "• Ranking atualizado<br>" +
-                         "• Destaques dos torneios"
+            "janta": {
+                title: "🍖 A JANTA - R$30,00 DO BUY-IN",
+                content: `<strong>VALOR:</strong> ${REAL_DATA.janta.valor} (incluído no buy-in de R$100,00)<br><br>
+                         <strong>O QUE INCLUI:</strong><br>
+                         • ${REAL_DATA.janta.descricao}<br>
+                         • Preparada especialmente para cada etapa<br><br>
+                         
+                         <strong>IMPORTANTE:</strong><br>
+                         • ${REAL_DATA.janta.observacao}<br>
+                         • Não é restaurante, é quitute especial<br><br>
+                         
+                         <strong>COMPOSIÇÃO DO BUY-IN (R$100,00):</strong><br>
+                         • ${REAL_DATA.valores.composicao.pote} → Pote da etapa<br>
+                         • ${REAL_DATA.valores.composicao.janta} → Janta<br>
+                         • ${REAL_DATA.valores.composicao.limpeza} → Taxa de limpeza<br><br>
+                         
+                         <span class="aggressive-moderate">Come ou não, paga igual. Aceita ou não joga!</span>`
             },
             
             "valores": {
-                title: "💰 VALORES E BUY-IN",
-                content: "<strong>Buy-in completo: R$100,00</strong><br><br>" +
-                         "Composição:<br>" +
-                         "• R$50,00 → Pote da etapa<br>" +
-                         "• R$30,00 → Janta (quitute de chef)<br>" +
-                         "• R$20,00 → Taxa de limpeza<br><br>" +
-                         "Extras disponíveis:<br>" +
-                         "• Rebuy: R$30,00 = 15.000 fichas<br>" +
-                         "• Add-on: R$50,00 = 50.000 fichas"
+                title: "💰 VALORES COMPLETOS 2026",
+                content: `<strong>BUY-IN COMPLETO: ${REAL_DATA.valores.buyinCompleto}</strong><br><br>
+                         <strong>COMPOSIÇÃO:</strong><br>
+                         • ${REAL_DATA.valores.composicao.pote} → Pote da etapa<br>
+                         • ${REAL_DATA.valores.composicao.janta} → Janta (quitute de chef)<br>
+                         • ${REAL_DATA.valores.composicao.limpeza} → Taxa de limpeza<br><br>
+                         
+                         <strong>EXTRAS DISPONÍVEIS:</strong><br>
+                         • ${REAL_DATA.valores.extras.rebuy} (ilimitados até 10º nível)<br>
+                         • ${REAL_DATA.valores.extras.rebuyDuplo} (mesmas condições)<br>
+                         • ${REAL_DATA.valores.extras.addon} (apenas 1 por jogador)<br><br>
+                         
+                         <strong>BÔNUS:</strong><br>
+                         • ${REAL_DATA.valores.extras.bonusPontualidade}<br><br>
+                         
+                         <strong>PAGAMENTO:</strong><br>
+                         • ${REAL_DATA.valores.pagamento}<br>
+                         • <span class="warning">NÃO ACEITA DINHEIRO EM ESPÉCIE</span><br><br>
+                         
+                         <span class="aggressive-moderate">Anotou? Agora não vem perguntar de novo!</span>`
+            },
+            
+            "regulamento": {
+                title: "📜 REGULAMENTO - PRINCIPAIS PONTOS",
+                content: `<strong>INSCRIÇÕES:</strong><br>
+                         • ${REAL_DATA.regulamento.inscricoes}<br>
+                         • Prioridade para grupo do WhatsApp<br>
+                         • Lista de espera liberada quarta 10h<br><br>
+                         
+                         <strong>PENALIDADES:</strong><br>
+                         • Falta sem aviso: ${REAL_DATA.regulamento.penalidades.faltaSemAviso}<br>
+                         • Desistência na quinta: ${REAL_DATA.regulamento.penalidades.desistenciaQuinta}<br>
+                         • Não pagar: pode ser excluído do grupo<br><br>
+                         
+                         <strong>REGRAS DO JOGO:</strong><br>
+                         • ${REAL_DATA.regulamento.regrasJogo[0]}<br>
+                         • ${REAL_DATA.regulamento.regrasJogo[1]}<br>
+                         • ${REAL_DATA.regulamento.regrasJogo[2]}<br>
+                         • ${REAL_DATA.regulamento.regrasJogo[3]}<br>
+                         • ${REAL_DATA.regulamento.regrasJogo[4]}<br><br>
+                         
+                         <strong>ÚLTIMA ETAPA (10/12/2026):</strong><br>
+                         • Top 10 ranking: buy-in free<br>
+                         • Prêmios top 5: ${REAL_DATA.regulamento.ultimaEtapa.premiosTop5.join(", ")}<br>
+                         • Matador KO temporada: ${REAL_DATA.regulamento.ultimaEtapa.matadorKOTemporada}<br><br>
+                         
+                         <strong>LINKS OFICIAIS:</strong><br>
+                         • <a href="${REAL_DATA.links.site}" target="_blank" class="external-link">Site Oficial</a><br>
+                         • <a href="${REAL_DATA.links.regulamento}" target="_blank" class="external-link">Regulamento Completo</a><br><br>
+                         
+                         <span class="aggressive-moderate">Leia o regulamento completo, seu preguiçoso!</span>`
+            },
+            
+            "site": {
+                title: "🌐 SITE OFICIAL DO POKER DE QUINTA",
+                content: `<strong>Todas as informações atualizadas em:</strong><br><br>
+                         <a href="${REAL_DATA.links.site}" target="_blank" class="external-link">${REAL_DATA.links.site}</a><br><br>
+                         
+                         <strong>O QUE TEM NO SITE:</strong><br>
+                         • Próximas etapas e calendário<br>
+                         • Resultados das etapas anteriores<br>
+                         • Ranking atualizado da temporada<br>
+                         • Destaques e premiações<br>
+                         • Fotos e registros dos eventos<br><br>
+                         
+                         <strong>REGULAMENTO COMPLETO:</strong><br>
+                         <a href="${REAL_DATA.links.regulamento}" target="_blank" class="external-link">${REAL_DATA.links.regulamento}</a><br><br>
+                         
+                         <span class="aggressive-moderate">Olha o site antes de perguntar bobagem!</span>`
+            },
+            
+            "ko": {
+                title: "💥 SISTEMA KNOCKOUT (KO) 2026",
+                content: `<strong>COMO FUNCIONA O KO:</strong><br><br>
+                         • Cada jogador começa com 1 ficha de KO<br>
+                         • Eliminações só valem APÓS o intervalo<br>
+                         • Ao eliminar: ganha ficha KO do eliminado<br>
+                         • Fichas KO = pontos adicionais<br><br>
+                         
+                         <strong>PONTUAÇÃO FINAL:</strong><br>
+                         • Pontos por colocação + fichas KO acumuladas<br>
+                         • Exemplo: 10 pontos colocação + 3 KOs = 13 pontos<br><br>
+                         
+                         <strong>REI DA MESA:</strong><br>
+                         • Campeão anterior começa com 2 fichas KO<br>
+                         • Quem eliminar o Rei ganha ambas<br>
+                         • Se campeão faltar, passa para o 2º colocado<br><br>
+                         
+                         <strong>PREMIACÃO:</strong><br>
+                         • Matador de KO da Temporada: R$ 200,00<br><br>
+                         
+                         <span class="aggressive-moderate">Tenta eliminar alguém, não só ser eliminado!</span>`
             }
         };
 
         // Mapeamento de palavras-chave
         const questionMapping = {
-            "janta": "janta", "comida": "janta", "alimenta": "janta",
-            "proxima": "proxima", "quando": "proxima", "data": "proxima", "etapa": "proxima",
-            "ranking": "ranking", "classifica": "ranking", "pontua": "ranking", "top": "ranking",
-            "regulamento": "regulamento", "regras": "regulamento", "normas": "regulamento",
-            "site": "site", "oficial": "site", "github": "site",
-            "valor": "valores", "custa": "valores", "preço": "valores", "buyin": "valores",
-            "enquete": "site", "votação": "site", "pesquisa": "site",
-            "resultado": "site", "campeão": "site", "vencedor": "site",
-            "calendário": "proxima", "datas": "proxima", "horário": "proxima"
+            "ranking": "ranking", "pontos": "ranking", "classifica": "ranking", "top": "ranking", "coloca": "ranking",
+            "proxima": "proxima", "quando": "proxima", "data": "proxima", "etapa": "proxima", "26": "proxima", "fevereiro": "proxima",
+            "resultado": "resultados", "campeão": "resultados", "vencedor": "resultados", "sergio": "resultados", "primeira": "resultados",
+            "janta": "janta", "comida": "janta", "alimenta": "janta", "refeição": "janta",
+            "valor": "valores", "custa": "valores", "preço": "valores", "buyin": "valores", "pagar": "valores", "rebuys": "valores", "addon": "valores",
+            "regulamento": "regulamento", "regras": "regulamento", "normas": "regulamento", "como funciona": "regulamento",
+            "site": "site", "oficial": "site", "endereço": "site", "link": "site", "github": "site",
+            "ko": "ko", "knockout": "ko", "elimina": "ko", "matador": "ko", "k.o.": "ko",
+            "time bank": "regulamento", "tempo": "regulamento", "30 segundos": "regulamento",
+            "dealers": "regulamento", "croupier": "regulamento", "respeito": "regulamento",
+            "whatsapp": "regulamento", "grupo": "regulamento", "zap": "regulamento",
+            "ultima": "regulamento", "final": "regulamento", "10/12": "regulamento", "dezembro": "regulamento"
         };
+
+        // Frases moderadamente agressivas
+        const moderateAggressivePhrases = [
+            "Tá de brincadeira? Isso tá no site!",
+            "Você leu alguma coisa? Pergunta óbvia...",
+            "Vou responder, mas podia ter visto no site...",
+            "Isso é tão básico que dói!",
+            "Aprende a olhar o site, preguiçoso!",
+            "Ta de sacanagem? É informação pública!",
+            "Olha o site antes de perguntar!"
+        ];
 
         // DOM
         const chatArea = document.getElementById('chatArea');
@@ -609,97 +866,41 @@
             if (typing) typing.remove();
         }
 
-        // Tentar buscar dados do GitHub
-        async function fetchFromGitHub(endpoint) {
-            try {
-                // Mostrar mensagem de carregamento
-                addMessage(`<div class='loader'></div> Consultando GitHub do Poker de Quinta...`, false, true);
-                
-                // Em um cenário real, aqui fariamos fetch() para a API
-                // Como é static site, vamos simular com timeout
-                
-                return new Promise((resolve) => {
-                    setTimeout(() => {
-                        // Simular dados do GitHub
-                        const mockData = {
-                            ranking: {
-                                title: "📊 RANKING ATUALIZADO - TEMPORADA 2026",
-                                content: "<strong>Top 5 do Ranking:</strong><br><br>" +
-                                        "1. Sergio - 31 pontos<br>" +
-                                        "2. [Aguardando atualização]<br>" +
-                                        "3. [Aguardando atualização]<br>" +
-                                        "4. [Aguardando atualização]<br>" +
-                                        "5. [Aguardando atualização]<br><br>" +
-                                        "<a href='https://pokerdequinta.github.io/site' target='_blank' class='api-link'>Ver ranking completo no site oficial</a><br><br>" +
-                                        "<em>Dados consultados diretamente do GitHub do Poker de Quinta</em>"
-                            },
-                            regulamento: {
-                                title: "📜 REGULAMENTO OFICIAL - CONSULTA DIRETA",
-                                content: "<strong>Regulamento 2026 disponível no GitHub:</strong><br><br>" +
-                                        "• 13 etapas nas quintas-feiras<br>" +
-                                        "• Local: Luck BAR, Curitiba<br>" +
-                                        "• Sistema de pontuação atualizado<br>" +
-                                        "• Novas regras: Time Bank e KO<br><br>" +
-                                        "<a href='https://pokerdequinta.github.io/regulamento' target='_blank' class='api-link'>Acessar regulamento completo no GitHub</a><br><br>" +
-                                        "<em>Documento oficial mantido no repositório GitHub</em>"
-                            }
-                        };
-                        
-                        resolve(mockData[endpoint] || null);
-                    }, 1500);
-                });
-                
-            } catch (error) {
-                console.error('Erro ao consultar GitHub:', error);
-                return null;
-            }
-        }
-
         // Encontrar resposta
-        async function findAnswer(question) {
+        function findAnswer(question) {
             const lowerQ = question.toLowerCase();
             
             // Se pergunta muito curta
             if (question.length < 3) {
                 return {
-                    title: "🤔 Pergunta muito curta",
-                    content: "Pode formular sua pergunta de forma mais completa?<br>Exemplo: 'Qual é o ranking atual?' ou 'Quando é a próxima etapa?'"
+                    title: "🤨 PERGUNTA MUITO CURTA",
+                    content: "Formula melhor! Exemplos:<br>'qual ranking?' 'quando próxima etapa?' 'quanto custa?'"
                 };
             }
             
-            // Verificar se é sobre ranking ou regulamento (consultar GitHub)
-            if (lowerQ.includes('ranking') || lowerQ.includes('classific') || lowerQ.includes('pontos')) {
-                const gitHubData = await fetchFromGitHub('ranking');
-                if (gitHubData) return gitHubData;
-            }
-            
-            if (lowerQ.includes('regulamento') || lowerQ.includes('regras') || lowerQ.includes('normas')) {
-                const gitHubData = await fetchFromGitHub('regulamento');
-                if (gitHubData) return gitHubData;
-            }
-            
-            // Buscar na base local
+            // Buscar na base
             for (const [key, category] of Object.entries(questionMapping)) {
                 if (lowerQ.includes(key)) {
                     return knowledgeBase[category];
                 }
             }
             
-            // Se não encontrou, oferecer links do GitHub
+            // Não encontrou - resposta moderadamente agressiva
+            const randomPhrase = moderateAggressivePhrases[Math.floor(Math.random() * moderateAggressivePhrases.length)];
             return {
-                title: "🔍 CONSULTA AO GITHUB DO POKER DE QUINTA",
-                content: "Não encontrei informação específica, mas você pode consultar diretamente:<br><br>" +
-                         "📊 <strong><a href='https://pokerdequinta.github.io/site' target='_blank' class='api-link'>Site Oficial</a></strong> - Todas as informações<br>" +
-                         "📜 <strong><a href='https://pokerdequinta.github.io/regulamento' target='_blank' class='api-link'>Regulamento</a></strong> - Regras completas<br><br>" +
-                         "<em>O Poker de Quinta mantém tudo atualizado no GitHub!</em>"
+                title: randomPhrase,
+                content: `<strong>CONSULTE DIRETAMENTE:</strong><br><br>
+                         📊 <a href="${REAL_DATA.links.site}" target="_blank" class="external-link">Site Oficial</a> - Todas informações<br>
+                         📜 <a href="${REAL_DATA.links.regulamento}" target="_blank" class="external-link">Regulamento</a> - Regras completas<br><br>
+                         <em>Ou pergunte sobre: ranking, próxima etapa, valores, janta, resultados, regulamento, KO</em>`
             };
         }
 
         // Enviar mensagem
-        async function sendMessage() {
+        function sendMessage() {
             const question = userInput.value.trim();
             if (!question) {
-                addMessage("Digite sua pergunta sobre o Poker de Quinta", false);
+                addMessage("Digite sua pergunta!", false);
                 return;
             }
             
@@ -710,13 +911,13 @@
             // Mostrar "digitando"
             showTyping();
             
-            // Buscar resposta (assíncrona)
-            setTimeout(async () => {
+            // Resposta com delay
+            setTimeout(() => {
                 removeTyping();
-                const answer = await findAnswer(question);
+                const answer = findAnswer(question);
                 
                 addMessage(`<strong>${answer.title}</strong><br><br>${answer.content}`, false, true);
-            }, 800);
+            }, 600 + Math.random() * 800);
         }
 
         // Tecla Enter
@@ -747,17 +948,13 @@
         window.onload = function() {
             userInput.focus();
             
-            // Mostrar mensagem inicial sobre consultas
+            // Mostrar mensagem inicial com dados reais
             setTimeout(() => {
                 if (chatArea.children.length <= 1) {
-                    addMessage("💡 <strong>Dica:</strong> Pergunte sobre 'ranking atual', 'próxima etapa' ou 'regulamento'. Consuto diretamente do GitHub do Poker de Quinta!", false, true);
+                    addMessage("💡 <strong>DICA:</strong> Pergunte sobre 'ranking atual', 'próxima etapa 26/02', 'valores R$100', 'resultados Sergio', ou 'regulamento'!", false, true);
                 }
             }, 2000);
         };
-
-        // Adicionar ícone de atualização em tempo real
-        document.querySelector('.status-indicator').innerHTML += 
-            ` <span style="font-size:0.7rem; opacity:0.7">(Consulta GitHub)</span>`;
     </script>
 </body>
 </html>
