@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chatbot Regulamento - Poker de Quinta</title>
+    <title>BOT PDQ - Regulamento Poker de Quinta</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Anton&family=Roboto:wght@300;400;700&display=swap');
@@ -30,61 +30,143 @@
             background-color: var(--bg-main);
             color: var(--text);
             min-height: 100vh;
-            background-image: 
-                radial-gradient(circle at 15% 20%, rgba(212, 161, 33, 0.03) 0%, transparent 20%),
-                radial-gradient(circle at 85% 80%, rgba(45, 80, 22, 0.05) 0%, transparent 20%);
             display: flex;
             flex-direction: column;
+            padding-top: 80px; /* Espaço para o header fixo */
         }
         
+        /* HEADER SIMPLES */
         .header {
-            background: linear-gradient(135deg, var(--green-accent), var(--green-medium));
-            padding: 15px;
+            background: var(--bg-card);
+            padding: 10px 20px;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
+            justify-content: center;
             border-bottom: 2px solid var(--gold);
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
-            height: 120px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            height: 80px;
         }
         
         .logo-img {
-            height: 90px;
+            height: 40px;
             width: auto;
-            border-radius: 10px;
-            box-shadow: 0 0 15px rgba(212, 161, 33, 0.4);
         }
         
+        .logo-fallback {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 40px;
+            padding: 5px 15px;
+            background: #000;
+            border-radius: 6px;
+            border: 1px solid var(--gold);
+        }
+        
+        .logo-fallback div {
+            font-family: 'Anton', sans-serif;
+            font-size: 24px;
+            color: var(--gold);
+            text-transform: uppercase;
+        }
+        
+        .page-title {
+            font-family: 'Anton', sans-serif;
+            font-size: 18px;
+            letter-spacing: 2px;
+            color: var(--gold);
+            text-transform: uppercase;
+            margin-top: 5px;
+        }
+        
+        /* CONTAINER PRINCIPAL */
         .container {
             display: flex;
             flex: 1;
-            max-width: 1300px;
-            margin: 20px auto;
+            max-width: 1400px;
+            margin: 0 auto;
             width: 100%;
-            padding: 0 15px;
-            gap: 20px;
+            padding: 15px;
+            gap: 15px;
+            height: calc(100vh - 100px);
         }
         
-        .chat-container {
-            flex: 1;
-            background-color: var(--bg-card);
-            border-radius: 12px;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+        /* BOTÕES LATERAIS */
+        .buttons-sidebar {
+            width: 200px;
             display: flex;
             flex-direction: column;
-            overflow: hidden;
+            gap: 10px;
+            padding-right: 10px;
+            overflow-y: auto;
+        }
+        
+        .side-button {
+            background: var(--bg-card);
             border: 2px solid var(--gold);
+            border-radius: 8px;
+            padding: 12px 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+            min-height: 60px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .side-button:hover {
+            background: rgba(212, 161, 33, 0.1);
+            transform: translateX(5px);
+        }
+        
+        .side-button.active {
+            background: rgba(212, 161, 33, 0.2);
+            border-color: var(--gold);
+            box-shadow: 0 0 10px rgba(212, 161, 33, 0.3);
+        }
+        
+        .side-button i {
+            font-size: 20px;
+            color: var(--gold);
+            margin-bottom: 5px;
+        }
+        
+        .side-button .button-text {
+            font-size: 10px;
+            font-weight: 600;
+            color: var(--text);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            line-height: 1.2;
+        }
+        
+        /* ÁREA DO CHAT */
+        .chat-area {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background-color: var(--bg-card);
+            border-radius: 10px;
+            border: 2px solid var(--gold);
+            overflow: hidden;
         }
         
         .chat-header {
             background: linear-gradient(135deg, var(--green-accent), var(--green-medium));
-            padding: 15px 20px;
+            padding: 15px;
             border-bottom: 2px solid var(--gold);
         }
         
         .chat-header h3 {
             font-family: 'Anton', sans-serif;
-            font-size: 22px;
+            font-size: 20px;
             letter-spacing: 2px;
             color: var(--gold);
             text-transform: uppercase;
@@ -104,9 +186,9 @@
         }
         
         .message {
-            max-width: 85%;
-            padding: 14px 18px;
-            border-radius: 12px;
+            max-width: 90%;
+            padding: 15px 18px;
+            border-radius: 10px;
             line-height: 1.6;
             animation: fadeIn 0.3s ease;
         }
@@ -123,51 +205,36 @@
             align-self: flex-start;
         }
         
-        .user-message {
-            background-color: rgba(212, 161, 33, 0.15);
-            border: 2px solid rgba(212, 161, 33, 0.3);
-            border-bottom-right-radius: 5px;
-            align-self: flex-end;
-            text-align: right;
-        }
-        
         .message-sender {
             font-family: 'Anton', sans-serif;
             font-weight: 600;
-            font-size: 13px;
+            font-size: 12px;
             margin-bottom: 6px;
             letter-spacing: 1px;
             text-transform: uppercase;
-        }
-        
-        .bot-message .message-sender {
             color: var(--gold);
         }
         
-        .user-message .message-sender {
-            color: var(--text);
-        }
-        
         .message-content {
-            font-size: 15px;
+            font-size: 14px;
             color: var(--text);
-        }
-        
-        .insult {
-            color: var(--red-alert);
-            font-weight: bold;
-            text-transform: uppercase;
-            background-color: rgba(199, 44, 72, 0.1);
-            padding: 4px 8px;
-            border-radius: 5px;
-            display: inline-block;
-            margin: 4px 0;
-            border: 1px solid var(--red-alert);
         }
         
         .highlight {
             color: var(--gold);
             font-weight: bold;
+        }
+        
+        .insult {
+            color: var(--gold);
+            font-weight: bold;
+            text-transform: uppercase;
+            background-color: rgba(212, 161, 33, 0.1);
+            padding: 4px 8px;
+            border-radius: 5px;
+            display: inline-block;
+            margin: 4px 0;
+            border: 1px solid var(--gold);
         }
         
         .rule-reference {
@@ -179,6 +246,7 @@
             padding-top: 6px;
         }
         
+        /* INPUT */
         .chat-input-container {
             padding: 15px;
             border-top: 2px solid rgba(212, 161, 33, 0.2);
@@ -192,18 +260,18 @@
         
         #user-input {
             flex: 1;
-            padding: 12px 18px;
+            padding: 10px 15px;
             border-radius: 8px;
             border: 2px solid var(--gold);
             background-color: rgba(10, 25, 10, 0.8);
             color: var(--text);
-            font-size: 15px;
+            font-size: 14px;
         }
         
         #user-input:focus {
             outline: none;
             border-color: var(--gold);
-            box-shadow: 0 0 10px rgba(212, 161, 33, 0.3);
+            box-shadow: 0 0 8px rgba(212, 161, 33, 0.3);
         }
         
         #send-button {
@@ -211,14 +279,14 @@
             color: #000;
             border: none;
             border-radius: 8px;
-            padding: 0 25px;
+            padding: 0 20px;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: bold;
-            font-size: 14px;
-            min-width: 90px;
+            font-size: 13px;
+            min-width: 80px;
             transition: all 0.3s;
         }
         
@@ -226,67 +294,6 @@
             background: #e6b122;
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(212, 161, 33, 0.3);
-        }
-        
-        /* GRADE DE BOTÕES - ESTILO IPHONE */
-        .buttons-grid {
-            width: 320px;
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 12px;
-        }
-        
-        .grid-button {
-            background: var(--bg-card);
-            border: 2px solid var(--gold);
-            border-radius: 12px;
-            height: 90px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.3s;
-            padding: 10px;
-            text-align: center;
-        }
-        
-        .grid-button:hover {
-            background: rgba(212, 161, 33, 0.1);
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(212, 161, 33, 0.2);
-        }
-        
-        .grid-button i {
-            font-size: 24px;
-            color: var(--gold);
-            margin-bottom: 8px;
-        }
-        
-        .grid-button .button-text {
-            font-size: 11px;
-            font-weight: 600;
-            color: var(--text);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            line-height: 1.2;
-        }
-        
-        /* FOOTER */
-        .footer {
-            text-align: center;
-            padding: 20px;
-            background-color: var(--bg-card);
-            border-top: 2px solid var(--gold);
-            margin-top: 20px;
-        }
-        
-        .footer h2 {
-            font-family: 'Anton', sans-serif;
-            font-size: 24px;
-            letter-spacing: 3px;
-            color: var(--gold);
-            text-transform: uppercase;
         }
         
         /* TYPING INDICATOR */
@@ -318,165 +325,189 @@
             40% { transform: scale(1); opacity: 1; }
         }
         
+        /* FOOTER */
+        .footer {
+            text-align: center;
+            padding: 15px;
+            background-color: var(--bg-card);
+            border-top: 2px solid var(--gold);
+            margin-top: auto;
+        }
+        
+        .footer h2 {
+            font-family: 'Anton', sans-serif;
+            font-size: 20px;
+            letter-spacing: 2px;
+            color: var(--gold);
+            text-transform: uppercase;
+        }
+        
         /* RESPONSIVO */
-        @media (max-width: 1100px) {
+        @media (max-width: 900px) {
             .container {
                 flex-direction: column;
+                height: auto;
             }
             
-            .buttons-grid {
+            .buttons-sidebar {
                 width: 100%;
-                grid-template-columns: repeat(4, 1fr);
-                margin-bottom: 20px;
+                flex-direction: row;
+                flex-wrap: wrap;
+                justify-content: center;
+                padding-right: 0;
+                overflow-y: visible;
+            }
+            
+            .side-button {
+                width: calc(25% - 10px);
+                min-height: 50px;
+            }
+            
+            body {
+                padding-top: 100px;
             }
         }
         
-        @media (max-width: 768px) {
-            .buttons-grid {
-                grid-template-columns: repeat(3, 1fr);
+        @media (max-width: 600px) {
+            .side-button {
+                width: calc(33.333% - 10px);
             }
             
-            .logo-img {
-                height: 70px;
+            .logo-img, .logo-fallback {
+                height: 35px;
             }
             
-            .header {
-                height: 100px;
-            }
-            
-            .grid-button {
-                height: 85px;
-            }
-            
-            .grid-button i {
-                font-size: 22px;
-            }
-            
-            .grid-button .button-text {
-                font-size: 10px;
-            }
-            
-            .footer h2 {
+            .logo-fallback div {
                 font-size: 20px;
+            }
+            
+            .page-title {
+                font-size: 16px;
+            }
+            
+            .chat-header h3 {
+                font-size: 18px;
             }
         }
         
         @media (max-width: 480px) {
-            .buttons-grid {
-                grid-template-columns: repeat(2, 1fr);
+            .side-button {
+                width: calc(50% - 10px);
             }
             
-            .grid-button {
-                height: 80px;
+            .container {
+                padding: 10px;
             }
         }
     </style>
 </head>
 <body>
+    <!-- HEADER SIMPLES -->
     <div class="header">
-        <!-- Logo do Poker de Quinta -->
         <img src="logo pdq.png" alt="Logo Poker de Quinta" class="logo-img" onerror="this.style.display='none'; document.querySelector('.logo-fallback').style.display='flex'">
-        <div class="logo-fallback" style="display: none; align-items: center; justify-content: center; height: 90px; width: auto; background: #000; border-radius: 10px; padding: 15px; border: 2px solid var(--gold);">
-            <div style="font-family: 'Anton', sans-serif; font-size: 32px; color: var(--gold); text-transform: uppercase;">PDQ</div>
+        <div class="logo-fallback" style="display: none;">
+            <div>PDQ</div>
         </div>
+        <div class="page-title">BOT PDQ</div>
     </div>
     
     <div class="container">
-        <div class="buttons-grid">
-            <!-- GRADE DE BOTÕES - 12 TOPICOS PRINCIPAIS -->
-            <div class="grid-button" onclick="askQuickQuestion('Quanto custa o buy-in?')">
+        <!-- BOTÕES LATERAIS -->
+        <div class="buttons-sidebar" id="buttons-sidebar">
+            <div class="side-button active" onclick="showTopic('buyin')">
                 <i class="fas fa-money-bill-wave"></i>
                 <div class="button-text">💰 Buy-in</div>
             </div>
             
-            <div class="grid-button" onclick="askQuickQuestion('Como me inscrevo?')">
-                <i class="fas fa-clipboard-list"></i>
-                <div class="button-text">📝 Inscrições</div>
-            </div>
-            
-            <div class="grid-button" onclick="askQuickQuestion('O que é o sistema KO?')">
-                <i class="fas fa-fist-raised"></i>
-                <div class="button-text">👊 Sistema KO</div>
-            </div>
-            
-            <div class="grid-button" onclick="askQuickQuestion('Quais as regras do WhatsApp?')">
-                <i class="fab fa-whatsapp"></i>
-                <div class="button-text">📱 WhatsApp</div>
-            </div>
-            
-            <div class="grid-button" onclick="askQuickQuestion('Como funciona a última etapa?')">
-                <i class="fas fa-trophy"></i>
-                <div class="button-text">🏆 Última Etapa</div>
-            </div>
-            
-            <div class="grid-button" onclick="askQuickQuestion('Quanto é o rebuy?')">
+            <div class="side-button" onclick="showTopic('rebuy')">
                 <i class="fas fa-redo"></i>
                 <div class="button-text">🔄 Rebuy</div>
             </div>
             
-            <div class="grid-button" onclick="askQuickQuestion('Quando são as etapas?')">
-                <i class="fas fa-calendar-alt"></i>
-                <div class="button-text">📅 Calendário</div>
+            <div class="side-button" onclick="showTopic('inscricoes')">
+                <i class="fas fa-clipboard-list"></i>
+                <div class="button-text">📝 Inscrições</div>
             </div>
             
-            <div class="grid-button" onclick="askQuickQuestion('Onde é o torneio?')">
-                <i class="fas fa-map-marker-alt"></i>
-                <div class="button-text">📍 Local</div>
+            <div class="side-button" onclick="showTopic('ko')">
+                <i class="fas fa-fist-raised"></i>
+                <div class="button-text">👊 Sistema KO</div>
             </div>
             
-            <div class="grid-button" onclick="askQuickQuestion('Como funciona o Time Bank?')">
+            <div class="side-button" onclick="showTopic('whatsapp')">
+                <i class="fab fa-whatsapp"></i>
+                <div class="button-text">📱 WhatsApp</div>
+            </div>
+            
+            <div class="side-button" onclick="showTopic('ultima')">
+                <i class="fas fa-trophy"></i>
+                <div class="button-text">🏆 Última Etapa</div>
+            </div>
+            
+            <div class="side-button" onclick="showTopic('timebank')">
                 <i class="fas fa-clock"></i>
                 <div class="button-text">⏰ Time Bank</div>
             </div>
             
-            <div class="grid-button" onclick="askQuickQuestion('Quais as penalidades?')">
+            <div class="side-button" onclick="showTopic('penalidades')">
                 <i class="fas fa-gavel"></i>
                 <div class="button-text">⚖️ Penalidades</div>
             </div>
             
-            <div class="grid-button" onclick="askQuickQuestion('O que é o Rei da Mesa?')">
+            <div class="side-button" onclick="showTopic('rei')">
                 <i class="fas fa-crown"></i>
                 <div class="button-text">👑 Rei da Mesa</div>
             </div>
             
-            <div class="grid-button" onclick="askQuickQuestion('O que é a Roleta da Sorte?')">
+            <div class="side-button" onclick="showTopic('roleta')">
                 <i class="fas fa-dice"></i>
                 <div class="button-text">🎰 Roleta Sorte</div>
             </div>
             
-            <div class="grid-button" onclick="askQuickQuestion('Como funciona a premiação?')">
+            <div class="side-button" onclick="showTopic('premiacao')">
                 <i class="fas fa-award"></i>
                 <div class="button-text">💸 Premiação</div>
             </div>
             
-            <div class="grid-button" onclick="askQuickQuestion('Quais as regras do jogo?')">
+            <div class="side-button" onclick="showTopic('regras')">
                 <i class="fas fa-chess-board"></i>
                 <div class="button-text">🎯 Regras Jogo</div>
             </div>
             
-            <div class="grid-button" onclick="askQuickQuestion('O que é a Melhor Mão?')">
+            <div class="side-button" onclick="showTopic('melhormao')">
                 <i class="fas fa-star"></i>
                 <div class="button-text">⭐ Melhor Mão</div>
             </div>
             
-            <div class="grid-button" onclick="askQuickQuestion('Como funciona o Cash Game?')">
+            <div class="side-button" onclick="showTopic('cashgame')">
                 <i class="fas fa-coins"></i>
                 <div class="button-text">🪙 Cash Game</div>
             </div>
+            
+            <div class="side-button" onclick="showTopic('calendario')">
+                <i class="fas fa-calendar-alt"></i>
+                <div class="button-text">📅 Calendário</div>
+            </div>
+            
+            <div class="side-button" onclick="showTopic('local')">
+                <i class="fas fa-map-marker-alt"></i>
+                <div class="button-text">📍 Local</div>
+            </div>
         </div>
         
-        <div class="chat-container">
+        <!-- ÁREA DO CHAT -->
+        <div class="chat-area">
             <div class="chat-header">
-                <h3><i class="fas fa-robot"></i> BOT DO REGULAMENTO</h3>
+                <h3><i class="fas fa-robot"></i> BOT PDQ</h3>
             </div>
             
             <div class="chat-messages" id="chat-messages">
                 <div class="message bot-message">
-                    <div class="message-sender"><i class="fas fa-robot"></i> POKERBOT</div>
+                    <div class="message-sender"><i class="fas fa-robot"></i> BOT PDQ</div>
                     <div class="message-content">
                         <span class="insult">OLÁ SEU BARALHÃO!</span> Tá com preguiça de ler o regulamento? Tudo bem, eu ajudo mesmo você sendo <span class="insult">PREGUIÇOSO</span>.
                         <br><br>
-                        <span class="highlight">Clique nos ícones ou pergunte qualquer coisa:</span>
+                        <span class="highlight">Clique nos botões ao lado ou pergunte qualquer coisa:</span>
                         <br>
                         • Buy-in, rebuys e valores<br>
                         • Inscrições e penalidades<br>
@@ -500,7 +531,7 @@
     </div>
     
     <div class="footer">
-        <h2>VA LER O REGULAMENTO SEU BARALHÃO!</h2>
+        <h2>VÁ LER O REGULAMENTO SEU BARALHÃO!</h2>
     </div>
 
     <script>
@@ -523,7 +554,7 @@
                           • Segunda-feira às 7h<br>
                           • 20 vagas por etapa<br>
                           • Prioridade: Grupo WhatsApp<br>
-                          <span class="insult">PERDEU O PRAZO? AZAR!</span>`,
+                          <span class="insult">PERDEU O PRAZO? AZAR, SE FODEU!</span>`,
             
             "ko": `<span class="highlight">👊 SISTEMA KO:</span><br>
                   • Cada jogador: 1 ficha KO inicial<br>
@@ -545,7 +576,7 @@
                       • Pote: Mais de R$2.000<br>
                       • Buy-in FREE: Top 10 do ranking<br>
                       • Pagam só: R$30(janta) + R$20(limpeza)<br>
-                      <span class="insult">NÃO É TOP 10? COMPRA NORMAL!</span>`,
+                      <span class="insult">NÃO É TOP 10? PAGA A MAIS E NORMAL!</span>`,
             
             "timebank": `<span class="highlight">⏰ TIME BANK 2026:</span><br>
                         • 30 segundos para decidir<br>
@@ -558,7 +589,7 @@
                           • Desistir na quinta: -20 pontos<br>
                           • Faltar sem avisar: -90 pontos + R$100<br>
                           • Não pagou multa? Pode ser excluído<br>
-                          <span class="insult">QUER FALTAR? PAGA O PATO!</span>`,
+                          <span class="insult">QUER FALTAR? NAO SE INSCREVA!</span>`,
             
             "rei": `<span class="highlight">👑 REI DA MESA:</span><br>
                    • Campeão da etapa anterior<br>
@@ -570,9 +601,9 @@
             "roleta": `<span class="highlight">🎰 ROLETA DA SORTE:</span><br>
                       • Ativa até o intervalo<br>
                       • Aciona por: Quebrador de Ases (AA)<br>
-                      • Ou: Mão da enquete semanal<br>
-                      • Ou: Rei do Rebuy (mais rebuys)<br>
-                      <span class="insult">PRÊMIOS: De 1K fichas à cerveja!</span>`,
+                      • Ou: Mão da enquete da etapa<br>
+                      • Ou: Rei do Rebuy (mais rebuys na noite)<br>
+                      <span class="insult">PRÊMIOS: De 1K fichas à Abraço do Bruxo!</span>`,
             
             "premiacao": `<span class="highlight">💸 PREMIAÇÃO ETAPA:</span><br>
                          • 1º: 36% do pote<br>
@@ -605,7 +636,7 @@
             
             "calendario": `<span class="highlight">📅 CALENDÁRIO 2026:</span><br>
                           • 13 etapas<br>
-                          • Todas as quintas às 20h<br>
+                          • Última quinta do mes às 20h<br>
                           • Luck Bar - Curitiba/PR<br>
                           <span class="insult">NÃO SABE QUE DIA É? OLHA NO CALENDÁRIO!</span>`,
             
@@ -630,6 +661,37 @@
         const chatMessages = document.getElementById('chat-messages');
         const userInput = document.getElementById('user-input');
         const sendButton = document.getElementById('send-button');
+        const sideButtons = document.querySelectorAll('.side-button');
+
+        // Mostrar tópico
+        function showTopic(topicId) {
+            // Atualizar botões ativos
+            sideButtons.forEach(btn => btn.classList.remove('active'));
+            event.currentTarget.classList.add('active');
+            
+            // Limpar chat e mostrar resposta
+            chatMessages.innerHTML = '';
+            
+            const answer = knowledgeBase[topicId];
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'message bot-message';
+            
+            const senderDiv = document.createElement('div');
+            senderDiv.className = 'message-sender';
+            senderDiv.innerHTML = '<i class="fas fa-robot"></i> BOT PDQ';
+            
+            const contentDiv = document.createElement('div');
+            contentDiv.className = 'message-content';
+            contentDiv.innerHTML = answer + `<div class="rule-reference">BASEADO NO REGULAMENTO OFICIAL - QUE VOCÊ NÃO LEU</div>`;
+            
+            messageDiv.appendChild(senderDiv);
+            messageDiv.appendChild(contentDiv);
+            
+            chatMessages.appendChild(messageDiv);
+            
+            // Focar no input
+            userInput.focus();
+        }
 
         // Adicionar mensagem
         function addMessage(sender, message, isUser = false) {
@@ -638,7 +700,7 @@
             
             const senderDiv = document.createElement('div');
             senderDiv.className = 'message-sender';
-            senderDiv.innerHTML = isUser ? '<i class="fas fa-user"></i> VOCÊ' : '<i class="fas fa-robot"></i> POKERBOT';
+            senderDiv.innerHTML = isUser ? '<i class="fas fa-user"></i> VOCÊ' : '<i class="fas fa-robot"></i> BOT PDQ';
             
             const contentDiv = document.createElement('div');
             contentDiv.className = 'message-content';
@@ -683,63 +745,57 @@
             const q = question.toLowerCase();
             
             if (q.includes('buy-in') || q.includes('valor') || q.includes('custa') || q.includes('preço')) 
-                return knowledgeBase.buyin + `<div class="rule-reference">SEÇÃO "VALORES" DO REGULAMENTO</div>`;
+                return knowledgeBase.buyin;
             
             if (q.includes('rebuy') || q.includes('re-buy') || q.includes('add-on') || q.includes('addon')) 
-                return knowledgeBase.rebuy + `<div class="rule-reference">SEÇÃO "REBUY/ADD-ON" DO REGULAMENTO</div>`;
+                return knowledgeBase.rebuy;
             
             if (q.includes('inscri') || q.includes('inscrever') || q.includes('lista') || q.includes('vaga')) 
-                return knowledgeBase.inscricoes + `<div class="rule-reference">SEÇÃO "INSCRIÇÕES" DO REGULAMENTO</div>`;
+                return knowledgeBase.inscricoes;
             
             if (q.includes('ko') || q.includes('knockout') || q.includes('eliminar') || q.includes('matador')) 
-                return knowledgeBase.ko + `<div class="rule-reference">SEÇÃO "KNOCK-OUT" DO REGULAMENTO</div>`;
+                return knowledgeBase.ko;
             
             if (q.includes('whatsapp') || q.includes('zap') || q.includes('grupo')) 
-                return knowledgeBase.whatsapp + `<div class="rule-reference">SEÇÃO "WHATSAPP" DO REGULAMENTO</div>`;
+                return knowledgeBase.whatsapp;
             
             if (q.includes('última') || q.includes('13') || q.includes('final') || q.includes('etapa final')) 
-                return knowledgeBase.ultima + `<div class="rule-reference">SEÇÃO "ÚLTIMA ETAPA" DO REGULAMENTO</div>`;
+                return knowledgeBase.ultima;
             
             if (q.includes('time bank') || q.includes('timebank') || q.includes('tempo')) 
-                return knowledgeBase.timebank + `<div class="rule-reference">SEÇÃO "TIME BANK" DO REGULAMENTO</div>`;
+                return knowledgeBase.timebank;
             
             if (q.includes('penalidad') || q.includes('multa') || q.includes('faltar') || q.includes('desistir')) 
-                return knowledgeBase.penalidades + `<div class="rule-reference">SEÇÃO "PENALIDADES" DO REGULAMENTO</div>`;
+                return knowledgeBase.penalidades;
             
             if (q.includes('rei') || q.includes('rei da mesa') || q.includes('cabeça')) 
-                return knowledgeBase.rei + `<div class="rule-reference">SEÇÃO "REI DA MESA" DO REGULAMENTO</div>`;
+                return knowledgeBase.rei;
             
             if (q.includes('roleta') || q.includes('sorte') || q.includes('quebrador')) 
-                return knowledgeBase.roleta + `<div class="rule-reference">SEÇÃO "ROLETA DA SORTE" DO REGULAMENTO</div>`;
+                return knowledgeBase.roleta;
             
             if (q.includes('premia') || q.includes('prêmio') || q.includes('ganhar') || q.includes('pote')) 
-                return knowledgeBase.premiacao + `<div class="rule-reference">SEÇÃO "PREMAÇÃO" DO REGULAMENTO</div>`;
+                return knowledgeBase.premiacao;
             
             if (q.includes('regra') || q.includes('jogo') || q.includes('dealer') || q.includes('cartas')) 
-                return knowledgeBase.regras + `<div class="rule-reference">SEÇÃO "REGRAS DO JOGO" DO REGULAMENTO</div>`;
+                return knowledgeBase.regras;
             
             if (q.includes('melhor mão') || q.includes('full house') || q.includes('showdown')) 
-                return knowledgeBase.melhormao + `<div class="rule-reference">SEÇÃO "MELHOR MÃO" DO REGULAMENTO</div>`;
+                return knowledgeBase.melhormao;
             
             if (q.includes('cash') || q.includes('dinheiro vivo') || q.includes('cash game')) 
-                return knowledgeBase.cashgame + `<div class="rule-reference">SEÇÃO "CASH GAME" DO REGULAMENTO</div>`;
+                return knowledgeBase.cashgame;
             
             if (q.includes('calendário') || q.includes('data') || q.includes('quando') || q.includes('etapas')) 
-                return knowledgeBase.calendario + `<div class="rule-reference">INFORMAÇÕES GERAIS DO REGULAMENTO</div>`;
+                return knowledgeBase.calendario;
             
             if (q.includes('local') || q.includes('onde') || q.includes('endereço') || q.includes('luck')) 
-                return knowledgeBase.local + `<div class="rule-reference">INFORMAÇÕES GERAIS DO REGULAMENTO</div>`;
+                return knowledgeBase.local;
             
             // Não reconhecida
             return `<span class="insult">${getAggressiveResponse()}</span><br><br>
                    <span class="highlight">Site:</span> pokerdequinta.my.canva.site<br>
                    <span class="insult">OU LÊ O REGULAMENTO!</span>`;
-        }
-
-        // Pergunta rápida
-        function askQuickQuestion(question) {
-            userInput.value = question;
-            sendMessage();
         }
 
         // Enviar mensagem
@@ -755,7 +811,7 @@
             setTimeout(() => {
                 removeTypingIndicator();
                 const answer = processQuestion(question);
-                addMessage('POKERBOT', answer, false);
+                addMessage('BOT PDQ', answer + `<div class="rule-reference">RESPOSTA BASEADA NO REGULAMENTO</div>`, false);
             }, 800 + Math.random() * 800);
         }
 
@@ -763,6 +819,11 @@
         sendButton.addEventListener('click', sendMessage);
         userInput.addEventListener('keypress', (e) => {
             if (e.key === 'Enter') sendMessage();
+        });
+
+        // Inicializar com o primeiro tópico
+        window.addEventListener('DOMContentLoaded', () => {
+            // Já está inicializado com a mensagem de boas-vindas
         });
     </script>
 </body>
