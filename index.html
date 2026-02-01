@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chatbot Oficial - Poker de Quinta</title>
+    <title>Chatbot - Poker de Quinta</title>
     <style>
         * {
             margin: 0;
@@ -298,7 +298,7 @@
                 <div class="message-content">
                     E AÍ, BARALHÃO! 😤<br><br>
                     Chegou o bot OFICIAL mais COMPLETO do Poker de Quinta!<br><br>
-                    Tenho TODO O REGULAMENTO 2026 decorado!<br>
+                    Tenho TODO O RANKING 2026 decorado!<br>
                     Pergunta QUALQUER COISA sobre ranking, valores, regras, datas, janta, KO, roleta, tudo!<br><br>
                     <strong>MAS SE VIER COM PREGUIÇA, VOU MANDAR TU LER O REGULAMENTO! 📖💥</strong><br><br>
                     <strong>BORA, PERGUNTA AÍ!</strong> 🔥
@@ -319,29 +319,44 @@
     </div>
 
     <script>
-        const poker = {
-            site: "https://pokerdequinta.my.canva.site",
-            ranking: "http://pokerdequinta.github.io/ranking",
-            local: "Luck BAR - R. Prof. Sebastião Paraná, 765 - Vila Izabel, Curitiba/PR",
-            proximaEtapa: { numero: 2, data: "26/02/2026" },
-            etapa1: {
-                campeao: "Sergio", pontos: 31,
-                melhorMao: "Quadra de 7", melhorMaoJogador: "Van Van",
-                matadorKO: "Amarildo", eliminacoesKO: 5,
-                roleta: "Cleversson", premioRoleta: "1 Abraço do Bruxo",
-                janta: "Feijoada completa com arroz, farofa, couve e laranja"
-            },
-            valores: { buyin: 100, janta: 30, limpeza: 20, poker: 50, rebuy: 30, rebuyDuplo: 60, addon: 50 },
-            fichas: { buyin: 15000, rebuy: 15000, rebuyDuplo: 30000, addon: 50000, bonus: 3000 },
-            ranking: [
-                { pos: 1, nome: "Sergio", pts: 31, kos: 4 },
-                { pos: 2, nome: "Cleversson", pts: 26, kos: 1 },
-                { pos: 3, nome: "Van Van", pts: 23, kos: 0 },
-                { pos: 4, nome: "Amarildo", pts: 26, kos: 5 }
-            ]
-        };
+        async function fetchRanking() {
+            try {
+                const response = await fetch('https://pokerdequinta.github.io/ranking');
+                const html = await response.text();
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
 
-        function sendMessage() {
+                // Extrai a tabela de ranking geral
+                const rankingTable = doc.querySelector('table');
+                if (!rankingTable) {
+                    console.error('Tabela de ranking não encontrada');
+                    return null;
+                }
+
+                const rankingData = [];
+                const rows = rankingTable.querySelectorAll('tr');
+
+                rows.forEach((row, index) => {
+                    if (index === 0) return; // Pula o header
+
+                    const cols = row.querySelectorAll('td');
+                    if (cols.length < 2) return;
+
+                    const pos = cols[0].textContent.trim();
+                    const nome = cols[1].textContent.trim();
+                    const pontos = cols[2].textContent.trim();
+
+                    rankingData.push({ pos, nome, pontos });
+                });
+
+                return rankingData;
+            } catch (error) {
+                console.error('Erro ao carregar ranking:', error);
+                return null;
+            }
+        }
+
+        async function sendMessage() {
             const input = document.getElementById('userInput');
             const msg = input.value.trim();
 
@@ -351,10 +366,12 @@
             input.value = '';
             showTyping();
 
+            const rankingData = await fetchRanking();
+
             setTimeout(() => {
                 hideTyping();
-                addMessage(generateResponse(msg.toLowerCase()), 'bot');
-            }, 800 + Math.random() * 800);
+                addMessage(generateResponse(msg.toLowerCase(), rankingData), 'bot');
+            }, 800 + Math.random() * 1000);
         }
 
         function addMessage(text, sender) {
@@ -377,236 +394,85 @@
             document.getElementById('typingIndicator').classList.remove('active');
         }
 
-        function generateResponse(msg) {
-
-            // POSIÇÃO NO RANKING
+        function generateResponse(msg, rankingData) {
             if (msg.includes('posicao') || msg.includes('posição') || msg.includes('colocacao')) {
-                const nomes = ['sergio', 'cleversson', 'van van', 'amarildo'];
-                for (let nome of nomes) {
-                    if (msg.includes(nome)) {
-                        const j = poker.ranking.find(p => p.nome.toLowerCase() === nome);
-                        if (j) {
-                            return `📊 <strong>${j.nome.toUpperCase()}</strong><br><br>
-                                    🏆 <strong>${j.pos}º LUGAR</strong> - ${j.pts} pontos<br>
-                                    💥 KOs: ${j.kos}<br><br>
-                                    ${j.pos === 1 ? '👑 <strong>REI DA MESA!</strong><br><br>' : ''}
-                                    📊 Ranking: <a href="${poker.ranking}" style="color: #FFD700;">${poker.ranking}</a>`;
-                        }
+                const nome = msg.replace(/posicao|posição|colocacao|colocação|do|da|de|fulano/gi, '').trim();
+                if (rankingData) {
+                    const jogador = rankingData.find(j => j.nome.toLowerCase().includes(nome.toLowerCase()));
+                    if (jogador) {
+                        return `📊 <strong>POSIÇÃO DE ${jogador.nome.toUpperCase()}</strong><br><br>
+                                🏆 <strong>${jogador.pos}º LUGAR</strong><br>
+                                💯 Pontos: ${jogador.pontos}<br><br>
+                                ${jogador.pos === '1' ? '👑 <strong>REI DA MESA!</strong><br>' : ''}
+                                Ranking completo: <a href="https://pokerdequinta.github.io/ranking" style="color: #FFD700;">pokerdequinta.github.io/ranking</a>`;
                     }
+                    return `🤔 <strong>NÃO ENCONTREI ${nome.toUpperCase()} NO RANKING!</strong><br><br>
+                            🚫 Pode ser que o nome esteja errado ou ele não esteja no ranking ainda.<br><br>
+                            📊 Ranking completo: <a href="https://pokerdequinta.github.io/ranking" style="color: #FFD700;">pokerdequinta.github.io/ranking</a><br><br>
+                            <strong>VERIFICA LÁ, BARALHÃO! 👀</strong>`;
                 }
-                return gerarRanking();
+                return `🔄 <strong>ESTOU CARREGANDO O RANKING...</strong><br><br>
+                        🔜 Tenta de novo em alguns segundos! ⏱️`;
             }
 
-            // JANTA
-            if (msg.includes('janta') || msg.includes('comida')) {
-                if (msg.includes('proxima') || msg.includes('2')) {
-                    return `🍽️ <strong>JANTA DA 2ª ETAPA</strong><br><br>
-                            Será divulgado na semana da etapa!<br>
-                            Vai ter enquete no grupo! 🗳️<br><br>
-                            💰 R$ 30 (OBRIGATÓRIO)<br><br>
-                            <strong>Última:</strong> ${poker.etapa1.janta}<br><br>
-                            <strong>🚫 NÃO COME? PAGA IGUAL! 😤</strong>`;
-                }
-                if (msg.includes('1') || msg.includes('primeira')) {
-                    return `🍽️ <strong>JANTA DA 1ª ETAPA</strong><br><br>
-                            🍲 ${poker.etapa1.janta}<br><br>
-                            💰 R$ 30<br>
-                            <strong>NÃO COMEU? PAGOU IGUAL! 😤</strong>`;
-                }
-                return `🍽️ <strong>SOBRE A JANTA</strong><br><br>
-                        💰 R$ 30 (OBRIGATÓRIO no buy-in)<br>
-                        👨‍🍳 Chef especial cada etapa<br><br>
-                        <strong>Última:</strong> ${poker.etapa1.janta}<br><br>
-                        <strong>NÃO COME? PAGA IGUAL! 😤</strong>`;
-            }
-
-            // MELHOR MÃO
-            if (msg.includes('melhor mao') || msg.includes('melhor mão')) {
-                return `🃏 <strong>MELHOR MÃO DA 1ª ETAPA</strong><br><br>
-                        ${poker.etapa1.melhorMao}<br>
-                        Feito por: <strong>${poker.etapa1.melhorMaoJogador}</strong><br><br>
-                        🎁 Ganhou add-on grátis na 2ª!<br><br>
-                        <strong>📋 Regras:</strong><br>
-                        ✅ Showdown obrigatório<br>
-                        ✅ Mínimo: Full House<br>
-                        ✅ Usar AS DUAS cartas<br><br>
-                        <strong>Faz uma melhor! 💪</strong>`;
-            }
-
-            // PRÓXIMA ETAPA
-            if (msg.includes('proxima') || msg.includes('quando')) {
-                return `🗓️ <strong>${poker.proximaEtapa.numero}ª ETAPA</strong><br><br>
-                        📅 ${poker.proximaEtapa.data}<br>
-                        ⏰ 20:00h PONTUAL!<br>
-                        📍 ${poker.local}<br><br>
-                        💰 Buy-in: R$ ${poker.valores.buyin}<br>
-                        ⚡ Chega antes 20h = +${poker.fichas.bonus} fichas!<br><br>
-                        👑 Rei: ${poker.etapa1.campeao}<br><br>
-                        📋 Inscrição: Segunda 7h<br>
-                        🔗 <a href="${poker.site}" style="color: #FFD700;">${poker.site}</a><br><br>
-                        <strong>CONFIRMA E APARECE! 😤</strong>`;
-            }
-
-            // VALORES
-            if (msg.includes('valor') || msg.includes('quanto') || msg.includes('custa')) {
-                return `💰 <strong>VALORES 2026</strong><br><br>
-                        <strong>BUY-IN: R$ ${poker.valores.buyin}</strong><br>
-                        ↳ Poker: R$ ${poker.valores.poker}<br>
-                        ↳ Janta: R$ ${poker.valores.janta}<br>
-                        ↳ Limpeza: R$ ${poker.valores.limpeza}<br>
-                        = ${poker.fichas.buyin} fichas<br><br>
-                        <strong>REBUY: R$ ${poker.valores.rebuy}</strong><br>
-                        = ${poker.fichas.rebuy} fichas (ILIMITADO)<br><br>
-                        <strong>ADD-ON: R$ ${poker.valores.addon}</strong><br>
-                        = ${poker.fichas.addon} fichas (1 apenas)<br><br>
-                        ⚡ Bônus: ${poker.fichas.bonus} fichas<br><br>
-                        🚫 Só PIX! 💳`;
-            }
-
-            // RANKING
-            if (msg.includes('ranking')) {
-                return gerarRanking();
-            }
-
-            // KO
-            if (msg.includes('ko') || msg.includes('knockout')) {
-                return `💥 <strong>SISTEMA KO</strong><br><br>
+            // Outras perguntas...
+            const respostas = {
+                'ranking': `🏆 <strong>RANKING GERAL</strong><br><br>
+                            ${rankingData ? 
+                                `<table>
+                                    <tr><th>Pos</th><th>Nome</th><th>Pontos</th></tr>
+                                    ${rankingData.map(j => `<tr><td>${j.pos}º</td><td>${j.nome}</td><td>${j.pontos}</td></tr>`).join('')}
+                                </table>` : 
+                                '🔄 Carregando ranking...'
+                            }<br><br>
+                            🔗 <a href="https://pokerdequinta.github.io/ranking" style="color: #FFD700;">Ver ranking completo</a>`,
+                'proxima etapa': `🗓️ <strong>PRÓXIMA ETAPA</strong><br><br>
+                                  📅 2ª Etapa: 26/02/2026<br>
+                                  ⏰ 20:00h<br>
+                                  📍 Luck BAR<br><br>
+                                  💰 Buy-in: R$ 100<br>
+                                  🔄 Rebuy: R$ 30<br>
+                                  ➕ Add-on: R$ 50<br><br>
+                                  👑 Rei da Mesa: Sergio<br><br>
+                                  <strong>BORA SE INSCREVER! 🔥</strong>`,
+                'valores': `💰 <strong>VALORES</strong><br><br>
+                            🎲 Buy-in: R$ 100 = 15K fichas<br>
+                            🔄 Rebuy: R$ 30 = 15K fichas<br>
+                            🔄🔄 Rebuy Duplo: R$ 60 = 30K fichas<br>
+                            ➕ Add-on: R$ 50 = 50K fichas<br><br>
+                            ⚡ Bônus: 3K fichas (antes 20h)<br><br>
+                            🚫 Só PIX! Sem dinheiro! 💳`,
+                'ko': `💥 <strong>SISTEMA KO</strong><br><br>
                         ✅ 1 ficha KO no stack<br>
                         ✅ Conta SÓ APÓS INTERVALO<br>
                         ✅ Cada ficha = +1 ponto<br>
                         ✅ Rei = 2 fichas!<br><br>
                         💰 Matador KO = R$ 200!<br><br>
-                        <strong>Líder:</strong><br>
-                        🥊 ${poker.etapa1.matadorKO} - ${poker.etapa1.eliminacoesKO} KOs<br><br>
-                        <strong>VIRA O TERROR! 😈</strong>`;
-            }
-
-            // REI DA MESA
-            if (msg.includes('rei')) {
-                return `👑 <strong>REI DA MESA</strong><br><br>
-                        ${poker.etapa1.campeao}<br><br>
-                        💰 Começa com 2 fichas KO<br>
+                        🥊 Líder: Amarildo (5 eliminações)<br><br>
+                        <strong>VIRA O TERROR! 😈</strong>`,
+                'rei': `👑 <strong>REI DA MESA</strong><br><br>
+                        👑 Sergio (31 pontos)<br><br>
+                        💰 2 FICHAS KO na cabeça<br>
                         💥 Cabeça vale DOBRO!<br>
                         🔥 Eliminar = 2 pontos!<br><br>
-                        <strong>CAÇA O REI! 🎯</strong>`;
-            }
+                        <strong>CAÇA O REI! 🎯</strong>`,
+                'roleta': `🎡 <strong>ROLETA DA SORTE</strong><br><br>
+                            ⏰ Até o intervalo!<br><br>
+                            <strong>ÚLTIMA:</strong><br>
+                            Cleversson ganhou 1 Abraço do Bruxo!<br><br>
+                            <strong>BOA SORTE! 🎰</strong>`,
+                'janta': `🍽️ <strong>JANTA</strong><br><br>
+                            💰 R$ 30 (OBRIGATÓRIO)<br>
+                            👨‍🍳 Chef especial<br><br>
+                            <strong>Última:</strong><br>
+                            Feijoada completa<br><br>
+                            <strong>NÃO COME? PAGA IGUAL! 😤</strong>`,
+                'regulamento': `📋 <strong>REGULAMENTO</strong><br><br>
+                                🔗 <a href="https://pokerdequinta.github.io/site" style="color: #FFD700;">Lê o regulamento completo</a><br><br>
+                                <strong>PARA DE SER PREGUIÇOSO! 😤</strong>`
+            };
 
-            // ROLETA
-            if (msg.includes('roleta')) {
-                return `🎡 <strong>ROLETA DA SORTE</strong><br><br>
-                        ⏰ ATÉ O INTERVALO!<br><br>
-                        <strong>ATIVAR:</strong><br>
-                        1️⃣ Quebrar A-A<br>
-                        2️⃣ Desafio da enquete<br>
-                        3️⃣ Rei do Rebuy<br><br>
-                        <strong>Última:</strong><br>
-                        ${poker.etapa1.roleta}: ${poker.etapa1.premioRoleta}!<br><br>
-                        <strong>BOA SORTE! 🎰</strong>`;
-            }
-
-            // TIME BANK
-            if (msg.includes('time bank') || msg.includes('tempo')) {
-                return `⏱️ <strong>TIME BANK</strong><br><br>
-                        ⏰ 30s por decisão<br>
-                        🎫 3 cartões (+30s cada)<br><br>
-                        🚫 Proibido trocar<br>
-                        🚫 Perdeu? SEM reposição!<br><br>
-                        <strong>PENSA RÁPIDO! ⚡</strong>`;
-            }
-
-            // REGRAS
-            if (msg.includes('regra') || msg.includes('regulamento')) {
-                return `📋 <strong>RESUMÃO</strong><br><br>
-                        💰 Buy-in: R$ ${poker.valores.buyin}<br>
-                        🔄 Rebuys ilimitados<br>
-                        ➕ Add-on: R$ ${poker.valores.addon}<br>
-                        ⚡ Bônus: ${poker.fichas.bonus} fichas<br><br>
-                        👥 Máx: 20 jogadores<br>
-                        💥 KO após intervalo<br>
-                        🎡 Roleta até intervalo<br><br>
-                        🚫 Só PIX!<br>
-                        🚫 Faltou = -90 pts + R$ 100<br><br>
-                        📖 Regulamento:<br>
-                        🔗 <a href="${poker.site}" style="color: #FFD700;">${poker.site}</a>`;
-            }
-
-            // CALENDÁRIO
-            if (msg.includes('calendario') || msg.includes('datas')) {
-                return `📅 <strong>CALENDÁRIO 2026</strong><br><br>
-                        13 etapas • Quintas 20h<br><br>
-                        📍 ${poker.local}<br><br>
-                        🏆 Final: 10/12/2026<br>
-                        💰 Pote R$ 2.000+<br><br>
-                        🔗 <a href="${poker.site}" style="color: #FFD700;">${poker.site}</a>`;
-            }
-
-            // ÚLTIMA ETAPA
-            if (msg.includes('ultima') || msg.includes('final') || msg.includes('13')) {
-                return `🏆 <strong>13ª ETAPA - FINAL</strong><br><br>
-                        📅 10/12/2026<br>
-                        💰 Pote R$ 2.000+<br><br>
-                        🎁 Top 10 jogam DE GRAÇA!<br><br>
-                        <strong>PREMIAÇÃO G10:</strong><br>
-                        1º - R$ 600 | 2º - R$ 450<br>
-                        3º - R$ 360 | 4º - R$ 270<br>
-                        5º - R$ 180<br>
-                        Matador KO - R$ 200<br><br>
-                        <strong>BORA G10! 🔥</strong>`;
-            }
-
-            // PREMIAÇÃO
-            if (msg.includes('premiacao') || msg.includes('premio')) {
-                return `💸 <strong>PREMIAÇÃO</strong><br><br>
-                        <strong>ETAPAS:</strong><br>
-                        1º - 36% | 2º - 26% | 3º - 19%<br>
-                        4º - 12% | 5º - 7%<br><br>
-                        💳 Via PIX<br><br>
-                        <strong>13ª (G10):</strong><br>
-                        1º - R$ 600 | 2º - R$ 450<br>
-                        3º - R$ 360 | 4º - R$ 270<br>
-                        5º - R$ 180<br>
-                        Matador KO - R$ 200<br><br>
-                        <strong>EMBOLSA! 💰</strong>`;
-            }
-
-            // CUMPRIMENTOS
-            if (msg.match(/
-\b
-(oi|olá|ola|bom dia|boa tarde|boa noite)
-\b
-/)) {
-                const c = ["E aí! 😈", "Fala! 🎲", "Salve! 💰", "Opa! 😂", "Bem-vindo! 🃏"];
-                return c[Math.floor(Math.random() * c.length)];
-            }
-
-            // AGRADECIMENTOS
-            if (msg.match(/
-\b
-(obrigad|valeu|vlw)
-\b
-/)) {
-                const a = ["De nada! 💪", "Tranquilo! 🎯", "Tmj! 🍀", "É nóis! 🔥"];
-                return a[Math.floor(Math.random() * a.length)];
-            }
-
-            // NÃO ENTENDEU
-            const resp = [
-                "Rapaz... 😅<br><br>Não entendi essa!<br><br>Reformula ou vai no regulamento:<br>🔗 <a href='" + poker.site + "' style='color: #FFD700;'>" + poker.site + "</a>",
-                "Eita! 🤷‍♂️<br><br>Muito específico!<br><br>Lê o regulamento:<br>🔗 <a href='" + poker.site + "' style='color: #FFD700;'>" + poker.site + "</a>",
-                "Ó... 😤<br><br>Essa eu não sei!<br><br>Vai no regulamento:<br>🔗 <a href='" + poker.site + "' style='color: #FFD700;'>" + poker.site + "</a>"
-            ];
-            return resp[Math.floor(Math.random() * resp.length)];
-        }
-
-        function gerarRanking() {
-            let html = `🏆 <strong>RANKING 2026</strong><br><br><table><tr><th>Pos</th><th>Nome</th><th>Pts</th><th>KOs</th></tr>`;
-            poker.ranking.forEach(j => {
-                const d = j.pos === 1 ? ' style="color: #FFD700;"' : '';
-                html += `<tr${d}><td>${j.pos === 1 ? '👑' : ''}${j.pos}º</td><td>${j.nome}</td><td>${j.pts}</td><td>${j.kos}</td></tr>`;
-            });
-            html += `</table><br>👑 ${poker.etapa1.campeao} é o REI!<br><br>`;
-            html += `📊 <a href="${poker.ranking}" style="color: #FFD700;">Ranking completo</a>`;
-            return html;
+            return respostas[msg] || `🤔 <strong>NÃO ENTENDI!</strong><br><br>Reformula ou <a href="https://pokerdequinta.github.io/site" style="color: #FFD700;">lê o regulamento</a>`;
         }
 
         // Event Listeners
