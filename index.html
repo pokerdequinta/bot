@@ -3,21 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CHATBOT REGULAMENTO | POKER DE QUINTA</title>
+    <title>BOT POKER DE QUINTA | REGULAMENTO</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Anton&family=Roboto:wght@300;400;700&display=swap');
         
         :root {
-            --bg-main: #0d1b0d;
-            --bg-card: #102810;
-            --gold: #d4a121;
-            --green-medium: #1a3d1a;
-            --green-accent: #2d5016;
-            --red-alert: #c72c48;
-            --text: #fff;
-            --text-secondary: rgba(255, 255, 255, 0.9);
-            --text-tertiary: rgba(255, 255, 255, 0.8);
+            --bg-main: #0a0a0a;
+            --bg-card: #111111;
+            --accent: #d4a121;
+            --red: #ff0000;
+            --text: #ffffff;
+            --text-secondary: #cccccc;
         }
         
         * {
@@ -25,903 +22,377 @@
             padding: 0;
             box-sizing: border-box;
             font-family: 'Roboto', sans-serif;
-            transition: all 0.3s;
         }
         
         body {
             background-color: var(--bg-main);
             color: var(--text);
             min-height: 100vh;
-            background-image: 
-                radial-gradient(circle at 15% 50%, rgba(212, 161, 33, 0.05) 0%, transparent 20%),
-                radial-gradient(circle at 85% 30%, rgba(45, 80, 22, 0.1) 0%, transparent 20%);
-            display: flex;
-            flex-direction: column;
-        }
-        
-        /* ANIMAÇÕES */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        @keyframes pulse {
-            0% { box-shadow: 0 0 0 0 rgba(212, 161, 33, 0.7); }
-            70% { box-shadow: 0 0 0 15px rgba(212, 161, 33, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(212, 161, 33, 0); }
-        }
-        
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
+            line-height: 1.6;
         }
         
         /* HEADER */
         .header {
-            background: linear-gradient(135deg, var(--green-accent), var(--green-medium));
-            padding: 20px;
+            background: var(--bg-card);
+            padding: 20px 0;
             text-align: center;
-            border-bottom: 2px solid var(--gold);
-            box-shadow: 0 10px 50px rgba(212, 161, 33, 0.4);
-            position: relative;
-            overflow: hidden;
-            animation: fadeIn 0.8s;
-        }
-        
-        .header::before {
-            content: "♠ ♥ ♦ ♣";
-            position: absolute;
-            top: 10px;
-            left: 0;
-            right: 0;
-            color: rgba(212, 161, 33, 0.2);
-            font-size: 40px;
-            letter-spacing: 20px;
-            z-index: 0;
-        }
-        
-        .logo-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 15px;
-            position: relative;
-            z-index: 1;
+            border-bottom: 1px solid #333;
         }
         
         .logo {
-            height: 80px;
-            width: auto;
-            border-radius: 15px;
-            border: 2px solid var(--gold);
-            box-shadow: 0 0 30px rgba(212, 161, 33, 0.7);
-            background-color: #000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 10px;
-            animation: pulse 2s infinite;
-        }
-        
-        .logo-text {
-            font-size: 42px;
-            font-weight: bold;
-            color: var(--gold);
-            text-shadow: 0 0 30px rgba(212, 161, 33, 0.5);
             font-family: 'Anton', sans-serif;
-            letter-spacing: 3px;
-        }
-        
-        .title-container h1 {
-            font-family: 'Anton', sans-serif;
-            text-transform: uppercase;
-            letter-spacing: 5px;
-            font-size: 32px;
-            color: var(--gold);
-            text-shadow: 0 0 30px rgba(212, 161, 33, 0.5);
-            margin-bottom: 5px;
-        }
-        
-        .title-container h2 {
-            font-size: 16px;
-            color: var(--text-secondary);
-            font-weight: 300;
-            text-transform: uppercase;
+            font-size: 48px;
             letter-spacing: 2px;
+            color: var(--accent);
+            margin-bottom: 10px;
+        }
+        
+        .logo span {
+            color: var(--red);
+        }
+        
+        .subtitle {
+            font-family: 'Anton', sans-serif;
+            font-size: 24px;
+            letter-spacing: 3px;
+            color: var(--text);
+            text-transform: uppercase;
         }
         
         .warning {
-            background-color: rgba(199, 44, 72, 0.2);
-            border: 2px dashed var(--red-alert);
-            border-radius: 10px;
-            padding: 15px;
-            margin-top: 20px;
-            font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            animation: fadeIn 1s;
-        }
-        
-        /* CONTAINER PRINCIPAL */
-        .container {
-            display: flex;
-            flex: 1;
-            max-width: 1400px;
-            margin: 30px auto;
-            width: 100%;
-            padding: 0 20px;
-            gap: 30px;
-            animation: fadeIn 0.8s 0.2s backwards;
-        }
-        
-        /* CHAT */
-        .chat-container {
-            flex: 1;
-            background-color: var(--bg-card);
-            border-radius: 20px;
-            box-shadow: 0 10px 50px rgba(212, 161, 33, 0.4);
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-            border: 2px solid var(--gold);
-            min-height: 600px;
-        }
-        
-        .chat-container:hover {
-            box-shadow: 0 15px 60px rgba(212, 161, 33, 0.6);
-            transform: translateY(-5px);
-        }
-        
-        .chat-header {
-            background: linear-gradient(135deg, var(--green-accent), var(--green-medium));
-            padding: 20px;
-            border-bottom: 2px solid var(--gold);
-            position: relative;
-        }
-        
-        .chat-header h3 {
-            font-family: 'Anton', sans-serif;
-            font-size: 24px;
-            letter-spacing: 3px;
-            color: var(--gold);
-            text-shadow: 0 0 30px rgba(212, 161, 33, 0.5);
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-        
-        .chat-header h3 i {
-            font-size: 28px;
-            animation: bounce 2s infinite;
-        }
-        
-        .chat-messages {
-            flex: 1;
-            padding: 25px;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            background-color: rgba(16, 40, 16, 0.8);
-        }
-        
-        .message {
-            max-width: 85%;
-            padding: 18px 22px;
-            border-radius: 18px;
-            line-height: 1.6;
-            animation: fadeIn 0.4s ease;
-        }
-        
-        .bot-message {
-            background: linear-gradient(135deg, var(--green-medium), var(--green-accent));
-            border: 2px solid var(--gold);
-            border-bottom-left-radius: 5px;
-            align-self: flex-start;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
-        }
-        
-        .user-message {
-            background: linear-gradient(135deg, rgba(212, 161, 33, 0.2), rgba(212, 161, 33, 0.1));
-            border: 2px dashed var(--gold);
-            border-bottom-right-radius: 5px;
-            align-self: flex-end;
-            text-align: right;
-        }
-        
-        .message-sender {
-            font-family: 'Anton', sans-serif;
-            font-weight: 600;
+            background-color: #222;
+            padding: 10px;
+            margin-top: 10px;
             font-size: 14px;
-            margin-bottom: 8px;
+            color: var(--red);
+            font-weight: bold;
+        }
+        
+        /* CONTAINER */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        /* TÓPICOS */
+        .topics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .topic-card {
+            background: var(--bg-card);
+            padding: 20px;
+            cursor: pointer;
+            border: 1px solid #333;
+            transition: all 0.3s;
+        }
+        
+        .topic-card:hover {
+            background: #1a1a1a;
+            transform: translateY(-2px);
+        }
+        
+        .topic-card h3 {
+            font-family: 'Anton', sans-serif;
+            font-size: 18px;
             letter-spacing: 1px;
+            color: var(--accent);
+            margin-bottom: 10px;
             text-transform: uppercase;
         }
         
-        .bot-message .message-sender {
-            color: var(--gold);
+        .topic-card p {
+            color: var(--text-secondary);
+            font-size: 14px;
         }
         
-        .user-message .message-sender {
+        /* RESPOSTAS */
+        .answers-container {
+            background: var(--bg-card);
+            padding: 30px;
+            border: 1px solid #333;
+            min-height: 400px;
+        }
+        
+        .answer-placeholder {
+            text-align: center;
+            padding: 100px 20px;
             color: var(--text-secondary);
         }
         
-        .message-content {
+        .answer-content {
+            display: none;
+        }
+        
+        .answer-content.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .answer-title {
+            font-family: 'Anton', sans-serif;
+            font-size: 24px;
+            color: var(--accent);
+            margin-bottom: 20px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+        
+        .answer-text {
             font-size: 16px;
-            color: var(--text);
+            line-height: 1.8;
         }
         
         .insult {
-            color: var(--red-alert);
+            color: var(--red);
             font-weight: bold;
-            text-transform: uppercase;
-            background-color: rgba(199, 44, 72, 0.1);
+            background: #222;
             padding: 5px 10px;
-            border-radius: 5px;
+            margin: 10px 0;
             display: inline-block;
-            margin: 5px 0;
-            border: 1px solid var(--red-alert);
         }
         
         .highlight {
-            color: var(--gold);
+            color: var(--accent);
             font-weight: bold;
-        }
-        
-        .rule-reference {
-            font-size: 12px;
-            color: var(--text-tertiary);
-            margin-top: 12px;
-            font-style: italic;
-            border-top: 1px dashed rgba(212, 161, 33, 0.3);
-            padding-top: 8px;
-        }
-        
-        /* PERGUNTAS RÁPIDAS */
-        .quick-questions {
-            margin-top: 25px;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 15px;
-        }
-        
-        .quick-question {
-            background: linear-gradient(135deg, rgba(212, 161, 33, 0.1), rgba(45, 80, 22, 0.2));
-            border: 2px solid var(--gold);
-            border-radius: 10px;
-            padding: 12px 20px;
-            font-size: 14px;
-            cursor: pointer;
-            text-align: center;
-            font-weight: 500;
-            color: var(--text);
-        }
-        
-        .quick-question:hover {
-            background: linear-gradient(135deg, rgba(212, 161, 33, 0.3), rgba(45, 80, 22, 0.4));
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(212, 161, 33, 0.4);
-        }
-        
-        /* INPUT */
-        .chat-input-container {
-            padding: 25px;
-            border-top: 2px solid rgba(212, 161, 33, 0.4);
-            background-color: var(--bg-card);
-        }
-        
-        .chat-input-wrapper {
-            display: flex;
-            gap: 15px;
-        }
-        
-        #user-input {
-            flex: 1;
-            padding: 18px 25px;
-            border-radius: 15px;
-            border: 2px solid var(--gold);
-            background-color: rgba(10, 25, 10, 0.8);
-            color: var(--text);
-            font-size: 16px;
-        }
-        
-        #user-input:focus {
-            outline: none;
-            border-color: var(--red-alert);
-            box-shadow: 0 0 20px rgba(199, 44, 72, 0.4);
-        }
-        
-        #send-button {
-            background: linear-gradient(135deg, var(--gold), #b3891c);
-            color: #000;
-            border: none;
-            border-radius: 15px;
-            padding: 0 35px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            font-size: 16px;
-            min-width: 120px;
-        }
-        
-        #send-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 30px rgba(212, 161, 33, 0.6);
-        }
-        
-        /* SIDEBAR */
-        .sidebar {
-            width: 350px;
-            background-color: var(--bg-card);
-            border-radius: 20px;
-            box-shadow: 0 10px 50px rgba(212, 161, 33, 0.4);
-            padding: 25px;
-            border: 2px solid var(--gold);
-            display: flex;
-            flex-direction: column;
-            gap: 25px;
-        }
-        
-        .sidebar:hover {
-            box-shadow: 0 15px 60px rgba(212, 161, 33, 0.6);
-            transform: translateY(-5px);
-        }
-        
-        .sidebar-section {
-            background: linear-gradient(135deg, rgba(26, 61, 26, 0.5), rgba(16, 40, 16, 0.8));
-            border-radius: 15px;
-            padding: 20px;
-            border: 2px dashed var(--gold);
-        }
-        
-        .sidebar-section h4 {
-            color: var(--gold);
-            margin-bottom: 15px;
-            font-size: 20px;
-            font-family: 'Anton', sans-serif;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            border-bottom: 1px solid rgba(212, 161, 33, 0.3);
-            padding-bottom: 10px;
-        }
-        
-        .emoji-icon {
-            font-size: 24px;
-        }
-        
-        .stats {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
-            margin-top: 15px;
-        }
-        
-        .stat-item {
-            text-align: center;
-            padding: 15px;
-            background-color: rgba(10, 25, 10, 0.8);
-            border-radius: 10px;
-            border: 1px solid rgba(212, 161, 33, 0.3);
-        }
-        
-        .stat-value {
-            font-size: 28px;
-            font-weight: bold;
-            color: var(--gold);
-            font-family: 'Anton', sans-serif;
-        }
-        
-        .stat-label {
-            font-size: 12px;
-            text-transform: uppercase;
-            color: var(--text-tertiary);
-            margin-top: 5px;
         }
         
         /* FOOTER */
         .footer {
+            background: var(--bg-card);
+            padding: 30px;
             text-align: center;
-            padding: 25px;
-            background: linear-gradient(135deg, var(--green-accent), var(--green-medium));
-            border-top: 2px solid var(--gold);
-            margin-top: 30px;
-            font-size: 24px;
+            border-top: 1px solid #333;
+            margin-top: 40px;
+        }
+        
+        .footer h2 {
             font-family: 'Anton', sans-serif;
+            font-size: 32px;
+            color: var(--red);
             letter-spacing: 3px;
             text-transform: uppercase;
-            color: var(--red-alert);
-            text-shadow: 0 0 30px rgba(199, 44, 72, 0.5);
-            animation: pulse 3s infinite;
-        }
-        
-        /* TYPING INDICATOR */
-        .typing-indicator {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 15px;
-        }
-        
-        .typing-dot {
-            width: 12px;
-            height: 12px;
-            background-color: var(--gold);
-            border-radius: 50%;
-            animation: typing 1.4s infinite ease-in-out both;
-        }
-        
-        .typing-dot:nth-child(1) {
-            animation-delay: -0.32s;
-        }
-        
-        .typing-dot:nth-child(2) {
-            animation-delay: -0.16s;
-        }
-        
-        @keyframes typing {
-            0%, 80%, 100% { transform: scale(0); opacity: 0.5; }
-            40% { transform: scale(1); opacity: 1; }
         }
         
         /* RESPONSIVO */
         @media (max-width: 768px) {
-            .container {
-                flex-direction: column;
-                padding: 10px;
-            }
-            
-            .sidebar {
-                width: 100%;
-                order: -1;
-            }
-            
-            .quick-questions {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            
-            .stats {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            
-            .header {
-                padding: 15px;
-            }
-            
-            .title-container h1 {
-                font-size: 24px;
-                letter-spacing: 3px;
+            .topics-grid {
+                grid-template-columns: 1fr;
             }
             
             .logo {
-                height: 60px;
+                font-size: 36px;
             }
             
-            .logo-text {
-                font-size: 32px;
-            }
-            
-            .footer {
+            .subtitle {
                 font-size: 18px;
-                padding: 20px;
             }
             
-            #send-button {
-                padding: 18px 25px;
-                min-width: auto;
-            }
-            
-            .message {
-                max-width: 95%;
-            }
-        }
-        
-        @media (max-width: 480px) {
-            .quick-questions {
-                grid-template-columns: 1fr;
-            }
-            
-            .stats {
-                grid-template-columns: 1fr;
-            }
-            
-            .title-container h1 {
-                font-size: 20px;
-            }
-            
-            .chat-header h3 {
-                font-size: 18px;
+            .container {
+                padding: 10px;
             }
         }
     </style>
 </head>
 <body>
     <div class="header">
-        <div class="logo-container">
-            <div class="logo">
-                <div class="logo-text">PDQ</div>
-            </div>
-            <div class="title-container">
-                <h1>POKER DE QUINTA 2026</h1>
-                <h2>CHATBOT DO REGULAMENTO - SÓ PARA BARALHÕES</h2>
-            </div>
-        </div>
-        <div class="warning">
-            <i class="fas fa-exclamation-triangle"></i> VOCÊ É PREGUIÇOSO E NÃO LEU O REGULAMENTO? EU AJUDO, MAS VAI SOFRER!
-        </div>
+        <div class="logo">POKER<span>DE</span>QUINTA</div>
+        <div class="subtitle">BOT DO REGULAMENTO</div>
+        <div class="warning">SE É PREGUIÇOSO E NÃO LÊ REGULAMENTO, TOMA AQUI SEU BARALHÃO!</div>
     </div>
     
     <div class="container">
-        <div class="chat-container">
-            <div class="chat-header">
-                <h3><i class="fas fa-robot"></i> CHATBOT DO REGULAMENTO</h3>
-            </div>
-            
-            <div class="chat-messages" id="chat-messages">
-                <div class="message bot-message">
-                    <div class="message-sender"><i class="fas fa-robot"></i> POKERBOT</div>
-                    <div class="message-content">
-                        <span class="insult">OLÁ SEU BARALHÃO!</span> Estou aqui porque você é <span class="insult">PREGUIÇOSO</span> e não foi capaz de ler o regulamento. 
-                        Mas vou te ajudar, mesmo você sendo um <span class="insult">AZARADO QUE JOGA MAL</span>. 
-                        <br><br>
-                        <span class="highlight">Pergunte qualquer coisa, mas se for burro demais, vou xingar você!</span>
-                        <br><br>
-                        <div class="rule-reference">Baseado no Regulamento Oficial da Temporada 2026 - Que você não leu</div>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="chat-input-container">
-                <div class="quick-questions" id="quick-questions">
-                    <div class="quick-question" onclick="askQuickQuestion('Quanto custa o buy-in?')">💰 BUY-IN E VALORES</div>
-                    <div class="quick-question" onclick="askQuickQuestion('Como funciona o sistema KO?')">👊 SISTEMA KO</div>
-                    <div class="quick-question" onclick="askQuickQuestion('Como me inscrever?')">📝 INSCRIÇÕES</div>
-                    <div class="quick-question" onclick="askQuickQuestion('Quais as regras do WhatsApp?')">📱 WHATSAPP</div>
-                    <div class="quick-question" onclick="askQuickQuestion('Como funciona a última etapa?')">🏆 ÚLTIMA ETAPA</div>
-                    <div class="quick-question" onclick="askQuickQuestion('Quanto é o rebuy?')">🔄 REBUY</div>
-                </div>
-                
-                <div class="chat-input-wrapper">
-                    <input type="text" id="user-input" placeholder="Digite sua dúvida aqui, seu baralhão..." autocomplete="off">
-                    <button id="send-button">
-                        <i class="fas fa-paper-plane"></i> ENVIAR
-                    </button>
-                </div>
-            </div>
+        <div class="topics-grid" id="topics-grid">
+            <!-- Tópicos serão inseridos via JavaScript -->
         </div>
         
-        <div class="sidebar">
-            <div class="sidebar-section">
-                <h4><span class="emoji-icon">♠️</span> INFORMAÇÕES DO TORNEIO</h4>
-                <p><span class="highlight">13 ETAPAS</span> - Quintas às 20h</p>
-                <p><span class="highlight">LUCK BAR</span> - Curitiba/PR</p>
-                <p><span class="highlight">20 JOGADORES</span> por etapa</p>
-                <p><span class="highlight">PIX APENAS</span> - Sem dinheiro!</p>
-                
-                <div class="stats">
-                    <div class="stat-item">
-                        <div class="stat-value">R$100</div>
-                        <div class="stat-label">BUY-IN</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-value">13</div>
-                        <div class="stat-label">ETAPAS</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-value">R$2K+</div>
-                        <div class="stat-label">POTE FINAL</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-value">10</div>
-                        <div class="stat-label">BUY-IN FREE</div>
-                    </div>
-                </div>
+        <div class="answers-container">
+            <div class="answer-placeholder" id="answer-placeholder">
+                <i class="fas fa-robot" style="font-size: 48px; margin-bottom: 20px; color: var(--accent);"></i>
+                <h3>CLICA EM ALGUM TÓPICO AÍ SEU DISTRAÍDO!</h3>
+                <p>Escolhe um assunto que você tem dúvida (ou que não leu por preguiça)</p>
             </div>
             
-            <div class="sidebar-section">
-                <h4><span class="emoji-icon">🤬</span> AVISOS DO POKERBOT</h4>
-                <p><span class="insult">1. EU SOU GROSSO</span> - Aceita ou vai ler o regulamento!</p>
-                <p><span class="insult">2. NÃO SEI TUDO</span> - Se for burrice, vou xingar!</p>
-                <p><span class="insult">3. PIX OU NADA</span> - Não aceitamos dinheiro!</p>
-                <p><span class="insult">4. LEIA O SITE</span> - pokerdequinta.my.canva.site</p>
-                <p><span class="highlight">5. NÃO SEJA BURRO</span> - Pergunte direito!</p>
-            </div>
-            
-            <div class="sidebar-section">
-                <h4><span class="emoji-icon">🎯</span> DICAS PARA NÃO SER XINGADO</h4>
-                <p>• Pergunte sobre <span class="highlight">VALORES, INSCRIÇÕES, REGRAS</span></p>
-                <p>• Não pergunte bobagem tipo <span class="insult">"posso jogar de bermuda?"</span></p>
-                <p>• Use os botões de perguntas rápidas</p>
-                <p>• Se não sabe, <span class="insult">LEIA O REGULAMENTO SEU PREGUIÇOSO!</span></p>
+            <div id="answers-content">
+                <!-- Respostas serão inseridas via JavaScript -->
             </div>
         </div>
     </div>
     
     <div class="footer">
-        VA LER O REGULAMENTO SEU BARALHÃO!
+        <h2>VA LER O REGULAMENTO SEU BARALHÃO!</h2>
     </div>
 
     <script>
-        // Base de conhecimento baseada no regulamento
-        const knowledgeBase = {
-            "valores": {
-                "buyin": `<span class="highlight">BUY-IN COMPLETO:</span> R$100,00 = R$50,00 (pote) + R$30,00 (janta) + R$20,00 (taxa limpeza)<br>
-                         <span class="highlight">Você recebe:</span> 15.000 fichas<br>
-                         <span class="insult">SE NÃO ENTENDEU ISSO, VOLTA PARA A ESCOLA SEU BARALHÃO!</span>`,
-                "rebuy": `<span class="highlight">REBUY:</span> R$30,00 = 15.000 fichas<br>
-                         <span class="highlight">ILIMITADO</span> até o 10° nível + 3 mãos extras<br>
-                         <span class="insult">SÓ PODE QUANDO ZERAR AS FICHAS, NÃO É QUANDO QUISER SEU APRESADO!</span>`,
-                "addon": `<span class="highlight">ADD-ON:</span> R$50,00 = 50.000 fichas<br>
-                         <span class="highlight">APENAS 1</span> por jogador, só no fim do 10° nível<br>
-                         <span class="insult">SE COMPROU ANTES, VOCÊ ROUBOU!</span>`,
-                "bonus": `<span class="highlight">BÔNUS PONTUALIDADE:</span> 3.000 fichas pra quem chegar antes das 20h<br>
-                         <span class="insult">SE CHEGAR ATRASADO, SÓ SE FODE MESMO!</span>`,
-                "pagamento": `<span class="highlight">PAGAMENTO:</span> SÓ PIX! NADA DE DINHEIRO!<br>
-                             <span class="insult">SE NÃO TEM PIX, APRENDE SEU ANALFABETO DIGITAL!</span>`
+        // Dados baseados no regulamento
+        const topics = [
+            {
+                id: 'buyin',
+                title: '💰 BUY-IN E VALORES',
+                icon: 'fa-money-bill-wave',
+                content: `
+                    <div class="insult">OLHA SÓ O PREGUIÇOSO QUE NÃO SABE QUANTO CUSTA!</div>
+                    <p><span class="highlight">BUY-IN COMPLETO:</span> R$100,00</p>
+                    <p>- R$50,00 pro pote da etapa</p>
+                    <p>- R$30,00 pra janta</p>
+                    <p>- R$20,00 taxa de limpeza</p>
+                    <p><span class="highlight">VOCÊ RECEBE:</span> 15.000 fichas</p>
+                    <div class="insult">SE NÃO TEM R$100, NEM VEM JOGAR!</div>
+                `
             },
-            
-            "inscricoes": {
-                "como": `<span class="highlight">INSCRIÇÃO:</span> Só pelo site oficial na SEGUNDA-FEIRA às 7h<br>
-                        <span class="insult">SE PERDEU O HORÁRIO, CHORA MAIS BARALHÃO!</span>`,
-                "vagas": `<span class="highlight">20 VAGAS</span> por etapa, por ordem de confirmação<br>
-                         <span class="insult">SE FICOU DE FORA, AZAR O SEU!</span>`,
-                "convidado": `<span class="highlight">CONVIDADO:</span> Cada um pode levar 1, mas é RESPONSÁVEL por ele<br>
-                             <span class="insult">SE ELE CAUSAR, VOCÊ TOMA BAN JUNTO!</span>`,
-                "penalidades": `<span class="highlight">PENALIDADES:</span><br>
-                               - Desistir na quinta: <span class="insult">-20 PONTOS NO RANKING</span><br>
-                               - Faltar sem avisar: <span class="insult">-90 PONTOS + PAGAR R$100,00</span><br>
-                               <span class="insult">QUER FALTAR? PAGA SEU IRRESPONSÁVEL!</span>`
+            {
+                id: 'rebuy',
+                title: '🔄 REBUY E ADD-ON',
+                icon: 'fa-redo',
+                content: `
+                    <div class="insult">ACHOU QUE ERA ILIMITADO? SÓ ATÉ O 10° NÍVEL!</div>
+                    <p><span class="highlight">REBUY:</span> R$30,00 = 15.000 fichas</p>
+                    <p><span class="highlight">REBUY DUPLO:</span> R$60,00 = 30.000 fichas</p>
+                    <p><span class="highlight">ADD-ON:</span> R$50,00 = 50.000 fichas (SÓ 1 POR JOGADOR)</p>
+                    <div class="insult">SÓ PODE REBUY QUANDO ZERAR AS FICHAS, NÃO É QUANDO QUISER!</div>
+                `
             },
-            
-            "whatsapp": {
-                "regras": `<span class="highlight">PROIBIDO NO ZAP:</span><br>
-                          1. Pornografia, conteúdo ofensivo, racista ou político<br>
-                          2. Anúncios e comércio de QUALQUER coisa<br>
-                          3. Divulgar eventos que não sejam o Poker de Quinta<br>
-                          4. Listas de outros eventos de poker<br>
-                          <span class="insult">DESOBEDECEU? TOMA BAN NA HORA SEU ANIMAL!</span>`,
-                "penalidade": `<span class="insult">REMOVIDO NA HORA E PARA SEMPRE!</span> Nada de aviso, nada de segunda chance!`
+            {
+                id: 'inscricoes',
+                title: '📝 INSCRIÇÕES',
+                icon: 'fa-clipboard-list',
+                content: `
+                    <div class="insult">NÃO É CHEGAR E JOGAR NÃO, SEU APRESADO!</div>
+                    <p><span class="highlight">COMO SE INSCREVER:</span> Só pelo site oficial</p>
+                    <p><span class="highlight">QUANDO:</span> Segunda-feira às 7h (antes da etapa)</p>
+                    <p><span class="highlight">VAGAS:</span> 20 jogadores por etapa</p>
+                    <p><span class="highlight">PRIORIDADE:</span> Quem tá no grupo do WhatsApp</p>
+                    <div class="insult">PERDEU O PRAZO? CHORA MAIS!</div>
+                `
             },
-            
-            "ko": {
-                "sistema": `<span class="highlight">SISTEMA KO:</span> Ganha ponto por eliminar os outros<br>
-                           <span class="highlight">Cada jogador começa com 1 ficha KO</span> (vale 1 ponto)<br>
-                           <span class="insult">SE NÃO SABE ELIMINAR, MELHORA SEU JOGO!</span>`,
-                "contagem": `<span class="highlight">SÓ CONTA DEPOIS DO INTERVALO!</span><br>
-                            Eliminou antes? <span class="insult">NÃO VALE NADA, SEU ANSIOSO!</span>`,
-                "matador": `<span class="highlight">MATADOR DE KO:</span> Quem mais eliminar na temporada ganha R$200<br>
-                           <span class="insult">SE EMPATAR, TEM DESEMPATE, NÃO É TODO MUNDO GANHA NÃO!</span>`
+            {
+                id: 'penalidades',
+                title: '⚖️ PENALIDADES',
+                icon: 'fa-gavel',
+                content: `
+                    <div class="insult">QUER FALTAR? PAGA O PATO!</div>
+                    <p><span class="highlight">DESISTIR NA QUINTA:</span> -20 pontos no ranking</p>
+                    <p><span class="highlight">FALTAR SEM AVISAR:</span> -90 pontos + PAGAR R$100,00</p>
+                    <p><span class="highlight">NÃO PAGOU A MULTA:</span> PODE SER EXCLUÍDO DO GRUPO</p>
+                    <div class="insult">ACHOU QUE ERA BRINCADEIRA? NÃO É NÃO!</div>
+                `
             },
-            
-            "ultimaetapa": {
-                "info": `<span class="highlight">ÚLTIMA ETAPA:</span> 10/12/2026<br>
-                        <span class="highlight">POTE GARANTIDO:</span> Mais de R$2.000,00<br>
-                        <span class="insult">SE NÃO CHEGOU NOS 10 PRIMEIROS, COMPRA O BUY-IN NORMAL!</span>`,
-                "buyinfree": `<span class="highlight">BUY-IN FREE:</span> Só para os 10 primeiros do ranking<br>
-                             <span class="insult">PAGAM APENAS R$50,00 (janta+limpeza)</span><br>
-                             <span class="insult">SE NÃO É TOP 10, NÃO TEM MOLHO!</span>`,
-                "premiacao": `<span class="highlight">PRÊMIOS DA TEMPORADA:</span><br>
-                             1º=R$600 | 2º=R$450 | 3º=R$360 | 4º=R$270 | 5º=R$180<br>
-                             <span class="insult">MATADOR KO: R$200</span>`
+            {
+                id: 'whatsapp',
+                title: '📱 GRUPO WHATSAPP',
+                icon: 'fa-whatsapp',
+                content: `
+                    <div class="insult">NO ZAP É SÉRIO, NÃO É ZUEIRA!</div>
+                    <p><span class="highlight">PROIBIDO:</span></p>
+                    <p>1. Conteúdo impróprio (pornografia, ofensivo, etc)</p>
+                    <p>2. Anúncios e comércio</p>
+                    <p>3. Divulgar eventos que não sejam o Poker de Quinta</p>
+                    <p>4. Listas de outros eventos de poker</p>
+                    <div class="insult">DESOBEDECEU? TOMA BAN NA HORA!</div>
+                `
             },
-            
-            "geral": {
-                "local": `<span class="highlight">LUCK BAR</span> - R. Prof. Sebastião Paraná, 765 - Vila Izabel, Curitiba/PR<br>
-                         <span class="insult">SE NÃO ACHAR, USA GPS SEU DESORIENTADO!</span>`,
-                "site": `<span class="highlight">SITE OFICIAL:</span> https://pokerdequinta.my.canva.site<br>
-                        <span class="insult">TUDO ESTÁ LÁ, SABE LER NÃO SEU ANALFABETO?</span>`,
-                "horario": `<span class="highlight">TODAS AS QUINTAS ÀS 20H</span><br>
-                           <span class="insult">SE CHEGAR ATRASADO, PERDE BÔNUS E VAI SER ZOADO!</span>`
+            {
+                id: 'ko',
+                title: '👊 SISTEMA KO',
+                icon: 'fa-fist-raised',
+                content: `
+                    <div class="insult">GANHA PONTO POR ELIMINAR OS OUTROS!</div>
+                    <p><span class="highlight">CADA JOGADOR:</span> Começa com 1 ficha KO (vale 1 ponto)</p>
+                    <p><span class="highlight">SÓ CONTA:</span> Depois do intervalo do torneio</p>
+                    <p><span class="highlight">MATADOR DE KO:</span> Quem mais eliminar na temporada ganha R$200</p>
+                    <div class="insult">SE NÃO SABE ELIMINAR, MELHORA SEU JOGO!</div>
+                `
+            },
+            {
+                id: 'ultima',
+                title: '🏆 ÚLTIMA ETAPA',
+                icon: 'fa-trophy',
+                content: `
+                    <div class="insult">SÓ OS MELHORES JOGAM DE GRAÇA!</div>
+                    <p><span class="highlight">DATA:</span> 10/12/2026</p>
+                    <p><span class="highlight">BUY-IN FREE:</span> Para os 10 primeiros do ranking</p>
+                    <p><span class="highlight">POTE GARANTIDO:</span> Mais de R$2.000,00</p>
+                    <p><span class="highlight">PRÊMIOS DA TEMPORADA:</span></p>
+                    <p>1º=R$600 | 2º=R$450 | 3º=R$360 | 4º=R$270 | 5º=R$180</p>
+                    <div class="insult">NÃO É TOP 10? COMPRA O BUY-IN NORMAL!</div>
+                `
+            },
+            {
+                id: 'regras',
+                title: '🎯 REGRAS DO JOGO',
+                icon: 'fa-chess-board',
+                content: `
+                    <div class="insult">SE NÃO SABE JOGAR, NEM VEM!</div>
+                    <p><span class="highlight">TIME BANK:</span> 30 segundos + 3 cartões de 30s cada</p>
+                    <p><span class="highlight">CARTAS:</span> Devem ficar visíveis na mesa</p>
+                    <p><span class="highlight">FICHAS:</span> Sempre na mesa, nunca na mão</p>
+                    <p><span class="highlight">DEALERS:</span> Respeito obrigatório</p>
+                    <div class="insult">DESRESPEITOU O DEALER? TOMA BAN!</div>
+                `
             }
-        };
-
-        // Respostas agressivas para perguntas não reconhecidas
-        const aggressiveResponses = [
-            "VAI LER O REGULAMENTO SEU BARALHÃO! TÁ TUDO ESCRITO LÁ!",
-            "QUE PERGUNTA BURRA É ESSA? VOCÊ NEM TENTOU LER O REGULAMENTO, NÉ?",
-            "PELO AMOR DE DEUS, ISSO TÁ NO REGULAMENTO! VOCÊ É MUITO PREGUIÇOSO!",
-            "SEU AZARADO, ISSO É ÓBVIO! VAI NO SITE: pokerdequinta.my.canva.site",
-            "NÃO SOU SEU GOOGLE, SEU ANALFABETO FUNCIONAL! LÊ O REGULAMENTO!",
-            "VOCÊ JOGAR POKER ASSIM? NEM SABE AS REGRAS BÁSICAS? VERGONHA ALHEIA!",
-            "TÁ DE BRINCADEIRA? ISSO TÁ NA PRIMEIRA PÁGINA DO REGULAMENTO, SEU DISTRAÍDO!",
-            "EU ATENDI 50 BARALHÕES HOJE E VOCÊ É O MAIS BURRO! VAI ESTUDAR!"
         ];
 
-        // Elementos do DOM
-        const chatMessages = document.getElementById('chat-messages');
-        const userInput = document.getElementById('user-input');
-        const sendButton = document.getElementById('send-button');
-        const quickQuestions = document.getElementById('quick-questions');
-
-        // Adicionar mensagem ao chat
-        function addMessage(sender, message, isUser = false) {
-            const messageDiv = document.createElement('div');
-            messageDiv.className = `message ${isUser ? 'user-message' : 'bot-message'}`;
+        // Inicializar a página
+        function initPage() {
+            const topicsGrid = document.getElementById('topics-grid');
+            const answersContent = document.getElementById('answers-content');
             
-            const senderDiv = document.createElement('div');
-            senderDiv.className = 'message-sender';
-            senderDiv.innerHTML = isUser ? '<i class="fas fa-user"></i> VOCÊ' : '<i class="fas fa-robot"></i> POKERBOT';
-            
-            const contentDiv = document.createElement('div');
-            contentDiv.className = 'message-content';
-            contentDiv.innerHTML = message;
-            
-            messageDiv.appendChild(senderDiv);
-            messageDiv.appendChild(contentDiv);
-            
-            chatMessages.appendChild(messageDiv);
-            chatMessages.scrollTop = chatMessages.scrollHeight;
-        }
-
-        // Mostrar indicador de digitação
-        function showTypingIndicator() {
-            const typingDiv = document.createElement('div');
-            typingDiv.className = 'typing-indicator';
-            typingDiv.id = 'typing-indicator';
-            
-            for (let i = 0; i < 3; i++) {
-                const dot = document.createElement('div');
-                dot.className = 'typing-dot';
-                typingDiv.appendChild(dot);
-            }
-            
-            chatMessages.appendChild(typingDiv);
-            chatMessages.scrollTop = chatMessages.scrollHeight;
-            
-            return typingDiv;
-        }
-
-        // Remover indicador de digitação
-        function removeTypingIndicator() {
-            const typingIndicator = document.getElementById('typing-indicator');
-            if (typingIndicator) {
-                typingIndicator.remove();
-            }
-        }
-
-        // Obter resposta agressiva aleatória
-        function getAggressiveResponse() {
-            const randomIndex = Math.floor(Math.random() * aggressiveResponses.length);
-            return aggressiveResponses[randomIndex];
-        }
-
-        // Processar pergunta do usuário
-        function processQuestion(question) {
-            const questionLower = question.toLowerCase();
-            
-            // Verificar perguntas específicas
-            if (questionLower.includes('buy-in') || questionLower.includes('quanto custa') || questionLower.includes('valor') || questionLower.includes('preço')) {
-                return knowledgeBase.valores.buyin + '<br><br>' + 
-                       knowledgeBase.valores.rebuy + '<br><br>' + 
-                       knowledgeBase.valores.addon + '<br><br>' + 
-                       knowledgeBase.valores.bonus + '<br><br>' + 
-                       `<div class="rule-reference">SEÇÃO "VALORES" DO REGULAMENTO - QUE VOCÊ NÃO LEU</div>`;
-            }
-            
-            if (questionLower.includes('inscri') || questionLower.includes('lista') || questionLower.includes('confirmar') || questionLower.includes('participar')) {
-                return knowledgeBase.inscricoes.como + '<br><br>' + 
-                       knowledgeBase.inscricoes.vagas + '<br><br>' + 
-                       knowledgeBase.inscricoes.convidado + '<br><br>' + 
-                       knowledgeBase.inscricoes.penalidades + '<br><br>' + 
-                       `<div class="rule-reference">SEÇÃO "INSCRIÇÕES" DO REGULAMENTO - QUE VOCÊ NÃO LEU</div>`;
-            }
-            
-            if (questionLower.includes('ko') || questionLower.includes('knockout') || questionLower.includes('elimina') || questionLower.includes('matador')) {
-                return knowledgeBase.ko.sistema + '<br><br>' + 
-                       knowledgeBase.ko.contagem + '<br><br>' + 
-                       knowledgeBase.ko.matador + '<br><br>' + 
-                       `<div class="rule-reference">SEÇÃO "KNOCK-OUT" DO REGULAMENTO - QUE VOCÊ NÃO LEU</div>`;
-            }
-            
-            if (questionLower.includes('whatsapp') || questionLower.includes('grupo') || questionLower.includes('zap')) {
-                return knowledgeBase.whatsapp.regras + '<br><br>' + 
-                       knowledgeBase.whatsapp.penalidade + '<br><br>' + 
-                       `<div class="rule-reference">SEÇÃO "WHATSAPP" DO REGULAMENTO - QUE VOCÊ NÃO LEU</div>`;
-            }
-            
-            if (questionLower.includes('última') || questionLower.includes('13') || questionLower.includes('final') || questionLower.includes('etapa final')) {
-                return knowledgeBase.ultimaetapa.info + '<br><br>' + 
-                       knowledgeBase.ultimaetapa.buyinfree + '<br><br>' + 
-                       knowledgeBase.ultimaetapa.premiacao + '<br><br>' + 
-                       `<div class="rule-reference">SEÇÃO "ÚLTIMA ETAPA" DO REGULAMENTO - QUE VOCÊ NÃO LEU</div>`;
-            }
-            
-            if (questionLower.includes('rebuy') || questionLower.includes('re buy') || questionLower.includes('comprar mais fichas')) {
-                return knowledgeBase.valores.rebuy + '<br><br>' + 
-                       knowledgeBase.valores.addon + '<br><br>' + 
-                       `<div class="rule-reference">SEÇÃO "REBUY/ADD-ON" DO REGULAMENTO - QUE VOCÊ NÃO LEU</div>`;
-            }
-            
-            if (questionLower.includes('local') || questionLower.includes('onde') || questionLower.includes('endereço') || questionLower.includes('luck')) {
-                return knowledgeBase.geral.local + '<br><br>' + 
-                       knowledgeBase.geral.horario + '<br><br>' + 
-                       `<div class="rule-reference">INFORMAÇÕES GERAIS - QUE VOCÊ NÃO LEU</div>`;
-            }
-            
-            if (questionLower.includes('site') || questionLower.includes('internet') || questionLower.includes('online')) {
-                return knowledgeBase.geral.site + '<br><br>' + 
-                       `<div class="rule-reference">SITE OFICIAL - QUE VOCÊ NÃO CONSULTOU</div>`;
-            }
-            
-            if (questionLower.includes('horário') || questionLower.includes('hora') || questionLower.includes('20h') || questionLower.includes('quinta')) {
-                return knowledgeBase.geral.horario + '<br><br>' + 
-                       `<div class="rule-reference">INFORMAÇÕES GERAIS - QUE VOCÊ NÃO LEU</div>`;
-            }
-            
-            // Se não encontrou resposta específica
-            return `<span class="insult">${getAggressiveResponse()}</span><br><br>
-                   <span class="highlight">VAI NO SITE:</span> pokerdequinta.my.canva.site<br>
-                   <span class="highlight">OU LÊ O REGULAMENTO, SEU BARALHÃO!</span>`;
-        }
-
-        // Função para fazer uma pergunta rápida
-        function askQuickQuestion(question) {
-            userInput.value = question;
-            sendMessage();
-        }
-
-        // Enviar mensagem
-        function sendMessage() {
-            const question = userInput.value.trim();
-            
-            if (!question) return;
-            
-            // Adicionar mensagem do usuário
-            addMessage('VOCÊ', question, true);
-            
-            // Limpar campo de entrada
-            userInput.value = '';
-            
-            // Mostrar indicador de digitação
-            const typingIndicator = showTypingIndicator();
-            
-            // Processar após um breve delay
-            setTimeout(() => {
-                removeTypingIndicator();
+            // Criar cards dos tópicos
+            topics.forEach(topic => {
+                // Card do tópico
+                const topicCard = document.createElement('div');
+                topicCard.className = 'topic-card';
+                topicCard.innerHTML = `
+                    <h3>${topic.title}</h3>
+                    <p>Clique para ver as informações</p>
+                `;
                 
-                // Processar pergunta e obter resposta
-                const answer = processQuestion(question);
+                topicCard.addEventListener('click', () => {
+                    showAnswer(topic.id);
+                });
                 
-                // Adicionar resposta do bot
-                addMessage('POKERBOT', answer, false);
-            }, 1000 + Math.random() * 1000);
+                topicsGrid.appendChild(topicCard);
+                
+                // Conteúdo da resposta
+                const answerDiv = document.createElement('div');
+                answerDiv.className = 'answer-content';
+                answerDiv.id = `answer-${topic.id}`;
+                answerDiv.innerHTML = `
+                    <div class="answer-title">${topic.title}</div>
+                    <div class="answer-text">${topic.content}</div>
+                `;
+                
+                answersContent.appendChild(answerDiv);
+            });
         }
 
-        // Event listeners
-        sendButton.addEventListener('click', sendMessage);
-        
-        userInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                sendMessage();
-            }
-        });
+        // Mostrar resposta
+        function showAnswer(topicId) {
+            // Esconder placeholder
+            document.getElementById('answer-placeholder').style.display = 'none';
+            
+            // Esconder todas as respostas
+            const allAnswers = document.querySelectorAll('.answer-content');
+            allAnswers.forEach(answer => {
+                answer.classList.remove('active');
+            });
+            
+            // Mostrar resposta selecionada
+            const selectedAnswer = document.getElementById(`answer-${topicId}`);
+            selectedAnswer.classList.add('active');
+        }
 
-        // Adicionar mais perguntas rápidas
-        const additionalQuestions = [
-            { text: "♣️ REGRAS DO JOGO", question: "Quais são as regras básicas do jogo?" },
-            { text: "👑 REI DA MESA", question: "O que é o Rei da Mesa?" },
-            { text: "⏰ TIME BANK", question: "Como funciona o Time Bank?" },
-            { text: "🎰 ROLETA DA SORTE", question: "O que é a Roleta da Sorte?" },
-            { text: "💸 PREMIAÇÃO", question: "Como funciona a premiação das etapas?" },
-            { text: "📊 RANKING", question: "Como funciona o ranking da temporada?" }
-        ];
-
-        additionalQuestions.forEach(q => {
-            const btn = document.createElement('div');
-            btn.className = 'quick-question';
-            btn.textContent = q.text;
-            btn.onclick = () => askQuickQuestion(q.question);
-            quickQuestions.appendChild(btn);
-        });
-
-        // Mensagem inicial de boas-vindas
-        window.addEventListener('DOMContentLoaded', () => {
-            // Mensagem já está no HTML
-        });
+        // Inicializar quando a página carregar
+        window.addEventListener('DOMContentLoaded', initPage);
     </script>
 </body>
 </html>
