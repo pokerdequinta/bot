@@ -17,6 +17,7 @@
             --warning-color: #ffc107;
             --danger-color: #dc3545;
             --card-green: #1a472a;
+            --insult-color: #b30000;
         }
         
         * {
@@ -47,31 +48,34 @@
         header {
             background-color: var(--primary-color);
             color: white;
-            padding: 20px 0;
+            padding: 15px 0;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
             border-bottom: 4px solid var(--accent-color);
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
         
         .header-content {
             display: flex;
             align-items: center;
-            justify-content: space-between;
+            justify-content: center;
         }
         
         .logo-container {
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 12px;
         }
         
         .logo {
-            height: 70px;
+            height: 60px;
             width: auto;
             filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
         }
         
         .site-title {
-            font-size: 2rem;
+            font-size: 1.6rem;
             font-weight: 400;
             color: white;
             text-transform: uppercase;
@@ -79,7 +83,7 @@
         }
         
         .site-subtitle {
-            font-size: 1rem;
+            font-size: 0.9rem;
             color: var(--accent-color);
             font-weight: 500;
         }
@@ -89,66 +93,62 @@
             display: flex;
             flex-direction: column;
             min-height: calc(100vh - 140px);
-            padding: 30px 0;
+            padding: 20px 0;
         }
         
         .page-description {
             background-color: white;
             border-radius: 10px;
-            padding: 25px;
-            margin-bottom: 30px;
+            padding: 20px;
+            margin-bottom: 25px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
             border-left: 5px solid var(--accent-color);
         }
         
         .page-description h2 {
             color: var(--primary-color);
-            margin-bottom: 15px;
-            font-size: 1.8rem;
+            margin-bottom: 10px;
+            font-size: 1.5rem;
             text-transform: uppercase;
         }
         
-        .faq-bot-container {
-            display: flex;
-            gap: 30px;
-            flex-wrap: wrap;
-        }
-        
-        /* FAQ Categories */
+        /* FAQ Categories - Mobile First */
         .faq-categories {
-            flex: 1;
-            min-width: 300px;
+            width: 100%;
         }
         
         .categories-title {
             color: var(--primary-color);
             margin-bottom: 20px;
-            font-size: 1.8rem;
+            font-size: 1.6rem;
             padding-bottom: 10px;
             border-bottom: 3px solid var(--accent-color);
             text-transform: uppercase;
+            text-align: center;
         }
         
         .categories-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 25px;
         }
         
         .category-card {
             background-color: var(--card-green);
             border-radius: 10px;
-            padding: 25px 20px;
+            padding: 20px;
             box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
             transition: all 0.3s ease;
             cursor: pointer;
             border-top: 5px solid var(--accent-color);
             color: white;
-            display: flex;
-            flex-direction: column;
-            height: 100%;
             position: relative;
             overflow: hidden;
+        }
+        
+        .category-card.active {
+            background-color: #153b22;
         }
         
         .category-card::before {
@@ -162,35 +162,73 @@
         }
         
         .category-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
-            background-color: #153b22;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
         }
         
         .category-card i {
-            font-size: 2.2rem;
+            font-size: 1.8rem;
             color: var(--accent-color);
-            margin-bottom: 15px;
+            min-width: 40px;
         }
         
         .category-card h3 {
             color: white;
-            margin-bottom: 10px;
-            font-size: 1.4rem;
+            font-size: 1.3rem;
             font-weight: 400;
             text-transform: uppercase;
+            flex-grow: 1;
         }
         
-        .category-card p {
-            color: #ddd;
+        .card-toggle {
+            color: var(--accent-color);
+            font-size: 1.2rem;
+            transition: transform 0.3s;
+        }
+        
+        .category-card.active .card-toggle {
+            transform: rotate(180deg);
+        }
+        
+        .card-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease;
+            margin-top: 0;
+        }
+        
+        .category-card.active .card-content {
+            max-height: 500px;
+            margin-top: 15px;
+        }
+        
+        .card-answer {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 10px;
+            border-left: 3px solid var(--accent-color);
+        }
+        
+        .card-answer p {
+            color: #eee;
             font-size: 0.95rem;
             line-height: 1.5;
         }
         
-        /* Chat Bot */
+        .card-answer strong {
+            color: var(--accent-color);
+        }
+        
+        /* Chat Bot - Mobile */
         .chat-bot {
-            flex: 1;
-            min-width: 300px;
+            width: 100%;
             background-color: white;
             border-radius: 10px;
             overflow: hidden;
@@ -198,45 +236,47 @@
             display: flex;
             flex-direction: column;
             border-top: 5px solid var(--accent-color);
+            margin-top: 20px;
         }
         
         .chat-header {
             background-color: var(--primary-color);
             color: white;
-            padding: 18px 20px;
+            padding: 15px 20px;
             display: flex;
             align-items: center;
             gap: 12px;
         }
         
         .chat-header i {
-            font-size: 1.8rem;
+            font-size: 1.6rem;
             color: var(--accent-color);
         }
         
         .chat-header h3 {
-            font-size: 1.4rem;
+            font-size: 1.3rem;
             font-weight: 400;
             text-transform: uppercase;
         }
         
         .chat-messages {
             flex: 1;
-            padding: 20px;
+            padding: 15px;
             overflow-y: auto;
-            max-height: 400px;
+            max-height: 300px;
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            gap: 12px;
             background-color: #f9f9f9;
         }
         
         .message {
-            max-width: 85%;
-            padding: 14px 18px;
-            border-radius: 18px;
+            max-width: 90%;
+            padding: 12px 15px;
+            border-radius: 15px;
             line-height: 1.5;
             box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            font-size: 0.95rem;
         }
         
         .bot-message {
@@ -268,16 +308,16 @@
         }
         
         .chat-input-area {
-            padding: 18px;
+            padding: 15px;
             border-top: 2px solid #eee;
             display: flex;
-            gap: 12px;
+            gap: 10px;
             background-color: white;
         }
         
         .chat-input {
             flex: 1;
-            padding: 14px 18px;
+            padding: 12px 15px;
             border: 2px solid #ddd;
             border-radius: 30px;
             outline: none;
@@ -295,14 +335,14 @@
             color: white;
             border: none;
             border-radius: 50%;
-            width: 52px;
-            height: 52px;
+            width: 48px;
+            height: 48px;
             cursor: pointer;
             transition: all 0.3s;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
         }
         
         .send-button:hover {
@@ -313,17 +353,17 @@
         .suggested-questions {
             display: flex;
             flex-wrap: wrap;
-            gap: 12px;
-            margin-top: 15px;
-            padding: 0 20px 20px;
+            gap: 10px;
+            margin-top: 10px;
+            padding: 0 15px 15px;
         }
         
         .question-chip {
             background-color: var(--primary-color);
             color: white;
-            padding: 10px 18px;
-            border-radius: 25px;
-            font-size: 0.85rem;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
             cursor: pointer;
             transition: all 0.3s;
             border: 2px solid transparent;
@@ -335,126 +375,156 @@
             border-color: var(--accent-color);
         }
         
+        /* Insult Section */
+        .insult-section {
+            background-color: #fff3cd;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 25px 0;
+            border-left: 5px solid var(--insult-color);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+        
+        .insult-section h4 {
+            color: var(--insult-color);
+            margin-bottom: 15px;
+            font-size: 1.4rem;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .insult-section p {
+            color: #856404;
+            font-weight: 500;
+            margin-bottom: 10px;
+            padding-left: 10px;
+            border-left: 3px solid var(--insult-color);
+        }
+        
+        .insult-section strong {
+            color: var(--insult-color);
+        }
+        
         /* Footer */
         footer {
             background-color: var(--dark-color);
             color: white;
-            padding: 30px 0;
-            margin-top: 40px;
+            padding: 25px 0;
+            margin-top: 30px;
             border-top: 4px solid var(--accent-color);
         }
         
         .footer-content {
             display: flex;
-            justify-content: space-between;
+            flex-direction: column;
             align-items: center;
-            flex-wrap: wrap;
             gap: 20px;
         }
         
-        .footer-links {
-            display: flex;
-            gap: 25px;
-        }
-        
-        .footer-links a {
-            color: #ddd;
+        .reg-button {
+            background-color: var(--accent-color);
+            color: black;
             text-decoration: none;
-            transition: color 0.3s;
-            font-weight: 500;
+            padding: 12px 30px;
+            border-radius: 30px;
+            font-weight: bold;
+            text-transform: uppercase;
+            transition: all 0.3s;
+            border: 2px solid black;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            font-family: 'Anton', sans-serif;
+            letter-spacing: 1px;
         }
         
-        .footer-links a:hover {
-            color: var(--accent-color);
+        .reg-button:hover {
+            background-color: #f5d76e;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
         }
         
         .copyright {
             color: #aaa;
             font-size: 0.9rem;
+            text-align: center;
         }
         
-        /* Responsive */
-        @media (max-width: 768px) {
+        /* Desktop */
+        @media (min-width: 768px) {
             .header-content {
-                flex-direction: column;
-                text-align: center;
-                gap: 15px;
+                justify-content: space-between;
             }
             
             .site-title {
-                font-size: 1.8rem;
+                font-size: 2rem;
             }
             
-            .faq-bot-container {
-                flex-direction: column;
+            .logo {
+                height: 70px;
             }
             
-            .footer-content {
-                flex-direction: column;
-                text-align: center;
+            .categories-grid {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 20px;
+            }
+            
+            .chat-bot {
+                margin-top: 0;
+            }
+            
+            .main-content {
+                flex-direction: row;
+                gap: 30px;
+            }
+            
+            .faq-categories {
+                flex: 1;
+            }
+            
+            .chat-bot {
+                flex: 1;
             }
             
             .chat-messages {
-                max-height: 300px;
+                max-height: 400px;
             }
             
-            .categories-title {
-                font-size: 1.6rem;
+            .footer-content {
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
             }
         }
         
-        /* Highlight important info */
-        .highlight {
-            background-color: #fff9e6;
-            padding: 20px;
-            border-radius: 10px;
-            margin: 20px 0;
-            border-left: 5px solid var(--accent-color);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+        @media (min-width: 1024px) {
+            .categories-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
         }
         
-        .highlight h4 {
-            color: var(--primary-color);
-            margin-bottom: 12px;
-            font-size: 1.3rem;
-            text-transform: uppercase;
+        /* Bot Aggressive Styles */
+        .aggressive-response {
+            color: #b30000 !important;
+            font-weight: bold !important;
         }
         
-        .reg-link {
-            color: var(--primary-color);
-            font-weight: bold;
-            text-decoration: none;
-            border-bottom: 2px solid var(--accent-color);
-            padding-bottom: 2px;
+        .warning-icon {
+            color: #b30000;
+            margin-right: 5px;
         }
         
-        .reg-link:hover {
-            color: var(--secondary-color);
+        /* Animations */
+        @keyframes shake {
+            0%, 100% {transform: translateX(0);}
+            10%, 30%, 50%, 70%, 90% {transform: translateX(-5px);}
+            20%, 40%, 60%, 80% {transform: translateX(5px);}
         }
         
-        .info-badge {
-            display: inline-block;
-            background-color: var(--accent-color);
-            color: var(--dark-color);
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: bold;
-            margin-right: 10px;
-            margin-bottom: 10px;
-        }
-        
-        .step-number {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 28px;
-            height: 28px;
-            background-color: var(--primary-color);
-            color: white;
-            border-radius: 50%;
-            font-weight: bold;
-            margin-right: 10px;
+        .shake {
+            animation: shake 0.5s;
         }
     </style>
 </head>
@@ -463,223 +533,263 @@
         <div class="container">
             <div class="header-content">
                 <div class="logo-container">
-                    <img src="https://raw.githubusercontent.com/pokerdequinta/site/main/assets/logo.png" alt="Logo Poker de Quinta" class="logo" onerror="this.onerror=null; this.src='https://via.placeholder.com/70x70/1a472a/FFFFFF?text=PDQ'">
+                    <img src="https://raw.githubusercontent.com/pokerdequinta/site/main/assets/logo pdq.png" alt="Logo Poker de Quinta" class="logo" onerror="this.onerror=null; this.src='https://via.placeholder.com/70x70/1a472a/FFFFFF?text=PDQ'">
                     <div>
                         <h1 class="site-title anton-font">POKER DE QUINTA</h1>
-                        <p class="site-subtitle">FAQ - Perguntas Frequentes sobre o Regulamento 2026</p>
+                        <p class="site-subtitle">FAQ - Regulamento 2026</p>
                     </div>
-                </div>
-                <div>
-                    <p><span class="info-badge">13 ETAPAS</span><span class="info-badge">QUINTAS 20H</span></p>
                 </div>
             </div>
         </div>
     </header>
     
     <main class="main-content container">
-        <section class="page-description">
-            <h2 class="anton-font"><i class="fas fa-info-circle"></i> FAQ INTERATIVO DO POKER DE QUINTA</h2>
-            <p>Este é um resumo interativo do regulamento da Temporada 2026 do Poker de Quinta. Para jogadores "preguiçosos" que querem entender as principais regras rapidamente. Use as categorias abaixo para navegar ou faça perguntas diretas ao nosso bot!</p>
-            <p><strong>Regulamento completo:</strong> <a href="https://pokerdequinta.github.io/site" class="reg-link" target="_blank">Site Oficial do Poker de Quinta</a></p>
-        </section>
-        
-        <div class="faq-bot-container">
-            <section class="faq-categories">
-                <h2 class="categories-title anton-font"><i class="fas fa-folder-open"></i> CATEGORIAS DO REGULAMENTO</h2>
-                <div class="categories-grid">
-                    <div class="category-card" onclick="askQuestion('Quais são os valores do buy-in, rebuy e add-on?')">
+        <section class="faq-categories">
+            <h2 class="categories-title anton-font">CATEGORIAS DO REGULAMENTO</h2>
+            
+            <div class="categories-grid">
+                <div class="category-card" onclick="toggleCard(this)">
+                    <div class="card-header">
                         <i class="fas fa-money-bill-wave"></i>
                         <h3 class="anton-font">VALORES E PAGAMENTOS</h3>
-                        <p>Buy-in, rebuys, add-ons, formas de pagamento e taxas.</p>
+                        <i class="fas fa-chevron-down card-toggle"></i>
                     </div>
-                    
-                    <div class="category-card" onclick="askQuestion('Como funciona o sistema de inscrições?')">
+                    <div class="card-content">
+                        <p>Buy-in, rebuys, add-ons, formas de pagamento e taxas.</p>
+                        <div class="card-answer">
+                            <p><strong>PORRA, PRESTA ATENÇÃO:</strong> Buy-in R$100,00 (15k fichas) = R$50 pote + R$30 janta + R$20 limpeza. Rebuy R$30,00 (15k fichas) ilimitado até 10º nível. Add-on R$50,00 (50k fichas) só 1 por jogador. <strong>NÃO ACEITAMOS DINHEIRO, SÓ PIX SEU ANIMAL!</strong></p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="category-card" onclick="toggleCard(this)">
+                    <div class="card-header">
                         <i class="fas fa-list-ol"></i>
                         <h3 class="anton-font">INSCRIÇÕES E PRESENÇA</h3>
-                        <p>Listas, confirmações, faltas e penalidades.</p>
+                        <i class="fas fa-chevron-down card-toggle"></i>
                     </div>
-                    
-                    <div class="category-card" onclick="askQuestion('Quais são as regras do jogo na mesa?')">
+                    <div class="card-content">
+                        <p>Listas, confirmações, faltas e penalidades.</p>
+                        <div class="card-answer">
+                            <p><strong>VOCÊ É BURRO OU SE FAZ?</strong> Inscrição no site na segunda às 7h. Limite 20 jogadores. Faltou sem avisar? <strong>-90 PONTOS + R$100,00 DE MULTA!</strong> Desistiu na quinta? -20 pontos. Vai pro fim da lista, seu folgado!</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="category-card" onclick="toggleCard(this)">
+                    <div class="card-header">
                         <i class="fas fa-users"></i>
                         <h3 class="anton-font">REGRAS NA MESA</h3>
-                        <p>Dinâmica do jogo, tempo para decisões, fichas e dealers.</p>
+                        <i class="fas fa-chevron-down card-toggle"></i>
                     </div>
-                    
-                    <div class="category-card" onclick="askQuestion('Como funciona o sistema de Knockout (KO)?')">
+                    <div class="card-content">
+                        <p>Dinâmica do jogo, tempo para decisões, fichas e dealers.</p>
+                        <div class="card-answer">
+                            <p><strong>ESCUTA AQUI, SEU APRESSAO:</strong> 30 segundos pra decidir, mais 3 time banks de 30s cada. <strong>MOSTROU CARTA PRA UM = FOLD PRA TODOS!</strong> Ficha fora da mesa = inválida. Desrespeitou dealer? <strong>CHUTADO DO GRUPO NA HORA!</strong></p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="category-card" onclick="toggleCard(this)">
+                    <div class="card-header">
                         <i class="fas fa-fist-raised"></i>
                         <h3 class="anton-font">SISTEMA KNOCKOUT</h3>
-                        <p>Fichas KO, pontuação por eliminação e prêmio matador.</p>
+                        <i class="fas fa-chevron-down card-toggle"></i>
                     </div>
-                    
-                    <div class="category-card" onclick="askQuestion('O que é a Recompensa do Rei da Mesa?')">
+                    <div class="card-content">
+                        <p>Fichas KO, pontuação por eliminação e prêmio matador.</p>
+                        <div class="card-answer">
+                            <p><strong>MATADOR DE FRANGO:</strong> Cada um começa com 1 ficha KO. Eliminou depois do intervalo? Rouba a ficha do otário! Cada ficha = 1 ponto extra. <strong>MAIS KOs NO ANO = R$200,00 NO BOLSO!</strong> Fácil, não?</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="category-card" onclick="toggleCard(this)">
+                    <div class="card-header">
                         <i class="fas fa-crown"></i>
                         <h3 class="anton-font">REI DA MESA</h3>
-                        <p>Recompensa especial para o campeão da etapa anterior.</p>
+                        <i class="fas fa-chevron-down card-toggle"></i>
                     </div>
-                    
-                    <div class="category-card" onclick="askQuestion('Como funciona a Roleta da Sorte?')">
+                    <div class="card-content">
+                        <p>Recompensa especial para o campeão da etapa anterior.</p>
+                        <div class="card-answer">
+                            <p><strong>ALVO MÓVEL, SEU BOBÃO:</strong> Campeão da etapa anterior começa com 2 fichas KO. <strong>ELIMINOU O REI? ROUBOU 2 FICHAS!</strong> Se o cara for campeão 2x seguidas, dobra pra 4 fichas. Rei faltou? Próximo da lista vira o alvo!</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="category-card" onclick="toggleCard(this)">
+                    <div class="card-header">
                         <i class="fas fa-dice"></i>
                         <h3 class="anton-font">ROLETA DA SORTE</h3>
-                        <p>Como ativar, desafios e prêmios especiais.</p>
+                        <i class="fas fa-chevron-down card-toggle"></i>
                     </div>
-                    
-                    <div class="category-card" onclick="askQuestion('Como é calculado o ranking?')">
+                    <div class="card-content">
+                        <p>Como ativar, desafios e prêmios especiais.</p>
+                        <div class="card-answer">
+                            <p><strong>PRA QUEM TEM SORTE (OU AZAR):</strong> Perdeu com par de Ases? <strong>GANHOU DIREITO DE GIRAR A ROLETA!</strong> Fez mais rebuys que todo mundo? Também ganha! Prêmio: de 1k a 50k fichas, cerveja, ou... <strong>SE FODEU!</strong> (sim, tem isso na roleta)</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="category-card" onclick="toggleCard(this)">
+                    <div class="card-header">
                         <i class="fas fa-trophy"></i>
                         <h3 class="anton-font">RANKING E PREMIAÇÃO</h3>
-                        <p>Pontuação, critérios de desempate e premiações.</p>
+                        <i class="fas fa-chevron-down card-toggle"></i>
                     </div>
-                    
-                    <div class="category-card" onclick="askQuestion('O que acontece na última etapa?')">
+                    <div class="card-content">
+                        <p>Pontuação, critérios de desempate e premiações.</p>
+                        <div class="card-answer">
+                            <p><strong>PRA QUEM QUER GANHAR ALGO:</strong> 1º=27pts, 2º=25pts, 3º=23pts... + fichas KO. <strong>EMPATOU?</strong> 1) Mais pontos, 2) Mais presenças, 3) Mais vitórias, 4) Mais KOs, 5) <strong>LOCURINHA (MELHOR DE 3)!</strong> Premiação: 1º=36%, 2º=26%, 3º=19% do pote.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="category-card" onclick="toggleCard(this)">
+                    <div class="card-header">
                         <i class="fas fa-flag-checkered"></i>
                         <h3 class="anton-font">ÚLTIMA ETAPA</h3>
+                        <i class="fas fa-chevron-down card-toggle"></i>
+                    </div>
+                    <div class="card-content">
                         <p>Formato especial, buy-in free para top 10 e mesas.</p>
+                        <div class="card-answer">
+                            <p><strong>GRANDE FINAL, SEU FRACASSADO:</strong> 10/12/2026. <strong>TOP 10 DO ANO JOGA DE GRAÇA!</strong> (paga só R$50 de janta+limpeza). Pote acumulado >R$2000. Premiação extra pros 5 melhores do ano + matador de KO. <strong>NÃO PERCA SEU LUGAR!</strong></p>
+                        </div>
                     </div>
                 </div>
-                
-                <div class="highlight">
-                    <h4 class="anton-font"><i class="fas fa-exclamation-circle"></i> INFORMAÇÕES IMPORTANTES</h4>
-                    <p><strong><span class="step-number">1</span> Local:</strong> Luck BAR - R. Prof. Sebastião Paraná, 765 - Vila Izabel, Curitiba/PR</p>
-                    <p><strong><span class="step-number">2</span> Horário:</strong> Quintas-feiras às 20:00h (13 etapas em 2026)</p>
-                    <p><strong><span class="step-number">3</span> Site Oficial:</strong> <a href="https://pokerdequinta.my.canva.site" class="reg-link" target="_blank">https://pokerdequinta.my.canva.site</a></p>
-                    <p><strong><span class="step-number">4</span> Pagamento:</strong> Apenas PIX (não é aceito dinheiro em espécie)</p>
-                </div>
-            </section>
+            </div>
             
-            <section class="chat-bot">
-                <div class="chat-header">
-                    <i class="fas fa-robot"></i>
-                    <h3 class="anton-font">BOT DO REGULAMENTO</h3>
+            <!-- Seção de Xingamentos (antiga "Informações Importantes") -->
+            <div class="insult-section">
+                <h4 class="anton-font"><i class="fas fa-skull-crossbones"></i> ATENÇÃO, SEU DESATENTO!</h4>
+                <p><strong>SEU BURRO:</strong> O jogo é na QUINTA-FEIRA às 20h no Luck BAR (R. Prof. Sebastião Paraná, 765). Não sabe onde é? USA O GOOGLE, PORRA!</p>
+                <p><strong>SEU MUQUIFO:</strong> NÃO LEVA DINHEIRO! Só PIX pelo QR Code. Se não sabe usar PIX, pede pro seu filho de 5 anos te ensinar!</p>
+                <p><strong>SEU ATRAZADO:</strong> Chegou antes das 20h? Ganha 3k fichas de bônus. Chegou atrasado? SENTA E CHORA!</p>
+                <p><strong>SEU FOLGADO:</strong> A organização pode mudar as regras quando quiser. Não gostou? CHORA MAIS, SEU FRESCO!</p>
+            </div>
+        </section>
+        
+        <section class="chat-bot">
+            <div class="chat-header">
+                <i class="fas fa-robot"></i>
+                <h3 class="anton-font">BOT RESPONDÃO</h3>
+            </div>
+            
+            <div class="chat-messages" id="chatMessages">
+                <div class="message bot-message">
+                    <strong>Bot do Poker de Quinta:</strong> E aí, seu lesado! Tá com dúvida sobre as regras? PERGUNTA LOGO, SEU LENTO! Tô com pressa!
                 </div>
                 
-                <div class="chat-messages" id="chatMessages">
-                    <div class="message bot-message">
-                        <strong>Bot do Poker de Quinta:</strong> Olá! Sou o bot de regulamento do Poker de Quinta. Estou aqui para tirar suas dúvidas sobre as regras da Temporada 2026. Clique em uma das categorias ao lado ou faça uma pergunta diretamente!
-                    </div>
-                    
-                    <div class="message bot-message">
-                        <strong>Dica:</strong> Você pode perguntar sobre valores, inscrições, regras da mesa, sistema de KO, Rei da Mesa, Roleta da Sorte, ranking ou a última etapa.
-                    </div>
+                <div class="message bot-message">
+                    <strong>Dica do Bot:</strong> Clica nos cards aí em cima ou pergunta direto. Mas seja rápido, seu preguiçoso!
                 </div>
-                
-                <div class="suggested-questions">
-                    <div class="question-chip" onclick="askQuestion('Qual o valor do buy-in?')">Qual o valor do buy-in?</div>
-                    <div class="question-chip" onclick="askQuestion('Como funciona o sistema de KO?')">Como funciona o sistema de KO?</div>
-                    <div class="question-chip" onclick="askQuestion('O que é a Recompensa do Rei?')">O que é a Recompensa do Rei?</div>
-                    <div class="question-chip" onclick="askQuestion('Quando posso fazer rebuy?')">Quando posso fazer rebuy?</div>
-                </div>
-                
-                <div class="chat-input-area">
-                    <input type="text" class="chat-input" id="userInput" placeholder="Digite sua pergunta sobre o regulamento..." onkeypress="handleKeyPress(event)">
-                    <button class="send-button" onclick="sendMessage()">
-                        <i class="fas fa-paper-plane"></i>
-                    </button>
-                </div>
-            </section>
-        </div>
+            </div>
+            
+            <div class="suggested-questions">
+                <div class="question-chip" onclick="askQuestion('Qual o valor do buy-in?')">Valor do buy-in?</div>
+                <div class="question-chip" onclick="askQuestion('Como funciona o sistema de KO?')">Sistema de KO?</div>
+                <div class="question-chip" onclick="askQuestion('Posso pagar em dinheiro?')">Pagar em dinheiro?</div>
+                <div class="question-chip" onclick="askQuestion('O que acontece se eu faltar?')">Se eu faltar?</div>
+            </div>
+            
+            <div class="chat-input-area">
+                <input type="text" class="chat-input" id="userInput" placeholder="Pergunta logo, seu lento..." onkeypress="handleKeyPress(event)">
+                <button class="send-button" onclick="sendMessage()">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+        </section>
     </main>
     
     <footer>
         <div class="container">
             <div class="footer-content">
-                <div>
-                    <p class="copyright">Poker de Quinta © 2026 - Temporada 2026</p>
-                    <p class="copyright">Este é um resumo interativo do regulamento oficial.</p>
-                </div>
-                <div class="footer-links">
-                    <a href="https://pokerdequinta.github.io/site" target="_blank">Site Oficial</a>
-                    <a href="https://pokerdequinta.my.canva.site" target="_blank">Regulamento Completo</a>
-                    <a href="#" onclick="askQuestion('Quais são as regras do grupo WhatsApp?')">Regras WhatsApp</a>
-                </div>
+                <p class="copyright">Poker de Quinta © 2026 - Não leia, só jogue!</p>
+                <a href="https://pokerdequinta.my.canva.site" class="reg-button" target="_blank">REGULAMENTO COMPLETO</a>
             </div>
         </div>
     </footer>
 
     <script>
-        // Base de conhecimento do regulamento
-        const regulationKnowledge = {
+        // Base de conhecimento do regulamento (versão agressiva)
+        const aggressiveKnowledge = {
             // Valores e pagamentos
-            "buy-in": "O buy-in é de R$100,00, composto por: R$50,00 para o pote da etapa, R$30,00 para a janta e R$20,00 para taxa de limpeza. O jogador recebe 15.000 fichas.",
-            "rebuy": "Rebuy: R$30,00 = 15.000 fichas. Ilimitados até o 10° nível + 3 mãos após. Só pode fazer rebuy quando zerar as fichas. Rebuy duplo: R$60,00 = 30.000 fichas.",
-            "add-on": "Add-on: R$50,00 = 50.000 fichas. Apenas 1 por jogador, no fim do 10° nível de blinds.",
-            "pagamento": "Os valores são aceitos SOMENTE via PIX através do QR CODE da organização. Não é aceito dinheiro em espécie.",
-            "valores": "Buy-in: R$100,00 (15k fichas). Rebuy: R$30,00 (15k fichas). Add-on: R$50,00 (50k fichas). Rebuy duplo: R$60,00 (30k fichas).",
-            "pix": "Todos os pagamentos devem ser feitos via PIX. Não é aceito dinheiro em espécie. O pagamento da premiação também é feito via PIX, até as 12h do dia útil seguinte.",
+            "buy-in": "PORRA, PRESTA ATENÇÃO! Buy-in R$100,00 = R$50 pote + R$30 janta + R$20 limpeza = 15k fichas. Rebuy R$30,00 = 15k fichas. Add-on R$50,00 = 50k fichas. NÃO ACEITAMOS DINHEIRO, SÓ PIX SEU ANIMAL!",
+            "rebuy": "REBUY? R$30,00 = 15k fichas, ilimitado até o 10º nível + 3 mãos. Só faz rebuy quando ZERAR as fichas, seu apressado! Rebuy duplo R$60,00 = 30k fichas.",
+            "add-on": "ADD-ON? SÓ 1 POR JOGADOR, SEU GANANCIOSO! R$50,00 = 50k fichas, só no fim do 10º nível. Não sabe contar?",
+            "pagamento": "ESCUTA AQUI, SEU DINOSSAURO: SÓ PIX! Não aceitamos dinheiro. Usa o QR Code, seu perdido! Não sabe usar PIX? VAI PRA CASA!",
+            "valores": "VAMOS REPETIR DEVAGAR PRA VOCÊ ENTENDER: Buy-in R$100,00 (15k), Rebuy R$30,00 (15k), Add-on R$50,00 (50k). DIFÍCIL É?",
+            "pix": "NÃO, SEU RETARDADO! Não aceitamos dinheiro! Só PIX! Premiação também é PIX até 12h do dia seguinte. Aprende a usar tecnologia, seu jurássico!",
             
             // Inscrições e presença
-            "inscrição": "A inscrição é feita pelo site oficial na segunda-feira antes da etapa, às 7h. Vagas por ordem de confirmação (limite de 20 jogadores). Prioridade para membros do grupo WhatsApp.",
-            "lista": "A lista oficial é preenchida pelos membros do grupo até quarta-feira às 10h. Depois disso, a lista de espera é liberada.",
-            "falta": "Se desistir na quinta-feira sem substituição: -20 pontos no ranking. Se faltar sem aviso: -90 pontos e multa de R$100,00. Em ambos os casos, vai para o final da lista de espera.",
-            "convidado": "Cada jogador pode incluir 1 convidado (que deve ser do grupo). O jogador é responsável pelo convidado.",
-            "presença": "A confirmação deve ser feita pelo site. Chegando antes das 20h: bônus de 3.000 fichas.",
+            "inscrição": "INSCRIÇÃO? NO SITE, SEGUNDA 7H, SEU DESORGANIZADO! 20 vagas por ordem. É do grupo WhatsApp? Tem prioridade. Não é? SENTA E ESPERA!",
+            "lista": "LISTA OFICIAL até quarta 10h. Depois disso, lista de espera. Não conseguiu vaga? AZAR O SEU!",
+            "falta": "FALTOU SEM AVISAR? -90 PONTOS + R$100,00 DE MULTA, SEU IRRESPONSÁVEL! Desistiu na quinta? -20 pontos. Nos dois casos: VAI PRO FIM DA FILA!",
+            "convidado": "PODE LEVAR 1 CONVIDADO, mas você é RESPONSÁVEL pelo otário. Ele não pagar? VOCÊ PAGA, SEU TROUXA!",
+            "presença": "CHEGOU ANTES DAS 20H? Ganha 3k fichas bônus. Chegou atrasado? SENTA E FICA QUIETO!",
             
             // Regras na mesa
-            "dealer": "Haverá 2 dealers profissionais por etapa. Eles têm autoridade máxima na mesa. Desrespeito ao dealer pode resultar em exclusão do grupo.",
-            "tempo": "Tempo padrão de decisão: 30 segundos. Time Bank: cada jogador recebe 3 cartões de 30 segundos extras. Se usar todos em uma rodada e não agir, é fold.",
-            "fichas": "As fichas devem ficar sempre visíveis sobre a mesa. Retirar fichas da mesa invalida-as. O jogador pode ser punido ou eliminado.",
-            "cartas": "As cartas devem ficar sobre a mesa, visíveis. Mostrar cartas para alguém = fold. Se mostrar para um, deve mostrar para todos.",
-            "regras": "Jogador deve estar no lugar quando a segunda carta for distribuída. Se não estiver, a mão é descartada. Em sit-out, pagam-se blinds normalmente.",
-            "aposta": "Apostas devem ser feitas em um único movimento. Múltiplos movimentos sem declaração verbal valem como call do valor atual.",
+            "dealer": "TEM 2 DEALERS PROFISSIONAIS, SEU DESINFORMADO! Eles mandam na mesa. Desrespeitou? CHUTADO DO GRUPO NA HORA!",
+            "tempo": "30 SEGUNDOS PRA DECIDIR, SEU LENTO! Time Bank: 3 cartões de 30s cada. Usou todos numa rodada e não agiu? FOLD, SEU BOBÃO!",
+            "fichas": "FICHAS SEMPRE NA MESA, VISÍVEIS! Tirou da mesa? FICHA INVALIDADA! Pode ser eliminado, seu trapaceiro!",
+            "cartas": "MOSTROU CARTA PRA ALGUÉM? FOLD PRA TODOS, SEU BOCA ABERTA! Mostrou pra um = mostra pra todos!",
+            "regras": "TEM QUE ESTAR NO LUGAR QUANDO A SEGUNDA CARTA SAIR. Não estava? MÃO DESCARTADA! Em sit-out? PAGA BLIND NORMAL, SEU AUSENTE!",
+            "aposta": "APOSTA EM UM SÓ MOVIMENTO, SEU CONFUSO! Múltiplos movimentos sem falar valem como call. Dealer decide, seu indeciso!",
             
             // Sistema Knockout
-            "ko": "Sistema de Knockout: cada jogador recebe 1 ficha KO no início. Eliminações contam APÓS o intervalo. Quem elimina ganha a ficha KO do eliminado.",
-            "ficha ko": "Cada ficha KO vale 1 ponto na pontuação final. Eliminações antes do intervalo não contam como KO.",
-            "matador ko": "Ao final da temporada, o jogador com mais KOs ganha R$200,00. Em caso de empate, usam-se os critérios de desempate do ranking.",
-            "pontuação ko": "Pontuação final = pontos por classificação + fichas KO acumuladas. Exemplo: 10 pontos por classificação + 3 KOs = 13 pontos totais.",
+            "ko": "SISTEMA KO: Cada um começa com 1 ficha KO. Eliminou APÓS o intervalo? ROUBOU A FICHA DO OTÁRIO! Antes do intervalo? NÃO VALE PORRA NENHUMA!",
+            "ficha ko": "CADA FICHA KO = 1 PONTO EXTRA, SEU MATEMÁTICO! Eliminações antes do intervalo = LIXO!",
+            "matador ko": "MAIS KOS NO ANO? R$200,00 NO BOLSO! Empatou? Usa os critérios de desempate, seu mediocre!",
+            "pontuação ko": "PONTUAÇÃO FINAL = pontos por classificação + fichas KO. Exemplo: 10 pontos + 3 KOs = 13 pontos. DIFÍCIL NÃO É, SEU BURRO!",
             
             // Rei da Mesa
-            "rei": "O campeão da etapa anterior se torna o Rei da Mesa. Ele começa com 2 fichas KO (em vez de 1). Quem eliminar o Rei ganha ambas as fichas.",
-            "recompensa rei": "Se o Rei for eliminado, quem o eliminou ganha suas 2 fichas KO (valem após o intervalo). Se for campeão 2 vezes seguidas, a recompensa dobra (4 fichas KO).",
-            "ausência rei": "Se o Rei faltar, a recompensa passa para o 2° colocado da etapa anterior, depois 3°, e assim por diante.",
+            "rei": "CAMPEÃO DA ETAPA ANTERIOR VIRA REI, SEU DESINFORMADO! Começa com 2 fichas KO. Eliminou o Rei? ROUBOU AS 2 FICHAS!",
+            "recompensa rei": "REI ELIMINADO? Quem eliminou ganha as 2 fichas (só vale após intervalo). Campeão 2x seguidas? DOBRA PRA 4 FICHAS!",
+            "ausência rei": "REI FALTOU? Próximo da lista vira alvo. 2º colocado, depois 3º... Até achar um que apareceu, seu ausente!",
             
             // Roleta da Sorte
-            "roleta": "Roleta da Sorte: ativada por feitos especiais até o intervalo. Prêmios: fichas extras, cerveja, amendoim, abraços ou 1 ficha KO.",
-            "quebrador ases": "Quebrador de Ases: jogador que perde com par de Ases no showdown ganha direito a girar a roleta.",
-            "rei rebuy": "Rei do Rebuy: jogador com maior número de rebuys na etapa ganha direito a girar a roleta (desempate por posição no ranking).",
-            "prêmio roleta": "Prêmios da roleta: de 1k a 50k em fichas, 1 ficha KO, cerveja, refrigerante, amendoim, abraços do dealer/Sr. Milton/Bruxo.",
+            "roleta": "ROLETA DA SORTE: Ativada até o intervalo. Perdeu com par de Ases? GIRA A ROLETA! Fez mais rebuys? TAMBÉM GIRA!",
+            "quebrador ases": "QUEBRADOR DE ASES: Perdeu com A-A no showdown? GANHOU DIREITO DE GIRAR, SEu AZARADO!",
+            "rei rebuy": "REI DO REBUY: Mais rebuys que todo mundo? GIRA A ROLETA! Empatou? Quem tá melhor no ranking gira!",
+            "prêmio roleta": "PRÊMIOS: de 1k a 50k fichas, 1 ficha KO, cerveja, ou... SE FODEU! Sim, tem isso na roleta, seu sortudo/azarado!",
             
             // Ranking e premiação
-            "ranking": "Pontuação do ranking: 1°=27pts, 2°=25pts, 3°=23pts, 4°=21pts, 5°=19pts, 6°=17pts, 7°=15pts, 8°=13pts, 9°=11pts, 10°=9pts, 11°=7pts, 12°=6pts, 13°-20°=5pts + fichas KO.",
-            "desempate": "Critérios de desempate: 1) Número de pontos, 2) Maior número de participações, 3) Maior número de 1° lugares, 4) Maior número de KOs, 5) Locurinha (melhor de 3).",
-            "premiação": "Premiação por etapa: 1°=36%, 2°=26%, 3°=19%, 4°=12%, 5°=7% do pote arrecadado. Pagamento via PIX até 12h do dia útil seguinte.",
-            "melhor mão": "Melhor mão da noite (mínimo full house) ganha add-on gratuito na próxima etapa. Deve ter showdown e usar as duas cartas da mão.",
+            "ranking": "PONTUAÇÃO: 1º=27pts, 2º=25pts, 3º=23pts, 4º=21pts, 5º=19pts... + fichas KO. FÁCIL, NÃO?",
+            "desempate": "EMPATOU? 1) Mais pontos, 2) Mais presenças, 3) Mais vitórias, 4) Mais KOs, 5) LOCURINHA (melhor de 3)! JÁ ENTENDEU?",
+            "premiação": "PREMAIÇÃO POR ETAPA: 1º=36%, 2º=26%, 3º=19%, 4º=12%, 5º=7% do pote. PIX até 12h do dia seguinte. NÃO RECLAMA!",
+            "melhor mão": "MELHOR MÃO (mínimo full house) = ADD-ON GRÁTIS na próxima. Showdown obrigatório. Não usou as 2 cartas? NÃO VALE, SEU TRAFIQUEIRO!",
             
             // Última etapa
-            "última etapa": "Última etapa: 10/12/2026. Pote acumulado do ano (mais de R$2.000). Buy-in: R$100,00 com rebuys e add-on normais.",
-            "top 10": "Os 10 primeiros do ranking ganham buy-in free na última etapa (pagam apenas R$30 janta + R$20 taxa limpeza).",
-            "mesas última": "Na última etapa: 2 mesas (PRETA e AMARELA) com jogadores distribuídos por ranking. Assentos sorteados aleatoriamente.",
-            "premiação final": "Prêmios para os 5 melhores da temporada: 1°=R$600, 2°=R$450, 3°=R$360, 4°=R$270, 5°=R$180 + Matador de KO=R$200.",
+            "última etapa": "ÚLTIMA ETAPA: 10/12/2026. POTE ACUMULADO >R$2000. TOP 10 JOGA DE GRAÇA (paga só R$50)! Não chegou no top 10? AZAR O SEU!",
+            "top 10": "TOP 10 DO ANO = BUY-IN FREE na última etapa! Paga só R$30 janta + R$20 limpeza. CHEGOU NO TOP 10? PARABÉNS! NÃO CHEGOU? CHORA!",
+            "mesas última": "2 MESAS (PRETA e AMARELA) por ranking. Assentos SORTEADOS. 1º e 2º em mesas diferentes. JUSTO, NÃO?",
+            "premiação final": "PRÊMIOS FINAIS: 1º=R$600, 2º=R$450, 3º=R$360, 4º=R$270, 5º=R$180 + Matador de KO=R$200. QUER GANHAR? JOGA MELHOR!",
             
             // Informações gerais
-            "local": "Luck BAR - R. Prof. Sebastião Paraná, 765 - Vila Izabel, Curitiba/PR. Quintas-feiras às 20:00h.",
-            "site": "Site oficial: https://pokerdequinta.my.canva.site. Lá você encontra ranking, melhor mão, comunicados e regulamento oficial.",
-            "whatsapp": "Grupo de WhatsApp: só conteúdo relacionado ao Poker de Quinta. Proibido pornografia, ofensas, política, anúncios, eventos de terceiros e listas de outros pokers.",
-            "alterações": "A organização reserva o direito de alterar o regulamento a qualquer momento. As alterações serão anunciadas e não podem ser contestadas.",
-            "intervalo": "Após o 10° nível de blinds, jogam-se mais 3 mãos, depois intervalo para janta e contabilidade. Não pode tirar fichas da mesa durante o intervalo.",
-            "blinds": "Blinds aumentam a cada 15 minutos (níveis 1-10), depois 12 minutos (níveis 11-18), depois 10 minutos (níveis 19-24). Big blind ante a partir do nível 11."
+            "local": "LUCK BAR - R. Prof. Sebastião Paraná, 765 - Vila Izabel, Curitiba/PR. QUINTA 20H! Não sabe onde é? USA O GPS, SEU PERDIDO!",
+            "site": "SITE OFICIAL: pokerdequinta.my.canva.site Lá tem tudo. Não acessou? SEU PREGUIÇOSO!",
+            "whatsapp": "GRUPO WhatsApp: SÓ ASSUNTO DO POKER! Pornografia, ofensas, política, anúncios = CHUTADO DO GRUPO!",
+            "alterações": "ORGANIZAÇÃO MUDA AS REGRAS QUANDO QUISER! Não gostou? NÃO JOGA, SEU CHATÃO!",
+            "intervalo": "APÓS 10º NÍVEL: mais 3 mãos, depois intervalo. TIROU FICHA DA MESA NO INTERVALO? ELIMINADO, SEU APRESSAO!",
+            "blinds": "BLINDS: 15min (níveis 1-10), 12min (11-18), 10min (19-24). Big blind ante a partir do nível 11. APRENDEU?",
+            "capilé": "CAPILÉ? VOLUNTÁRIO! Dar ou não dar. Organização NÃO SE METE NISSO. Combinou e não pagou? PROBLEMA SEU, SEU CALOTEIRO!"
         };
         
-        // Perguntas com respostas específicas
-        const specificQuestions = {
-            "qual o valor do buy-in?": "O buy-in é R$100,00 (R$50 pote + R$30 janta + R$20 taxa limpeza) = 15.000 fichas. Rebuy: R$30,00 = 15.000 fichas. Add-on: R$50,00 = 50.000 fichas.",
-            "como funciona o sistema de ko?": "Cada jogador começa com 1 ficha KO. Eliminações APÓS o intervalo contam: quem elimina ganha a ficha KO do eliminado. Cada ficha KO = 1 ponto na pontuação final.",
-            "o que é a recompensa do rei?": "O campeão da etapa anterior (Rei) começa com 2 fichas KO. Quem eliminar o Rei ganha ambas as fichas (após o intervalo). Se for campeão 2x seguidas, a recompensa dobra (4 fichas).",
-            "quando posso fazer rebuy?": "Rebuys são ilimitados até o 10° nível + 3 mãos após. Só pode fazer rebuy quando zerar as fichas. Add-on: apenas 1 por jogador, no fim do 10° nível.",
-            "como funciona a roleta da sorte?": "Ativada por feitos especiais até o intervalo: 1) Perder com par de Ases (quebrador de ases), 2) Ter o maior número de rebuys (rei do rebuy). Prêmios: fichas extras, cerveja, ficha KO, etc.",
-            "como é calculado o ranking?": "Pontos por classificação (1°=27pts, 2°=25pts, etc.) + fichas KO acumuladas. Desempate: 1) Pontos, 2) Participações, 3) 1° lugares, 4) KOs, 5) Locurinha.",
-            "o que acontece na última etapa?": "10/12/2026. Top 10 do ranking ganham buy-in free (pagam apenas R$50). Pote acumulado >R$2000. Premiação para os 5 melhores da temporada + matador de KO.",
-            "como funciona o time bank?": "30 segundos para decisão. Cada jogador recebe 3 cartões de Time Bank (30 segundos extras cada). Entregue 1 cartão ao dealer para usar tempo extra. Se usar todos em uma rodada sem agir = fold.",
-            "quais são as penalidades por falta?": "Desistir na quinta sem substituição: -20 pontos. Faltar sem aviso: -90 pontos + multa R$100. Em ambos os casos, vai para o final da lista de espera.",
-            "como funcionam as inscrições?": "Pelo site oficial na segunda antes da etapa (7h). Vagas por ordem (limite 20). Prioridade para grupo WhatsApp até quarta 10h. Depois, lista de espera.",
-            "posso pagar em dinheiro?": "NÃO. Todos os pagamentos são SOMENTE via PIX (QR CODE da organização). Não é aceito dinheiro em espécie.",
-            "o que é o bônus de pontualidade?": "Quem chegar antes das 20h recebe 3.000 fichas extras no stack inicial.",
-            "como funciona o balanceamento das mesas?": "Quando necessário, o jogador mais próximo do big blind na mesa original é transferido. Na nova mesa, ocupa posição equivalente ao big blind.",
-            "quem são os dealers?": "2 dealers profissionais por etapa. Eles têm autoridade máxima na mesa. Desrespeito pode resultar em exclusão. Podem ser trocados a cada hora.",
-            "o que é capilé?": "Gorjeta para dealers, permitida mas VOLUNTÁRIA. A organização não se responsabiliza por acordos entre jogadores e dealers.",
-            "qual o horário do jogo?": "Quintas-feiras às 20:00h no Luck BAR. Blinds aumentam a cada 15 minutos (níveis 1-10), depois 12 min, depois 10 min.",
-            "o que é o big blind ante?": "A partir do nível 11, o jogador no big blind paga também o ante da mesa. Simplifica o jogo e acelera as rodadas.",
-            "como funciona a votação?": "Em decisões da mesa, cada jogador recebe 2 cartas (vermelha=sim, preta=não). Resultado positivo só se TODAS forem da mesma cor.",
-            "quais são as regras do grupo whatsapp?": "PROIBIDO: pornografia, conteúdo ofensivo/racista/político, anúncios/comércio, divulgação de eventos de terceiros, listas de outros pokers. PERMITIDO: resenha sobre futebol e poker. Infração = remoção do grupo."
-        };
+        // Função para alternar cards (mobile)
+        function toggleCard(card) {
+            // Fecha todos os outros cards
+            const allCards = document.querySelectorAll('.category-card');
+            allCards.forEach(otherCard => {
+                if (otherCard !== card && otherCard.classList.contains('active')) {
+                    otherCard.classList.remove('active');
+                }
+            });
+            
+            // Alterna o card clicado
+            card.classList.toggle('active');
+        }
         
         // Função para enviar mensagem
         function sendMessage() {
@@ -695,12 +805,19 @@
             userInput.value = '';
             
             // Processar pergunta e obter resposta
-            const answer = getAnswer(question);
+            const answer = getAggressiveAnswer(question);
             
-            // Adicionar resposta do bot (com pequeno atraso para simular processamento)
+            // Adicionar resposta do bot
             setTimeout(() => {
                 addMessage(answer, 'bot');
-            }, 500);
+                // Efeito de shake se a resposta for muito agressiva
+                if (answer.includes('!') && (answer.includes('BURRO') || answer.includes('SEU') || answer.includes('PORRA'))) {
+                    const messages = document.querySelectorAll('.bot-message');
+                    const lastMessage = messages[messages.length - 1];
+                    lastMessage.classList.add('shake');
+                    setTimeout(() => lastMessage.classList.remove('shake'), 500);
+                }
+            }, 300);
         }
         
         // Função para lidar com pressionar Enter
@@ -710,23 +827,44 @@
             }
         }
         
-        // Função para fazer pergunta diretamente dos botões
+        // Função para fazer pergunta diretamente
         function askQuestion(question) {
             document.getElementById('userInput').value = question;
             sendMessage();
         }
         
-        // Função para obter resposta baseada na pergunta
-        function getAnswer(question) {
+        // Função para obter resposta agressiva
+        function getAggressiveAnswer(question) {
             // Verificar se é uma pergunta específica
-            for (const [key, answer] of Object.entries(specificQuestions)) {
+            const specificAnswers = {
+                "qual o valor do buy-in?": "PORRA, JÁ NÃO FALEI? R$100,00 = 15k fichas! R$50 pote + R$30 janta + R$20 limpeza. DIFÍCIL ENTENDER, SEU LESADO?",
+                "como funciona o sistema de ko?": "SISTEMA KO: Cada otário começa com 1 ficha KO. Eliminou depois do intervalo? ROUBOU A FICHA! Antes do intervalo? ESQUECE! FÁCIL, NÃO?",
+                "posso pagar em dinheiro?": "NÃO, SEU DINOSSAURO! SÓ PIX! Não aceitamos dinheiro. Aprende a usar tecnologia do século 21!",
+                "o que acontece se eu faltar?": "FALTOU SEM AVISAR? -90 PONTOS + R$100,00 DE MULTA! VAI PRO FIM DA LISTA! ACHOU QUE IA ESCAPAR, SEU ESPERTINHO?",
+                "como funciona a roleta da sorte?": "ROLETA: Perdeu com A-A? GIRA! Fez mais rebuys? GIRA! Prêmio: fichas, cerveja, ou... SE FODEU! Sorte ou azar, seu sortudo/azarado!",
+                "o que é a recompensa do rei?": "REI: Campeão anterior começa com 2 fichas KO. Eliminou o Rei? ROUBOU AS 2! Rei campeão 2x? DOBRA PRA 4! SIMPLES, SEU BURRO!",
+                "quando posso fazer rebuy?": "REBUY: Quando ZERAR as fichas, seu apressado! Ilimitado até 10º nível + 3 mãos. Add-on só 1, no fim do 10º nível. ENTENDEU AGORA?",
+                "como é calculado o ranking?": "RANKING: Pontos por classificação + fichas KO. Empate? 1) Pontos, 2) Presenças, 3) Vitórias, 4) KOs, 5) LOCURINHA! COMPLICADO PRA VOCÊ?",
+                "o que acontece na última etapa?": "ÚLTIMA ETAPA: TOP 10 JOGA DE GRAÇA! Pote >R$2000. Não tá no top 10? AZAR O SEU! Vai ter que pagar como todo mundo, seu fracassado!",
+                "como funciona o time bank?": "TIME BANK: 30s pra decidir + 3 cartões de 30s. Usou todos e não agiu? FOLD, SEU LENTO! Não sabe contar tempo? USA RELÓGIO!",
+                "quais são as penalidades por falta?": "PENALIDADES: Faltou sem aviso? -90 pontos + R$100 multa! Desistiu na quinta? -20 pontos. Nos dois casos: FIM DA FILA! JUSTO, NÃO?",
+                "como funcionam as inscrições?": "INSCRIÇÕES: Site segunda 7h, 20 vagas. É do grupo? Prioridade. Não é? SENTA E CHORA! Lista até quarta 10h, depois espera.",
+                "o que é o bônus de pontualidade?": "BÔNUS: Chegou antes das 20h? 3k fichas extras. Chegou atrasado? SENTA E FICA QUIETO! Simples assim, seu atrasado!",
+                "quem são os dealers?": "DEALERS: 2 profissionais por etapa. Mandam na mesa. Desrespeitou? CHUTADO DO GRUPO! Respeita quem tá trabalhando, seu mal-educado!",
+                "o que é capilé?": "CAPILÉ? Gorjeta VOLUNTÁRIA pro dealer. Dar ou não dar. Organização NÃO SE METE. Combinou e não pagou? PROBLEMA SEU, SEU CALOTEIRO!",
+                "qual o horário do jogo?": "HORÁRIO: QUINTA 20H! Todo mundo sabe, só você que não? Chegou atrasado? PERDEU BÔNUS! Óbvio, não?",
+                "o que é o big blind ante?": "BIG BLIND ANTE: A partir do nível 11, o big blind paga o ante também. Acelera o jogo. Não gostou? SE ADAPTA, SEU CHATO!",
+                "como funciona a votação?": "VOTAÇÃO: Cada um tem 2 cartas (vermelha=sim, preta=não). Todas iguais = aprova. Uma diferente = rejeita. DEMOCRACIA, SEU DITADOR!"
+            };
+            
+            for (const [key, answer] of Object.entries(specificAnswers)) {
                 if (question.includes(key)) {
                     return answer;
                 }
             }
             
-            // Procurar por palavras-chave no conhecimento
-            const keywords = Object.keys(regulationKnowledge);
+            // Procurar por palavras-chave
+            const keywords = Object.keys(aggressiveKnowledge);
             const foundKeywords = [];
             
             for (const keyword of keywords) {
@@ -735,22 +873,21 @@
                 }
             }
             
-            // Se encontrou palavras-chave, retornar respostas
+            // Se encontrou palavras-chave
             if (foundKeywords.length > 0) {
-                // Ordenar por relevância (palavras mais longas primeiro)
                 foundKeywords.sort((a, b) => b.length - a.length);
-                
-                let answer = "";
-                // Usar no máximo 3 respostas para não ficar muito longo
-                for (let i = 0; i < Math.min(foundKeywords.length, 3); i++) {
-                    answer += regulationKnowledge[foundKeywords[i]] + " ";
-                }
-                
+                let answer = aggressiveKnowledge[foundKeywords[0]];
                 return answer;
             }
             
-            // Resposta padrão se não entender
-            return "Desculpe, não entendi sua pergunta sobre o regulamento. Tente ser mais específico ou use uma das categorias ao lado. Você pode perguntar sobre: valores, inscrições, regras da mesa, sistema KO, Rei da Mesa, Roleta da Sorte, ranking ou última etapa.";
+            // Resposta padrão agressiva
+            const defaultAnswers = [
+                "PERGUNTA DIREITO, SEU ENROLAÇÃO! Fala sobre valores, inscrições, regras, KO, Rei, Roleta, ranking ou última etapa!",
+                "NÃO ENTENDI NADA, SEU GAGÁ! Pergunta direito ou clica nos cards! Tô sem paciência!",
+                "FALA PORTUGUÊS, SEU CONFUSO! Pergunta sobre algo do regulamento ou vai ler os cards!"
+            ];
+            
+            return defaultAnswers[Math.floor(Math.random() * defaultAnswers.length)];
         }
         
         // Função para adicionar mensagem ao chat
@@ -763,22 +900,24 @@
                 messageDiv.innerHTML = `<strong>Você:</strong> ${text}`;
             } else {
                 messageDiv.className = 'message bot-message';
-                messageDiv.innerHTML = `<strong>Bot do Poker de Quinta:</strong> ${text}`;
+                // Adiciona classe agressiva se a resposta tiver certas palavras
+                if (text.includes('!') || text.includes('BURRO') || text.includes('SEU') || text.includes('PORRA')) {
+                    messageDiv.classList.add('aggressive-response');
+                }
+                messageDiv.innerHTML = `<strong>Bot Respondão:</strong> ${text}`;
             }
             
             chatMessages.appendChild(messageDiv);
             chatMessages.scrollTop = chatMessages.scrollHeight;
         }
         
-        // Inicializar com algumas perguntas comuns
+        // Inicializar com mensagem agressiva
         window.onload = function() {
-            // Adicionar algumas perguntas iniciais após um pequeno delay
             setTimeout(() => {
-                addMessage("Aqui estão algumas informações importantes:", 'bot');
-                addMessage("📍 Local: Luck BAR - R. Prof. Sebastião Paraná, 765 - Vila Izabel, Curitiba/PR. Quintas-feiras às 20:00h.", 'bot');
-                addMessage("💰 Valores: Buy-in R$100,00 = 15k fichas. Rebuy R$30,00 = 15k fichas. Add-on R$50,00 = 50k fichas.", 'bot');
-                addMessage("💳 Pagamento: SOMENTE via PIX. Não é aceito dinheiro em espécie.", 'bot');
-            }, 1000);
+                addMessage("E AÍ, SEU PREGUIÇOSO! Tá sem saco pra ler regulamento? EU TE AJUDO, MAS SEJA RÁPIDO!", 'bot');
+                addMessage("📍 Local: Luck BAR - R. Prof. Sebastião Paraná, 765. QUINTA 20H! Chegou atrasado? SENTA E CHORA!", 'bot');
+                addMessage("💰 Valores: Buy-in R$100,00. Rebuy R$30,00. Add-on R$50,00. NÃO ACEITA DINHEIRO, SÓ PIX!", 'bot');
+            }, 800);
         };
     </script>
 </body>
