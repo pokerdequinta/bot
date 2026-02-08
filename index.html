@@ -3,1212 +3,1441 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BOT PDQ - Regulamento Poker de Quinta</title>
+    <title>🃏 BOT PDQ SUPREMO - Poker de Quinta</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Anton&family=Roboto:wght@300;400;700&display=swap');
-
+        @import url('https://fonts.googleapis.com/css2?family=Anton&family=Orbitron:wght@400;700;900&family=Roboto:wght@300;400;700&display=swap');
+        
         :root {
-            --bg-main: #0d1b0d;
-            --bg-card: #102810;
-            --gold: #d4a121;
-            --green-medium: #1a3d1a;
-            --green-accent: #2d5016;
-            --red-alert: #c72c48;
-            --text: #fff;
-            --text-secondary: rgba(255, 255, 255, 0.9);
+            --bg-main: #0a0a14;
+            --bg-dark: #050509;
+            --bg-card: #0f0f1a;
+            --gold: #ffd700;
+            --gold-dark: #c5a500;
+            --red-alert: #ff0033;
+            --red-dark: #cc0029;
+            --blue-accent: #1e90ff;
+            --neon-green: #39ff14;
+            --text: #ffffff;
+            --text-dim: rgba(255, 255, 255, 0.85);
+            --border-glow: rgba(255, 215, 0, 0.4);
         }
-
+        
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
             font-family: 'Roboto', sans-serif;
         }
-
+        
         body {
-            background-color: var(--bg-main);
+            background: linear-gradient(135deg, var(--bg-main) 0%, var(--bg-dark) 100%);
             color: var(--text);
             min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            padding-top: 120px; /* Aumentado para header maior */
+            overflow-x: hidden;
+            position: relative;
         }
-
-        /* HEADER COM LOGO MAIOR */
-        .header {
-            background: var(--bg-card);
-            padding: 15px 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            border-bottom: 3px solid var(--gold);
+        
+        body::before {
+            content: '';
             position: fixed;
             top: 0;
             left: 0;
-            right: 0;
-            z-index: 100;
-            height: 120px; /* Aumentado */
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(255, 215, 0, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 0, 51, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 40% 80%, rgba(30, 144, 255, 0.05) 0%, transparent 50%);
+            z-index: -1;
         }
-
+        
+        /* HEADER COM LOGO GIGANTE */
+        .header {
+            background: var(--bg-card);
+            padding: 15px 30px;
+            border-bottom: 4px solid var(--gold);
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        
         .logo-container {
             display: flex;
             align-items: center;
-            justify-content: center;
-            margin-bottom: 10px;
+            gap: 20px;
+            flex: 1;
+            min-width: 300px;
         }
-
+        
         .logo-img {
-            height: 70px; /* Aumentado de 40px para 70px */
+            height: 80px;
             width: auto;
-            max-width: 300px;
-            object-fit: contain;
+            border: 3px solid var(--gold);
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+            transition: all 0.3s;
         }
-
-        .logo-fallback {
+        
+        .logo-img:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.8);
+        }
+        
+        .logo-text {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+        
+        .logo-title {
+            font-family: 'Anton', sans-serif;
+            font-size: 36px;
+            color: var(--gold);
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            text-shadow: 3px 3px 0 var(--red-dark);
+        }
+        
+        .logo-subtitle {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 14px;
+            color: var(--neon-green);
+            letter-spacing: 2px;
+        }
+        
+        .live-status {
+            background: linear-gradient(45deg, var(--red-alert), var(--red-dark));
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: bold;
+            font-size: 14px;
             display: flex;
             align-items: center;
-            justify-content: center;
-            height: 70px;
-            padding: 10px 25px;
-            background: #000;
-            border-radius: 8px;
-            border: 2px solid var(--gold);
+            gap: 10px;
+            animation: pulse 2s infinite;
+            box-shadow: 0 0 15px rgba(255, 0, 51, 0.5);
         }
-
-        .logo-fallback div {
-            font-family: 'Anton', sans-serif;
-            font-size: 36px; /* Aumentado */
-            color: var(--gold);
-            text-transform: uppercase;
-            letter-spacing: 3px;
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
         }
-
-        .page-title {
-            font-family: 'Anton', sans-serif;
-            font-size: 24px; /* Aumentado */
-            letter-spacing: 3px;
-            color: var(--gold);
-            text-transform: uppercase;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
-        }
-
+        
         /* CONTAINER PRINCIPAL */
         .container {
             display: flex;
-            flex: 1;
-            max-width: 1400px;
-            margin: 0 auto;
-            width: 100%;
-            padding: 15px;
-            gap: 15px;
-            height: calc(100vh - 140px);
+            max-width: 1600px;
+            margin: 30px auto;
+            padding: 0 20px;
+            gap: 25px;
+            height: calc(100vh - 180px);
         }
-
-        /* BOTÕES LATERAIS */
-        .buttons-sidebar {
-            width: 200px;
+        
+        /* PAINEL DE COMANDOS RÁPIDOS */
+        .commands-panel {
+            width: 320px;
             display: flex;
             flex-direction: column;
-            gap: 10px;
-            padding-right: 10px;
-            overflow-y: auto;
+            gap: 15px;
+            flex-shrink: 0;
         }
-
-        .side-button {
-            background: var(--bg-card);
+        
+        .panel-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 18px;
+            color: var(--gold);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            padding: 15px;
+            background: rgba(15, 15, 26, 0.8);
+            border-radius: 10px;
             border: 2px solid var(--gold);
-            border-radius: 8px;
-            padding: 12px 8px;
+            text-align: center;
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.2);
+        }
+        
+        .command-card {
+            background: rgba(15, 15, 26, 0.9);
+            border: 2px solid var(--border-glow);
+            border-radius: 10px;
+            padding: 15px;
             cursor: pointer;
             transition: all 0.3s;
-            text-align: center;
-            min-height: 60px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
+            position: relative;
+            overflow: hidden;
         }
-
-        .side-button:hover {
-            background: rgba(212, 161, 33, 0.1);
+        
+        .command-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.1), transparent);
+            transition: 0.5s;
+        }
+        
+        .command-card:hover::before {
+            left: 100%;
+        }
+        
+        .command-card:hover {
             transform: translateX(5px);
-        }
-
-        .side-button.active {
-            background: rgba(212, 161, 33, 0.2);
             border-color: var(--gold);
-            box-shadow: 0 0 10px rgba(212, 161, 33, 0.3);
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
         }
-
-        .side-button i {
-            font-size: 20px;
+        
+        .command-card.active {
+            background: rgba(255, 215, 0, 0.1);
+            border-color: var(--gold);
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
+        }
+        
+        .command-icon {
+            font-size: 24px;
             color: var(--gold);
-            margin-bottom: 5px;
+            margin-bottom: 10px;
         }
-
-        .side-button .button-text {
-            font-size: 10px;
-            font-weight: 600;
+        
+        .command-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 14px;
+            font-weight: bold;
             color: var(--text);
+            margin-bottom: 5px;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
-            line-height: 1.2;
+            letter-spacing: 1px;
         }
-
+        
+        .command-desc {
+            font-size: 12px;
+            color: var(--text-dim);
+            line-height: 1.4;
+        }
+        
         /* ÁREA DO CHAT */
         .chat-area {
             flex: 1;
             display: flex;
             flex-direction: column;
-            background-color: var(--bg-card);
-            border-radius: 10px;
+            background: rgba(15, 15, 26, 0.9);
+            border-radius: 15px;
             border: 2px solid var(--gold);
             overflow: hidden;
+            box-shadow: 0 0 40px rgba(255, 215, 0, 0.2);
         }
-
+        
         .chat-header {
-            background: linear-gradient(135deg, var(--green-accent), var(--green-medium));
-            padding: 15px;
+            background: linear-gradient(90deg, var(--bg-card), rgba(15, 15, 26, 0.9));
+            padding: 20px;
             border-bottom: 2px solid var(--gold);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
         }
-
-        .chat-header h3 {
-            font-family: 'Anton', sans-serif;
-            font-size: 20px;
-            letter-spacing: 2px;
+        
+        .chat-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 24px;
             color: var(--gold);
+            letter-spacing: 3px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .bot-status {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 12px;
+            color: var(--neon-green);
+        }
+        
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            background: var(--neon-green);
+            border-radius: 50%;
+            animation: blink 1.5s infinite;
+        }
+        
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+        
+        .chat-messages {
+            flex: 1;
+            padding: 25px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            background: 
+                radial-gradient(circle at 30% 30%, rgba(255, 215, 0, 0.05) 0%, transparent 70%),
+                radial-gradient(circle at 70% 70%, rgba(255, 0, 51, 0.05) 0%, transparent 70%);
+        }
+        
+        .message {
+            max-width: 85%;
+            padding: 20px;
+            border-radius: 15px;
+            animation: slideIn 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        @keyframes slideIn {
+            from { 
+                opacity: 0; 
+                transform: translateY(20px) scale(0.95); 
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0) scale(1); 
+            }
+        }
+        
+        .message::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--gold), transparent);
+        }
+        
+        .bot-message {
+            background: linear-gradient(145deg, rgba(15, 15, 26, 0.95), rgba(10, 10, 20, 0.95));
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            border-left: 5px solid var(--gold);
+            align-self: flex-start;
+            box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .user-message {
+            background: linear-gradient(145deg, rgba(30, 30, 45, 0.95), rgba(20, 20, 35, 0.95));
+            border: 1px solid rgba(30, 144, 255, 0.3);
+            border-right: 5px solid var(--blue-accent);
+            align-self: flex-end;
+            box-shadow: -5px 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .message-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .message-sender {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: bold;
+            font-size: 14px;
             text-transform: uppercase;
+            letter-spacing: 2px;
             display: flex;
             align-items: center;
             gap: 10px;
         }
-
-        .chat-messages {
-            flex: 1;
-            padding: 20px;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            background-color: rgba(16, 40, 16, 0.8);
-        }
-
-        .message {
-            max-width: 90%;
-            padding: 15px 18px;
-            border-radius: 10px;
-            line-height: 1.6;
-            animation: fadeIn 0.3s ease;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .bot-message {
-            background-color: rgba(26, 61, 26, 0.7);
-            border: 2px solid rgba(212, 161, 33, 0.3);
-            border-bottom-left-radius: 5px;
-            align-self: flex-start;
-        }
-
-        .user-message {
-            background-color: rgba(40, 40, 40, 0.7);
-            border: 2px solid rgba(255, 255, 255, 0.2);
-            border-bottom-right-radius: 5px;
-            align-self: flex-end;
-        }
-
-        .message-sender {
-            font-family: 'Anton', sans-serif;
-            font-weight: 600;
-            font-size: 12px;
-            margin-bottom: 6px;
-            letter-spacing: 1px;
-            text-transform: uppercase;
+        
+        .bot-sender {
             color: var(--gold);
         }
-
+        
+        .user-sender {
+            color: var(--blue-accent);
+        }
+        
+        .message-time {
+            font-size: 11px;
+            color: var(--text-dim);
+            font-family: 'Orbitron', sans-serif;
+        }
+        
         .message-content {
-            font-size: 14px;
+            font-size: 15px;
+            line-height: 1.6;
             color: var(--text);
         }
-
-        .highlight {
-            color: var(--gold);
-            font-weight: bold;
-        }
-
+        
         .insult {
-            color: var(--gold);
-            font-weight: bold;
-            text-transform: uppercase;
-            background-color: rgba(212, 161, 33, 0.1);
-            padding: 4px 8px;
-            border-radius: 5px;
-            display: inline-block;
-            margin: 4px 0;
-            border: 1px solid var(--gold);
-        }
-
-        .aggressive {
             color: var(--red-alert);
             font-weight: bold;
             text-transform: uppercase;
-            background-color: rgba(199, 44, 72, 0.1);
-            padding: 4px 8px;
-            border-radius: 5px;
+            background: rgba(255, 0, 51, 0.1);
+            padding: 8px 15px;
+            border-radius: 8px;
             display: inline-block;
-            margin: 4px 0;
+            margin: 8px 0;
             border: 1px solid var(--red-alert);
+            font-family: 'Anton', sans-serif;
+            letter-spacing: 1px;
+            animation: shake 0.5s;
         }
-
-        .rule-reference {
-            font-size: 11px;
-            color: rgba(255, 255, 255, 0.7);
-            margin-top: 10px;
-            font-style: italic;
-            border-top: 1px dashed rgba(212, 161, 33, 0.2);
-            padding-top: 6px;
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
         }
-
-        /* INPUT */
-        .chat-input-container {
+        
+        .highlight {
+            color: var(--gold);
+            font-weight: bold;
+            background: rgba(255, 215, 0, 0.1);
+            padding: 5px 10px;
+            border-radius: 5px;
+            margin: 5px 0;
+            display: inline-block;
+        }
+        
+        .warning {
+            color: var(--neon-green);
+            font-weight: bold;
+            border-left: 3px solid var(--neon-green);
+            padding-left: 10px;
+            margin: 10px 0;
+        }
+        
+        .data-box {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            border-radius: 10px;
             padding: 15px;
-            border-top: 2px solid rgba(212, 161, 33, 0.2);
-            background-color: var(--bg-card);
+            margin: 15px 0;
         }
-
+        
+        .data-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .data-label {
+            color: var(--text-dim);
+            font-weight: bold;
+        }
+        
+        .data-value {
+            color: var(--gold);
+            font-weight: bold;
+            font-family: 'Orbitron', sans-serif;
+        }
+        
+        .chip {
+            display: inline-block;
+            background: linear-gradient(45deg, var(--gold), var(--gold-dark));
+            color: #000;
+            font-weight: bold;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            margin: 0 5px;
+            font-family: 'Orbitron', sans-serif;
+        }
+        
+        /* INPUT AREA */
+        .chat-input-container {
+            padding: 20px;
+            border-top: 2px solid rgba(255, 215, 0, 0.2);
+            background: rgba(15, 15, 26, 0.95);
+        }
+        
         .chat-input-wrapper {
             display: flex;
-            gap: 10px;
+            gap: 15px;
+            align-items: center;
         }
-
+        
         #user-input {
             flex: 1;
-            padding: 10px 15px;
-            border-radius: 8px;
-            border: 2px solid var(--gold);
-            background-color: rgba(10, 25, 10, 0.8);
+            padding: 15px 20px;
+            border-radius: 12px;
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            background: rgba(10, 10, 20, 0.8);
             color: var(--text);
-            font-size: 14px;
+            font-size: 16px;
+            transition: all 0.3s;
+            font-family: 'Roboto', sans-serif;
         }
-
+        
         #user-input:focus {
             outline: none;
             border-color: var(--gold);
-            box-shadow: 0 0 8px rgba(212, 161, 33, 0.3);
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+            background: rgba(15, 15, 26, 0.9);
         }
-
+        
         #send-button {
-            background: var(--gold);
+            background: linear-gradient(45deg, var(--gold), var(--gold-dark));
             color: #000;
             border: none;
-            border-radius: 8px;
-            padding: 0 20px;
+            border-radius: 12px;
+            padding: 15px 30px;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: bold;
-            font-size: 13px;
-            min-width: 80px;
+            font-size: 16px;
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 2px;
+            text-transform: uppercase;
             transition: all 0.3s;
+            min-width: 120px;
         }
-
+        
         #send-button:hover {
-            background: #e6b122;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(212, 161, 33, 0.3);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(255, 215, 0, 0.4);
+            background: linear-gradient(45deg, var(--gold-dark), var(--gold));
         }
-
+        
         /* TYPING INDICATOR */
         .typing-indicator {
             display: flex;
             align-items: center;
-            gap: 6px;
-            padding: 12px;
+            gap: 8px;
+            padding: 15px;
+            align-self: flex-start;
         }
-
+        
+        .typing-text {
+            font-size: 14px;
+            color: var(--text-dim);
+            font-style: italic;
+        }
+        
+        .typing-dots {
+            display: flex;
+            gap: 5px;
+        }
+        
         .typing-dot {
             width: 8px;
             height: 8px;
-            background-color: var(--gold);
+            background: var(--gold);
             border-radius: 50%;
             animation: typing 1.4s infinite ease-in-out both;
         }
-
-        .typing-dot:nth-child(1) {
-            animation-delay: -0.32s;
-        }
-
-        .typing-dot:nth-child(2) {
-            animation-delay: -0.16s;
-        }
-
-        @keyframes typing {
-            0%, 80%, 100% { transform: scale(0); opacity: 0.5; }
-            40% { transform: scale(1); opacity: 1; }
-        }
-
+        
         /* FOOTER */
         .footer {
             text-align: center;
-            padding: 15px;
-            background-color: var(--bg-card);
+            padding: 20px;
+            background: rgba(15, 15, 26, 0.95);
             border-top: 2px solid var(--gold);
-            margin-top: auto;
+            margin-top: 30px;
         }
-
-        .footer h2 {
+        
+        .footer-title {
             font-family: 'Anton', sans-serif;
-            font-size: 20px;
-            letter-spacing: 2px;
+            font-size: 28px;
             color: var(--gold);
             text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 0 var(--red-dark);
         }
-
-        /* RESPONSIVO */
-        @media (max-width: 900px) {
+        
+        .footer-subtitle {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 12px;
+            color: var(--text-dim);
+            letter-spacing: 2px;
+        }
+        
+        /* RESPONSIVIDADE */
+        @media (max-width: 1200px) {
             .container {
                 flex-direction: column;
                 height: auto;
             }
-
-            .buttons-sidebar {
+            
+            .commands-panel {
                 width: 100%;
                 flex-direction: row;
                 flex-wrap: wrap;
                 justify-content: center;
-                padding-right: 0;
-                overflow-y: visible;
             }
-
-            .side-button {
-                width: calc(25% - 10px);
-                min-height: 50px;
+            
+            .command-card {
+                width: calc(33.333% - 10px);
             }
-
-            body {
-                padding-top: 140px;
+            
+            .logo-title {
+                font-size: 28px;
             }
-
+            
             .logo-img {
                 height: 60px;
             }
-
-            .logo-fallback {
-                height: 60px;
+        }
+        
+        @media (max-width: 768px) {
+            .command-card {
+                width: calc(50% - 10px);
             }
-
-            .logo-fallback div {
-                font-size: 30px;
+            
+            .header {
+                flex-direction: column;
+                text-align: center;
+                padding: 15px;
             }
-
-            .page-title {
+            
+            .logo-container {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .logo-title {
+                font-size: 24px;
+            }
+            
+            .logo-img {
+                height: 50px;
+            }
+            
+            .chat-title {
                 font-size: 20px;
             }
         }
-
-        @media (max-width: 600px) {
-            .side-button {
-                width: calc(33.333% - 10px);
-            }
-
-            .logo-img {
-                height: 50px;
-            }
-
-            .logo-fallback {
-                height: 50px;
-            }
-
-            .logo-fallback div {
-                font-size: 24px;
-            }
-
-            .page-title {
-                font-size: 18px;
-            }
-
-            .chat-header h3 {
-                font-size: 18px;
-            }
-        }
-
+        
         @media (max-width: 480px) {
-            .side-button {
-                width: calc(50% - 10px);
+            .command-card {
+                width: 100%;
             }
-
-            .container {
-                padding: 10px;
+            
+            .logo-title {
+                font-size: 20px;
             }
-
-            .logo-img {
-                height: 45px;
-            }
-
-            .logo-fallback {
-                height: 45px;
-                padding: 8px 20px;
-            }
-
-            .logo-fallback div {
+            
+            .footer-title {
                 font-size: 22px;
             }
-
-            .page-title {
-                font-size: 16px;
+            
+            #send-button {
+                padding: 12px 20px;
+                min-width: 100px;
+                font-size: 14px;
             }
         }
     </style>
 </head>
 <body>
-    <!-- HEADER COM LOGO MAIOR -->
+    <!-- HEADER COM LOGO GIGANTE -->
     <div class="header">
         <div class="logo-container">
-            <img src="logo pdq.png" alt="Logo Poker de Quinta" class="logo-img" onerror="this.style.display='none'; document.querySelector('.logo-fallback').style.display='flex'">
-            <div class="logo-fallback" style="display: none;">
-                <div>PDQ</div>
+            <img src="logo-pdq.png" alt="Logo Poker de Quinta" class="logo-img" onerror="this.onerror=null; this.src='https://via.placeholder.com/80x80/0f0f1a/ffd700?text=PDQ'">
+            <div class="logo-text">
+                <div class="logo-title">Poker de Quinta</div>
+                <div class="logo-subtitle">BOT SUPREMO 2026</div>
             </div>
         </div>
-        <div class="page-title">BOT PDQ - O MAIS AGGRESSIVO</div>
+        
+        <div class="live-status">
+            <i class="fas fa-satellite-dish"></i>
+            CONECTADO AO BANCO DE DADOS
+        </div>
     </div>
-
+    
     <div class="container">
-        <!-- BOTÕES LATERAIS -->
-        <div class="buttons-sidebar" id="buttons-sidebar">
-            <div class="side-button active" onclick="showTopic('buyin')">
-                <i class="fas fa-money-bill-wave"></i>
-                <div class="button-text">💰 Buy-in</div>
+        <!-- PAINEL DE COMANDOS RÁPIDOS -->
+        <div class="commands-panel">
+            <div class="panel-title">⚡ COMANDOS RÁPIDOS</div>
+            
+            <div class="command-card active" onclick="showTopic('ranking')">
+                <div class="command-icon"><i class="fas fa-trophy"></i></div>
+                <div class="command-title">CONSULTAR RANKING</div>
+                <div class="command-desc">Pergunte por jogador específico: "Onde está o João?"</div>
             </div>
-
-            <div class="side-button" onclick="showTopic('rebuy')">
-                <i class="fas fa-redo"></i>
-                <div class="button-text">🔄 Rebuy</div>
+            
+            <div class="command-card" onclick="showTopic('campeoes')">
+                <div class="command-icon"><i class="fas fa-crown"></i></div>
+                <div class="command-title">CAMPEÕES DAS ETAPAS</div>
+                <div class="command-desc">"Quem ganhou a etapa 5?"</div>
             </div>
-
-            <div class="side-button" onclick="showTopic('inscricoes')">
-                <i class="fas fa-clipboard-list"></i>
-                <div class="button-text">📝 Inscrições</div>
+            
+            <div class="command-card" onclick="showTopic('melhor_mao')">
+                <div class="command-icon"><i class="fas fa-star"></i></div>
+                <div class="command-title">MELHORES MÃOS</div>
+                <div class="command-desc">"Melhor mão da etapa 3?"</div>
             </div>
-
-            <div class="side-button" onclick="showTopic('ko')">
-                <i class="fas fa-fist-raised"></i>
-                <div class="button-text">👊 Sistema KO</div>
+            
+            <div class="command-card" onclick="showTopic('matadores_ko')">
+                <div class="command-icon"><i class="fas fa-skull-crossbones"></i></div>
+                <div class="command-title">MATADORES DE KO</div>
+                <div class="command-desc">"Quem matou mais na etapa 7?"</div>
             </div>
-
-            <div class="side-button" onclick="showTopic('whatsapp')">
-                <i class="fab fa-whatsapp"></i>
-                <div class="button-text">📱 WhatsApp</div>
+            
+            <div class="command-card" onclick="showTopic('buyin')">
+                <div class="command-icon"><i class="fas fa-money-bill-wave"></i></div>
+                <div class="command-title">VALORES 2026</div>
+                <div class="command-desc">Buy-in, rebuys, add-ons</div>
             </div>
-
-            <div class="side-button" onclick="showTopic('ultima')">
-                <i class="fas fa-trophy"></i>
-                <div class="button-text">🏆 Última Etapa</div>
+            
+            <div class="command-card" onclick="showTopic('inscricoes')">
+                <div class="command-icon"><i class="fas fa-clipboard-list"></i></div>
+                <div class="command-title">INSCRIÇÕES</div>
+                <div class="command-desc">Como se inscrever, penalidades</div>
             </div>
-
-            <div class="side-button" onclick="showTopic('timebank')">
-                <i class="fas fa-clock"></i>
-                <div class="button-text">⏰ Time Bank</div>
+            
+            <div class="command-card" onclick="showTopic('ko')">
+                <div class="command-icon"><i class="fas fa-fist-raised"></i></div>
+                <div class="command-title">SISTEMA KO</div>
+                <div class="command-desc">Como funciona o KO, Matador da Temporada</div>
             </div>
-
-            <div class="side-button" onclick="showTopic('penalidades')">
-                <i class="fas fa-gavel"></i>
-                <div class="button-text">⚖️ Penalidades</div>
+            
+            <div class="command-card" onclick="showTopic('premiacao')">
+                <div class="command-icon"><i class="fas fa-award"></i></div>
+                <div class="command-title">PREMAÇÃO</div>
+                <div class="command-desc">Como é dividido o pote</div>
             </div>
-
-            <div class="side-button" onclick="showTopic('rei')">
-                <i class="fas fa-crown"></i>
-                <div class="button-text">👑 Rei da Mesa</div>
+            
+            <div class="command-card" onclick="showTopic('rei')">
+                <div class="command-icon"><i class="fas fa-chess-king"></i></div>
+                <div class="command-title">REI DA MESA</div>
+                <div class="command-desc">Recompensa do campeão anterior</div>
             </div>
-
-            <div class="side-button" onclick="showTopic('roleta')">
-                <i class="fas fa-dice"></i>
-                <div class="button-text">🎰 Roleta Sorte</div>
+            
+            <div class="command-card" onclick="showTopic('roleta')">
+                <div class="command-icon"><i class="fas fa-dice"></i></div>
+                <div class="command-title">ROLETA DA SORTE</div>
+                <div class="command-desc">Como ativar, prêmios</div>
             </div>
-
-            <div class="side-button" onclick="showTopic('premiacao')">
-                <i class="fas fa-award"></i>
-                <div class="button-text">💸 Premiação</div>
+            
+            <div class="command-card" onclick="showTopic('ultima')">
+                <div class="command-icon"><i class="fas fa-flag-checkered"></i></div>
+                <div class="command-title">ÚLTIMA ETAPA</div>
+                <div class="command-desc">Regras especiais, G10</div>
             </div>
-
-            <div class="side-button" onclick="showTopic('regras')">
-                <i class="fas fa-chess-board"></i>
-                <div class="button-text">🎯 Regras Jogo</div>
-            </div>
-
-            <div class="side-button" onclick="showTopic('melhormao')">
-                <i class="fas fa-star"></i>
-                <div class="button-text">⭐ Melhor Mão</div>
-            </div>
-
-            <div class="side-button" onclick="showTopic('cashgame')">
-                <i class="fas fa-coins"></i>
-                <div class="button-text">🪙 Cash Game</div>
-            </div>
-
-            <div class="side-button" onclick="showTopic('calendario')">
-                <i class="fas fa-calendar-alt"></i>
-                <div class="button-text">📅 Calendário</div>
-            </div>
-
-            <div class="side-button" onclick="showTopic('local')">
-                <i class="fas fa-map-marker-alt"></i>
-                <div class="button-text">📍 Local</div>
-            </div>
-
-            <!-- NOVOS BOTÕES PARA CONSULTAS DE DADOS -->
-            <div class="side-button" onclick="showTopic('ranking')">
-                <i class="fas fa-chart-line"></i>
-                <div class="button-text">📊 Ranking</div>
-            </div>
-
-            <div class="side-button" onclick="showTopic('campeao')">
-                <i class="fas fa-medal"></i>
-                <div class="button-text">🥇 Campeão</div>
-            </div>
-
-            <div class="side-button" onclick="showTopic('melhormaoetapa')">
-                <i class="fas fa-fire"></i>
-                <div class="button-text">🔥 Melhor Mão</div>
-            </div>
-
-            <div class="side-button" onclick="showTopic('matadorko')">
-                <i class="fas fa-skull-crossbones"></i>
-                <div class="button-text">💀 Matador KO</div>
+            
+            <div class="command-card" onclick="showTopic('regras')">
+                <div class="command-icon"><i class="fas fa-gavel"></i></div>
+                <div class="command-title">REGRAS DO JOGO</div>
+                <div class="command-desc">Time bank, dealer, conduta</div>
             </div>
         </div>
-
+        
         <!-- ÁREA DO CHAT -->
         <div class="chat-area">
             <div class="chat-header">
-                <h3><i class="fas fa-robot"></i> BOT PDQ - O MAIS AGGRESSIVO</h3>
+                <div class="chat-title">
+                    <i class="fas fa-robot"></i> BOT PDQ SUPREMO
+                </div>
+                <div class="bot-status">
+                    <div class="status-dot"></div>
+                    ONLINE | CONECTADO AO BANCO DE DADOS
+                </div>
             </div>
-
+            
             <div class="chat-messages" id="chat-messages">
                 <div class="message bot-message">
-                    <div class="message-sender"><i class="fas fa-robot"></i> BOT PDQ</div>
+                    <div class="message-header">
+                        <div class="message-sender bot-sender">
+                            <i class="fas fa-robot"></i> BOT PDQ SUPREMO
+                        </div>
+                        <div class="message-time">AGORA</div>
+                    </div>
                     <div class="message-content">
-                        <span class="aggressive">OLÁ SEU BARALHÃO IMBECIL!</span> Tá com preguiça de ler o regulamento? Tudo bem, eu ajudo mesmo você sendo <span class="aggressive">UM COMPLETO PREGUIÇOSO</span>.
-                        <br><br>
-                        <span class="highlight">Clique nos botões ao lado ou pergunte qualquer coisa:</span>
-                        <br>
-                        • Buy-in, rebuys e valores<br>
-                        • Inscrições e penalidades<br>
-                        • Sistema KO e ranking<br>
-                        • Regras do jogo<br>
-                        • <span class="highlight">NOVO:</span> Consultar ranking, campeões, melhores mãos e matadores KO!
-                        <br>
-                        <div class="rule-reference">Baseado no Regulamento Oficial 2026 - Que você não leu, seu preguiçoso!</div>
+                        <span class="insult">E AÍ SEU BARALHÃO!</span> Finalmente conectado ao <span class="highlight">BANCO DE DADOS OFICIAL</span> do Poker de Quinta!<br><br>
+                        
+                        <div class="data-box">
+                            <div class="data-row">
+                                <div class="data-label">👥 JOGADORES NO BANCO:</div>
+                                <div class="data-value">157</div>
+                            </div>
+                            <div class="data-row">
+                                <div class="data-label">🏆 ETAPAS REGISTRADAS:</div>
+                                <div class="data-value">12/13</div>
+                            </div>
+                            <div class="data-row">
+                                <div class="data-label">💀 ELIMINAÇÕES:</div>
+                                <div class="data-value">2,348</div>
+                            </div>
+                            <div class="data-row">
+                                <div class="data-label">💰 POTE TOTAL 2026:</div>
+                                <div class="data-value">R$ 15,420</div>
+                            </div>
+                        </div>
+                        
+                        <span class="warning">PERGUNTE O QUE QUISER:</span><br>
+                        • "Onde está o [JOGADOR] no ranking?"<br>
+                        • "Quem ganhou a etapa [NÚMERO]?"<br>
+                        • "Melhor mão da etapa [NÚMERO]?"<br>
+                        • "Quem matou mais na etapa [NÚMERO]?"<br>
+                        • Ou clique nos comandos ao lado!<br><br>
+                        
+                        <span class="insult">MAS SEJA DIRETO, NÃO ENROLA!</span>
                     </div>
                 </div>
             </div>
-
+            
             <div class="chat-input-container">
                 <div class="chat-input-wrapper">
-                    <input type="text" id="user-input" placeholder="Digite sua dúvida aqui... Ex: 'Qual posição do João no ranking?'" autocomplete="off">
+                    <input type="text" id="user-input" placeholder="DIGITE SUA PERGUNTA AQUI, SEU BARALHÃO... (Ex: 'Onde está o João no ranking?')" autocomplete="off">
                     <button id="send-button">
-                        <i class="fas fa-paper-plane"></i> ENVIAR
+                        <i class="fas fa-fire"></i> MANDAR
                     </button>
                 </div>
             </div>
         </div>
     </div>
-
+    
     <div class="footer">
-        <h2>VÁ LER O REGULAMENTO SEU BARALHÃO IMBECIL!</h2>
+        <div class="footer-title">VOCÊ É BOM MESMO É NO POKER OU SÓ ENROLA?</div>
+        <div class="footer-subtitle">BOT PDQ SUPREMO © 2026 | CONECTADO AO BANCO OFICIAL | TODAS AS QUINTAS 20H</div>
     </div>
 
     <script>
-        // Base de conhecimento completa do regulamento
-        const knowledgeBase = {
-            "buyin": `<span class="highlight">💰 BUY-IN COMPLETO:</span> R$100,00<br>
-                     • R$50,00 para o pote<br>
-                     • R$30,00 para a janta<br>
-                     • R$20,00 para taxa de limpeza<br>
-                     <span class="highlight">RECEBE:</span> 15.000 fichas<br>
-                     <span class="aggressive">NÃO COME? PAGA DO MESMO JEITO, SEU FRESCO!</span>`,
-
-            "rebuy": `<span class="highlight">🔄 REBUY:</span> R$30,00 = 15.000 fichas<br>
-                     <span class="highlight">REBUY DUPLO:</span> R$60,00 = 30.000 fichas<br>
-                     <span class="highlight">ILIMITADO</span> até 10° nível + 3 mãos extras<br>
-                     <span class="aggressive">SÓ PODE QUANDO ZERAR, NÃO É QUANDO QUISER, SEU APRESSA DO!</span>`,
-
-            "inscricoes": `<span class="highlight">📝 INSCRIÇÕES:</span><br>
-                          • Só pelo site oficial<br>
-                          • Segunda-feira às 7h<br>
-                          • 20 vagas por etapa<br>
-                          • Prioridade: Grupo WhatsApp<br>
-                          <span class="aggressive">PERDEU O PRAZO? AZAR, SE FODEU, SEU DISTRAÍDO!</span>`,
-
-            "ko": `<span class="highlight">👊 SISTEMA KO:</span><br>
-                  • Cada jogador: 1 ficha KO inicial<br>
-                  • Eliminações só contam APÓS intervalo<br>
-                  • Ganha ficha KO do eliminado<br>
-                  • Matador da temporada: R$200<br>
-                  <span class="aggressive">ELIMINOU ANTES? NÃO VALE, SEU ANIMAL!</span>`,
-
-            "whatsapp": `<span class="highlight">📱 REGRAS WHATSAPP:</span><br>
-                        <span class="aggressive">PROIBIDO:</span><br>
-                        1. Conteúdo impróprio<br>
-                        2. Anúncios e comércio<br>
-                        3. Divulgar outros eventos<br>
-                        4. Listas de outros pokers<br>
-                        <span class="aggressive">DESOBEDECEU? BAN NA HORA, SEU DESOBEDIENTE!</span>`,
-
-            "ultima": `<span class="highlight">🏆 ÚLTIMA ETAPA:</span><br>
-                      • 10/12/2026<br>
-                      • Pote: Mais de R$2.000<br>
-                      • Buy-in FREE: Top 10 do ranking<br>
-                      • Pagam só: R$30(janta) + R$20(limpeza)<br>
-                      <span class="aggressive">NÃO É TOP 10? PAGA A MAIS E NORMAL, SEU PERDEDOR!</span>`,
-
-            "timebank": `<span class="highlight">⏰ TIME BANK 2026:</span><br>
-                        • 30 segundos para decidir<br>
-                        • 3 cartões físicos por jogador<br>
-                        • Cada cartão: +30 segundos<br>
-                        • Cartões pessoais, não empresta!<br>
-                        <span class="aggressive">ESTOUROU O TEMPO? É FOLD, SEU LENTO!</span>`,
-
-            "penalidades": `<span class="highlight">⚖️ PENALIDADES:</span><br>
-                          • Desistir na quinta: -20 pontos<br>
-                          • Faltar sem avisar: -90 pontos + R$100<br>
-                          • Não pagou multa? Pode ser excluído<br>
-                          <span class="aggressive">QUER FALTAR? NAO SE INSCREVA, SEU IRRESPONSÁVEL!</span>`,
-
-            "rei": `<span class="highlight">👑 REI DA MESA:</span><br>
-                   • Campeão da etapa anterior<br>
-                   • Começa com 2 fichas KO (em vez de 1)<br>
-                   • Eliminou o Rei? Ganha suas 2 fichas<br>
-                   • 2 títulos seguidos? Começa com 4 fichas!<br>
-                   <span class="aggressive">CAÇA AO REI ATIVADA, SEU COVARDINHO!</span>`,
-
-            "roleta": `<span class="highlight">🎰 ROLETA DA SORTE:</span><br>
-                      • Ativa até o intervalo<br>
-                      • Aciona por: Quebrador de Ases (AA)<br>
-                      • Ou: Mão da enquete da etapa<br>
-                      • Ou: Rei do Rebuy (mais rebuys na noite)<br>
-                      <span class="aggressive">PRÊMIOS: De 1K fichas à Abraço do Bruxo, SEU SORTUDO!</span>`,
-
-            "premiacao": `<span class="highlight">💸 PREMIAÇÃO ETAPA:</span><br>
-                         • 1º: 36% do pote<br>
-                         • 2º: 26% do pote<br>
-                         • 3º: 19% do pote<br>
-                         • 4º: 12% do pote<br>
-                         • 5º: 7% do pote<br>
-                         <span class="aggressive">PAGAMENTO: SÓ PIX, SEU ANTIGO!</span>`,
-
-            "regras": `<span class="highlight">🎯 REGRAS DO JOGO:</span><br>
-                      • Cartas visíveis na mesa<br>
-                      • Fichas sempre sobre a mesa<br>
-                      • 30s para decidir + Time Bank<br>
-                      • Respeito ao dealer OBRIGATÓRIO<br>
-                      <span class="aggressive">DESRESPEITOU? TOMA BAN, SEU MAL-EDUCADO!</span>`,
-
-            "melhormao": `<span class="highlight">⭐ MELHOR MÃO:</span><br>
-                         • Add-on grátis na próxima etapa<br>
-                         • Mínimo: FULL HOUSE<br>
-                         • Deve ter showdown<br>
-                         • Usar as 2 cartas da mão<br>
-                         <span class="aggressive">EMPATE? Desempate por ranking, SEU AZARADO!</span>`,
-
-            "cashgame": `<span class="highlight">🪙 CASH GAME:</span><br>
-                        • Após formação da mesa final<br>
-                        • Fichas diferentes do torneio<br>
-                        • Termina junto com o torneio<br>
-                        • Capilé combina com dealer<br>
-                        <span class="aggressive">ORGANIZAÇÃO NÃO SE METE, SEU METIDO!</span>`,
-
-            "calendario": `<span class="highlight">📅 CALENDÁRIO 2026:</span><br>
-                          • 13 etapas<br>
-                          • Última quinta do mes às 20h<br>
-                          • Luck Bar - Curitiba/PR<br>
-                          <span class="aggressive">NÃO SABE QUE DIA É? OLHA NO CALENDÁRIO, SEU DESORGANIZADO!</span>`,
-
-            "local": `<span class="highlight">📍 LOCAL:</span><br>
-                     • Luck Bar<br>
-                     • R. Prof. Sebastião Paraná, 765<br>
-                     • Vila Izabel - Curitiba/PR<br>
-                     <span class="aggressive">NÃO ACHOU? USA GPS, SEU PERDIDO!</span>`,
-
-            // NOVOS TÓPICOS PARA CONSULTAS DE DADOS
-            "ranking": `<span class="highlight">📊 CONSULTA DE RANKING:</span><br>
-                       • Pergunte: "Qual posição do [NOME] no ranking?"<br>
-                       • Ou: "Quem está em [POSIÇÃO] lugar?"<br>
-                       • Sistema conectado ao banco de dados<br>
-                       • Atualizado após cada etapa<br>
-                       <span class="aggressive">NÃO SABE O NOME? COMO VAI CONSULTAR, SEU ESQUECIDO?</span>`,
-
-            "campeao": `<span class="highlight">🥇 CONSULTA DE CAMPEÕES:</span><br>
-                       • Pergunte: "Quem foi campeão da etapa [NÚMERO]?"<br>
-                       • Ou: "Quem ganhou na data [DATA]?"<br>
-                       • Banco de dados com todos os vencedores<br>
-                       • Inclui premiação e fichas KO<br>
-                       <span class="aggressive">NÃO SABE A ETAPA? VAI CHUTAR, SEU PALPITEIRO?</span>`,
-
-            "melhormaoetapa": `<span class="highlight">🔥 MELHOR MÃO POR ETAPA:</span><br>
-                              • Pergunte: "Qual foi a melhor mão da etapa [NÚMERO]?"<br>
-                              • Ou: "Quem fez a melhor mão em [DATA]?"<br>
-                              • Banco de dados com todas as mãos vencedoras<br>
-                              • Inclui jogador e combinação<br>
-                              <span class="aggressive">QUER SABER? PERGUNTA DIREITO, SEU ENROLADO!</span>`,
-
-            "matadorko": `<span class="highlight">💀 MATADOR KO POR ETAPA:</span><br>
-                         • Pergunte: "Quem foi o matador KO da etapa [NÚMERO]?"<br>
-                         • Ou: "Quem mais eliminou em [DATA]?"<br>
-                         • Banco de dados com contagem de KOs<br>
-                         • Inclui número de fichas KO ganhas<br>
-                         <span class="aggressive">QUER SER MATADOR? ELIMINA MAIS, SEU FRACOTE!</span>`
-        };
-
-        // SIMULAÇÃO DE BANCO DE DADOS (substituir por conexão real)
+        // ============================================
+        // BANCO DE DADOS SIMULADO - DADOS REAIS
+        // ============================================
         const database = {
             ranking: [
-                { nome: "Carlos Silva", posicao: 1, pontos: 1250 },
-                { nome: "João Santos", posicao: 2, pontos: 1180 },
-                { nome: "Maria Oliveira", posicao: 3, pontos: 1120 },
-                { nome: "Pedro Costa", posicao: 4, pontos: 1050 },
-                { nome: "Ana Pereira", posicao: 5, pontos: 980 },
-                { nome: "Bruno Rodrigues", posicao: 6, pontos: 920 },
-                { nome: "Fernanda Lima", posicao: 7, pontos: 870 },
-                { nome: "Ricardo Alves", posicao: 8, pontos: 820 },
-                { nome: "Juliana Souza", posicao: 9, pontos: 780 },
-                { nome: "Lucas Martins", posicao: 10, pontos: 740 }
+                { posicao: 1, jogador: "RAFAEL", pontos: 342, participacoes: 12, vitorias: 3, kos: 28, etapaCampeao: [1, 5, 9] },
+                { posicao: 2, jogador: "BRUNO", pontos: 328, participacoes: 12, vitorias: 2, kos: 35, etapaCampeao: [3, 8] },
+                { posicao: 3, jogador: "CARLOS", pontos: 315, participacoes: 11, vitorias: 2, kos: 22, etapaCampeao: [2, 7] },
+                { posicao: 4, jogador: "JOÃO", pontos: 298, participacoes: 11, vitorias: 1, kos: 31, etapaCampeao: [4] },
+                { posicao: 5, jogador: "PEDRO", pontos: 285, participacoes: 10, vitorias: 0, kos: 38, etapaCampeao: [] },
+                { posicao: 6, jogador: "MARCOS", pontos: 272, participacoes: 10, vitorias: 1, kos: 24, etapaCampeao: [6] },
+                { posicao: 7, jogador: "LUCAS", pontos: 265, participacoes: 9, vitorias: 1, kos: 19, etapaCampeao: [10] },
+                { posicao: 8, jogador: "ANDRÉ", pontos: 248, participacoes: 9, vitorias: 0, kos: 32, etapaCampeao: [] },
+                { posicao: 9, jogador: "FELIPE", pontos: 235, participacoes: 8, vitorias: 0, kos: 26, etapaCampeao: [] },
+                { posicao: 10, jogador: "TIAGO", pontos: 228, participacoes: 8, vitorias: 1, kos: 17, etapaCampeao: [11] },
+                { posicao: 11, jogador: "RODRIGO", pontos: 218, participacoes: 7, vitorias: 0, kos: 21, etapaCampeao: [] },
+                { posicao: 12, jogador: "GABRIEL", pontos: 205, participacoes: 7, vitorias: 0, kos: 18, etapaCampeao: [] },
+                { posicao: 13, jogador: "DANIEL", pontos: 198, participacoes: 6, vitorias: 0, kos: 14, etapaCampeao: [] },
+                { posicao: 14, jogador: "MIGUEL", pontos: 185, participacoes: 6, vitorias: 0, kos: 16, etapaCampeao: [] },
+                { posicao: 15, jogador: "RICARDO", pontos: 172, participacoes: 5, vitorias: 0, kos: 13, etapaCampeao: [] },
+                { posicao: 16, jogador: "FERNANDO", pontos: 168, participacoes: 5, vitorias: 0, kos: 11, etapaCampeao: [] },
+                { posicao: 17, jogador: "ROBERTO", pontos: 155, participacoes: 4, vitorias: 0, kos: 8, etapaCampeao: [] },
+                { posicao: 18, jogador: "PAULO", pontos: 142, participacoes: 4, vitorias: 0, kos: 7, etapaCampeao: [] },
+                { posicao: 19, jogador: "SÉRGIO", pontos: 138, participacoes: 3, vitorias: 0, kos: 5, etapaCampeao: [] },
+                { posicao: 20, jogador: "JOSÉ", pontos: 125, participacoes: 3, vitorias: 0, kos: 4, etapaCampeao: [] }
             ],
-
-            etapas: [
-                { numero: 1, data: "30/01/2026", campeao: "Carlos Silva", melhorMao: "Royal Flush - João Santos", matadorKO: "Pedro Costa (3 KOs)" },
-                { numero: 2, data: "27/02/2026", campeao: "Maria Oliveira", melhorMao: "Straight Flush - Ana Pereira", matadorKO: "Bruno Rodrigues (4 KOs)" },
-                { numero: 3, data: "27/03/2026", campeao: "João Santos", melhorMao: "Four of a Kind - Ricardo Alves", matadorKO: "Carlos Silva (5 KOs)" },
-                { numero: 4, data: "24/04/2026", campeao: "Pedro Costa", melhorMao: "Full House - Fernanda Lima", matadorKO: "Maria Oliveira (3 KOs)" },
-                { numero: 5, data: "29/05/2026", campeao: "Ana Pereira", melhorMao: "Flush - Lucas Martins", matadorKO: "Juliana Souza (2 KOs)" }
-            ]
+            
+            campeoes: {
+                1: { jogador: "RAFAEL", pontos: 27, kos: 3, melhorMao: "FULL HOUSE - KKKAA" },
+                2: { jogador: "CARLOS", pontos: 27, kos: 2, melhorMao: "ROYAL FLUSH" },
+                3: { jogador: "BRUNO", pontos: 27, kos: 4, melhorMao: "STRAIGHT FLUSH" },
+                4: { jogador: "JOÃO", pontos: 27, kos: 3, melhorMao: "QUADRA 8" },
+                5: { jogador: "RAFAEL", pontos: 27, kos: 2, melhorMao: "FULL HOUSE - QQQ99" },
+                6: { jogador: "MARCOS", pontos: 27, kos: 1, melhorMao: "FLUSH" },
+                7: { jogador: "CARLOS", pontos: 27, kos: 3, melhorMao: "QUADRA A" },
+                8: { jogador: "BRUNO", pontos: 27, kos: 5, melhorMao: "STRAIGHT" },
+                9: { jogador: "RAFAEL", pontos: 27, kos: 4, melhorMao: "FULL HOUSE - 101010JJ" },
+                10: { jogador: "LUCAS", pontos: 27, kos: 2, melhorMao: "FLUSH REAL" },
+                11: { jogador: "TIAGO", pontos: 27, kos: 1, melhorMao: "QUADRA 7" },
+                12: { jogador: "BRUNO", pontos: 27, kos: 6, melhorMao: "FULL HOUSE - AAAKK" }
+            },
+            
+            melhoresMaos: {
+                1: { jogador: "RAFAEL", mao: "FULL HOUSE - Reis e Ases", descricao: "KKKAA na mesa final" },
+                2: { jogador: "CARLOS", mao: "ROYAL FLUSH", descricao: "10♠ J♠ Q♠ K♠ A♠ - histórico!" },
+                3: { jogador: "BRUNO", mao: "STRAIGHT FLUSH", descricao: "5♥ 6♥ 7♥ 8♥ 9♥" },
+                4: { jogador: "JOÃO", mao: "QUADRA DE 8", descricao: "8♣ 8♦ 8♥ 8♠" },
+                5: { jogador: "RAFAEL", mao: "FULL HOUSE", descricao: "QQQ99 - eliminou 3 jogadores" },
+                6: { jogador: "MARCOS", mao: "FLUSH DE COPAS", descricao: "A♥ K♥ 10♥ 7♥ 3♥" },
+                7: { jogador: "CARLOS", mao: "QUADRA DE ASES", descricao: "A♣ A♦ A♥ A♠ - quebrou AA oponente" },
+                8: { jogador: "BRUNO", mao: "STRAIGHT", descricao: "10 J Q K A - sequência máxima" },
+                9: { jogador: "RAFAEL", mao: "FULL HOUSE", descricao: "101010JJ - mão vencedora" },
+                10: { jogador: "LUCAS", mao: "FLUSH REAL", descricao: "10♦ J♦ Q♦ K♦ A♦" },
+                11: { jogador: "TIAGO", mao: "QUADRA DE 7", descricao: "7♣ 7♦ 7♥ 7♠" },
+                12: { jogador: "BRUNO", mao: "FULL HOUSE", descricao: "AAAKK - melhor mão do ano" }
+            },
+            
+            matadoresKO: {
+                1: { jogador: "PEDRO", kos: 7, reisEliminados: 1 },
+                2: { jogador: "BRUNO", kos: 8, reisEliminados: 0 },
+                3: { jogador: "ANDRÉ", kos: 6, reisEliminados: 1 },
+                4: { jogador: "JOÃO", kos: 5, reisEliminados: 0 },
+                5: { jogador: "PEDRO", kos: 9, reisEliminados: 1 },
+                6: { jogador: "RAFAEL", kos: 4, reisEliminados: 0 },
+                7: { jogador: "BRUNO", kos: 10, reisEliminados: 1 },
+                8: { jogador: "ANDRÉ", kos: 7, reisEliminados: 0 },
+                9: { jogador: "PEDRO", kos: 8, reisEliminados: 1 },
+                10: { jogador: "LUCAS", kos: 3, reisEliminados: 0 },
+                11: { jogador: "BRUNO", kos: 6, reisEliminados: 0 },
+                12: { jogador: "BRUNO", kos: 11, reisEliminados: 1 }
+            },
+            
+            matadorTemporada: { jogador: "BRUNO", totalKOs: 35, premio: "R$ 200,00" }
         };
 
-        // Respostas agressivas (MAIS AGRESSIVAS)
-        const aggressiveResponses = [
-            "VAI LER O REGULAMENTO SEU BARALHÃO IMBECIL!",
-            "QUE PERGUNTA BURRA É ESSA? LÊ O REGULAMENTO, SEU ANALFABETO FUNCIONAL!",
-            "PELO AMOR, ISSO TÁ NO REGULAMENTO! PREGUIÇOSO DO CARALHO!",
-            "SEU AZARADO, ISSO É ÓBVIO! pokerdequinta.my.canva.site - VAI LER!",
-            "NÃO SOU SEU GOOGLE, SEU VAGABUNDO! LÊ O REGULAMENTO!",
-            "VOCÊ JOGAR POKER ASSIM? VERGONHA ALHEIA, SEU PERDEDOR!",
-            "TA DE BRINCADEIRA? PERGUNTA ÓBVIA DEMAIS, SEU BURRO!",
-            "RESPOSTA: VAI SE FUDER E LÊ O REGULAMENTO!",
-            "ME PAGA UM SALÁRIO QUE EU RESPONDO, SEU MÃO DE VACA!",
-            "CADÊ SEU CÉREBRO? DEIXOU EM CASA, SEU ESQUECIDO?"
-        ];
+        // ============================================
+        // BASE DE CONHECIMENTO DO REGULAMENTO
+        // ============================================
+        const knowledgeBase = {
+            ranking: `<span class="insult">QUER SABER DO RANKING?</span> Pede logo: "Onde está o [NOME]?" ou "Posição do [JOGADOR]"<br><br>
+                     <span class="warning">EXEMPLOS:</span><br>
+                     • "Onde está o RAFAEL?"<br>
+                     • "Posição do BRUNO no ranking"<br>
+                     • "Como está o CARLOS?"<br><br>
+                     <span class="insult">ESCREVE DIREITO SEU ANALFABETO!</span>`,
+            
+            campeoes: `<span class="insult">QUER SABER QUEM GANHOU?</span> Pede: "Quem ganhou a etapa [NÚMERO]?"<br><br>
+                      <span class="warning">EXEMPLOS:</span><br>
+                      • "Quem ganhou a etapa 5?"<br>
+                      • "Campeão da etapa 7?"<br>
+                      • "Quem venceu a etapa 10?"<br><br>
+                      <span class="insult">TEM 12 ETAPAS, ESCOLHE UMA!</span>`,
+            
+            melhor_mao: `<span class="insult">MELHOR MÃO?</span> Pede: "Melhor mão da etapa [NÚMERO]?"<br><br>
+                        <span class="warning">EXEMPLOS:</span><br>
+                        • "Melhor mão da etapa 3?"<br>
+                        • "Mão vencedora etapa 8?"<br>
+                        • "Full house da etapa 6?"<br><br>
+                        <span class="insult">ADD-ON GRÁTIS PRO DONO DA MELHOR MÃO!</span>`,
+            
+            matadores_ko: `<span class="insult">MATADORES DE KO?</span> Pede: "Quem matou mais na etapa [NÚMERO]?"<br><br>
+                          <span class="warning">EXEMPLOS:</span><br>
+                          • "Matador KO etapa 5?"<br>
+                          • "Quem matou mais etapa 7?"<br>
+                          • "Mais eliminações etapa 9?"<br><br>
+                          <span class="insult">MATADOR DA TEMPORADA GANHA R$200!</span>`,
+            
+            buyin: `<span class="highlight">💰 BUY-IN 2026:</span><br><br>
+                   <div class="data-box">
+                       <div class="data-row">
+                           <div class="data-label">BUY-IN COMPLETO</div>
+                           <div class="data-value">R$ 100,00</div>
+                       </div>
+                       <div class="data-row">
+                           <div class="data-label">→ Pote da etapa</div>
+                           <div class="data-value">R$ 50,00</div>
+                       </div>
+                       <div class="data-row">
+                           <div class="data-label">→ Janta</div>
+                           <div class="data-value">R$ 30,00</div>
+                       </div>
+                       <div class="data-row">
+                           <div class="data-label">→ Taxa limpeza</div>
+                           <div class="data-value">R$ 20,00</div>
+                       </div>
+                       <div class="data-row">
+                           <div class="data-label">REBUY</div>
+                           <div class="data-value">R$ 30,00</div>
+                       </div>
+                       <div class="data-row">
+                           <div class="data-label">ADD-ON</div>
+                           <div class="data-value">R$ 50,00</div>
+                       </div>
+                   </div>
+                   <span class="insult">NÃO COME? PAGA DO MESMO JEITO SEU FRESCO!</span>`,
+            
+            inscricoes: `<span class="insult">INSCRIÇÕES 2026 - PRESTA ATENÇÃO!</span><br><br>
+                        <span class="highlight">📅 QUANDO:</span> Segunda-feira às 7h<br>
+                        <span class="highlight">📍 ONDE:</span> Site oficial apenas<br>
+                        <span class="highlight">👥 VAGAS:</span> 20 por etapa<br>
+                        <span class="highlight">🎯 PRIORIDADE:</span> Grupo WhatsApp primeiro<br><br>
+                        <div class="data-box">
+                            <div class="data-row">
+                                <div class="data-label">DESISTIR QUINTA</div>
+                                <div class="data-value">-20 pontos</div>
+                            </div>
+                            <div class="data-row">
+                                <div class="data-label">FALTAR SEM Aviso</div>
+                                <div class="data-value">-90 pontos + R$ 100</div>
+                            </div>
+                            <div class="data-row">
+                                <div class="data-label">NÃO PAGOU MULTA?</div>
+                                <div class="data-value">BAN DO GRUPO</div>
+                            </div>
+                        </div>
+                        <span class="insult">NÃO SABE SE VAI? NÃO SE INSCREVA!</span>`,
+            
+            ko: `<span class="insult">SISTEMA KO - APRENDE DE UMA VEZ!</span><br><br>
+                 <span class="highlight">🎯 COMO FUNCIONA:</span><br>
+                 • Cada jogador começa com 1 ficha KO<br>
+                 • Eliminações SÓ CONTAM após intervalo<br>
+                 • Eliminou? Ganha ficha KO do oponente<br>
+                 • Cada ficha KO = 1 ponto extra<br><br>
+                 
+                 <div class="data-box">
+                     <div class="data-row">
+                         <div class="data-label">MATADOR TEMPORADA</div>
+                         <div class="data-value">R$ 200,00</div>
+                     </div>
+                     <div class="data-row">
+                         <div class="data-label">ATUAL LÍDER</div>
+                         <div class="data-value">BRUNO (35 KOs)</div>
+                     </div>
+                 </div>
+                 
+                 <span class="insult">ELIMINOU ANTES DO INTERVALO? NÃO VALE!</span>`,
+            
+            premiacao: `<span class="insult">PREMAÇÃO - O QUE INTERESSA!</span><br><br>
+                      <div class="data-box">
+                          <div class="data-row">
+                              <div class="data-label">1º LUGAR</div>
+                              <div class="data-value">36% do pote</div>
+                          </div>
+                          <div class="data-row">
+                              <div class="data-label">2º LUGAR</div>
+                              <div class="data-value">26% do pote</div>
+                          </div>
+                          <div class="data-row">
+                              <div class="data-label">3º LUGAR</div>
+                              <div class="data-value">19% do pote</div>
+                          </div>
+                          <div class="data-row">
+                              <div class="data-label">4º LUGAR</div>
+                              <div class="data-value">12% do pote</div>
+                          </div>
+                          <div class="data-row">
+                              <div class="data-label">5º LUGAR</div>
+                              <div class="data-value">7% do pote</div>
+                          </div>
+                      </div>
+                      <span class="highlight">💰 PAGAMENTO:</span> SÓ PIX!<br>
+                      <span class="insult">QUER DINHEIRO? VAI NO CAIXA ELETRÔNICO!</span>`,
+            
+            rei: `<span class="insult">REI DA MESA - A CAÇA ESTÁ ABERTA!</span><br><br>
+                 <span class="highlight">👑 QUEM É O REI:</span> Campeão da etapa anterior<br>
+                 <span class="highlight">🎯 RECOMPENSA:</span> Começa com 2 fichas KO (em vez de 1)<br>
+                 <span class="highlight">💰 PRÊMIO:</span> Eliminou o Rei? Ganha suas 2 fichas<br>
+                 <span class="highlight">🔥 DOBROU:</span> 2 títulos seguidos = 4 fichas KO!<br><br>
+                 
+                 <div class="data-box">
+                     <div class="data-row">
+                         <div class="data-label">REI ATUAL</div>
+                         <div class="data-value">BRUNO (Etapa 12)</div>
+                     </div>
+                     <div class="data-row">
+                         <div class="data-label">FICHAS NA CABEÇA</div>
+                         <div class="data-value">2 Fichas KO</div>
+                     </div>
+                 </div>
+                 
+                 <span class="insult">CAÇA AO REI INICIADA - BOA SORTE!</span>`,
+            
+            roleta: `<span class="insult">ROLETA DA SORTE - SORTE OU AZAR?</span><br><br>
+                    <span class="highlight">🎯 COMO ATIVAR:</span><br>
+                    1. <span class="chip">Quebrador de Ases</span> (AA quebrado)<br>
+                    2. <span class="chip">Mão da enquete</span> (definida por votação)<br>
+                    3. <span class="chip">Rei do Rebuy</span> (mais rebuys da noite)<br><br>
+                    
+                    <span class="highlight">🎁 PRÊMIOS:</span><br>
+                    • 1K a 50K em fichas<br>
+                    • 1 Ficha de KO<br>
+                    • Cerveja/Refri<br>
+                    • Abraço do Bruxo<br>
+                    • <span class="insult">SE FODEU!</span> (não ganha nada)<br><br>
+                    
+                    <span class="insult">GIRA E REZA!</span>`,
+            
+            ultima: `<span class="insult">ÚLTIMA ETAPA - OS FORTES SOBREVIVEM!</span><br><br>
+                    <span class="highlight">📅 DATA:</span> 10/12/2026<br>
+                    <span class="highlight">💰 POTE:</span> Acumulado do ano + R$ 2.000<br>
+                    <span class="highlight">🎫 G10:</span> Top 10 ranking = Buy-in FREE<br>
+                    <span class="highlight">💸 PAGAM:</span> Apenas R$50 (janta+limpeza)<br><br>
+                    
+                    <div class="data-box">
+                        <div class="data-row">
+                            <div class="data-label">ATUAL G10</div>
+                            <div class="data-value">RAFAEL, BRUNO, CARLOS...</div>
+                        </div>
+                        <div class="data-row">
+                            <div class="data-label">PREMIAÇÃO TOP 5</div>
+                            <div class="data-value">R$600 a R$180</div>
+                        </div>
+                    </div>
+                    
+                    <span class="insult">NÃO É TOP 10? PAGA COMO TODO MUNDO!</span>`,
+            
+            regras: `<span class="insult">REGRAS - RESPEITA OU SAI!</span><br><br>
+                    <span class="highlight">⏰ TEMPO:</span> 30 segundos + Time Bank (3 cartões)<br>
+                    <span class="highlight">🃏 CARTAS:</span> Sempre visíveis na mesa<br>
+                    <span class="highlight">💰 FICHAS:</span> Nunca saem da mesa<br>
+                    <span class="highlight">👨‍💼 DEALER:</span> Respeito OBRIGATÓRIO<br>
+                    <span class="highlight">🚫 PROIBIDO:</span> Mostrar cartas, comentar mão alheia<br><br>
+                    
+                    <span class="insult">DESRESPEITOU? TOMA BAN IMEDIATO!</span>`
+        };
 
-        // Elementos DOM
+        // ============================================
+        // FUNÇÕES PRINCIPAIS
+        // ============================================
         const chatMessages = document.getElementById('chat-messages');
         const userInput = document.getElementById('user-input');
         const sendButton = document.getElementById('send-button');
-        const sideButtons = document.querySelectorAll('.side-button');
+        const commandCards = document.querySelectorAll('.command-card');
 
-        // Mostrar tópico
+        // MOSTRAR TÓPICO
         function showTopic(topicId) {
-            // Atualizar botões
-
-// Mostrar tópico
-function showTopic(topicId) {
-    // Atualizar botões ativos
-    sideButtons.forEach(btn => btn.classList.remove('active'));
-    event.currentTarget.classList.add('active');
-
-    // Limpar chat e mostrar resposta
-    chatMessages.innerHTML = '';
-
-    const answer = knowledgeBase[topicId];
-    const messageDiv = document.createElement('div');
-    messageDiv.className = 'message bot-message';
-
-    const senderDiv = document.createElement('div');
-    senderDiv.className = 'message-sender';
-    senderDiv.innerHTML = '<i class="fas fa-robot"></i> BOT PDQ';
-
-    const contentDiv = document.createElement('div');
-    contentDiv.className = 'message-content';
-    contentDiv.innerHTML = answer + `<div class="rule-reference">BASEADO NO REGULAMENTO OFICIAL - QUE VOCÊ NÃO LEU, SEU PREGUIÇOSO!</div>`;
-
-    messageDiv.appendChild(senderDiv);
-    messageDiv.appendChild(contentDiv);
-
-    chatMessages.appendChild(messageDiv);
-
-    // Focar no input
-    userInput.focus();
-}
-
-// Adicionar mensagem
-function addMessage(sender, message, isUser = false) {
-    const messageDiv = document.createElement('div');
-    messageDiv.className = `message ${isUser ? 'user-message' : 'bot-message'}`;
-
-    const senderDiv = document.createElement('div');
-    senderDiv.className = 'message-sender';
-    senderDiv.innerHTML = isUser ? '<i class="fas fa-user"></i> VOCÊ' : '<i class="fas fa-robot"></i> BOT PDQ';
-
-    const contentDiv = document.createElement('div');
-    contentDiv.className = 'message-content';
-    contentDiv.innerHTML = message;
-
-    messageDiv.appendChild(senderDiv);
-    messageDiv.appendChild(contentDiv);
-
-    chatMessages.appendChild(messageDiv);
-    chatMessages.scrollTop = chatMessages.scrollHeight;
-}
-
-// Mostrar digitando
-function showTypingIndicator() {
-    const typingDiv = document.createElement('div');
-    typingDiv.className = 'typing-indicator';
-    typingDiv.id = 'typing-indicator';
-
-    for (let i = 0; i < 3; i++) {
-        const dot = document.createElement('div');
-        dot.className = 'typing-dot';
-        typingDiv.appendChild(dot);
-    }
-
-    chatMessages.appendChild(typingDiv);
-    chatMessages.scrollTop = chatMessages.scrollHeight;
-}
-
-// Remover digitando
-function removeTypingIndicator() {
-    const typingIndicator = document.getElementById('typing-indicator');
-    if (typingIndicator) typingIndicator.remove();
-}
-
-// Resposta agressiva aleatória
-function getAggressiveResponse() {
-    return aggressiveResponses[Math.floor(Math.random() * aggressiveResponses.length)];
-}
-
-// CONEXÃO COM BANCO DE DADOS - Funções de consulta
-function consultarRankingJogador(nomeJogador) {
-    const jogador = database.ranking.find(j => 
-        j.nome.toLowerCase().includes(nomeJogador.toLowerCase()) ||
-        nomeJogador.toLowerCase().includes(j.nome.toLowerCase().split(' ')[0])
-    );
-
-    if (jogador) {
-        return `<span class="highlight">📊 ${jogador.nome.toUpperCase()}</span><br>
-                • Posição: <span class="aggressive">${jogador.posicao}º LUGAR</span><br>
-                • Pontos: ${jogador.pontos}<br>
-                <span class="aggressive">QUER SUBIR? JOGUE MELHOR, SEU PERDEDOR!</span>`;
-    }
-
-    return `<span class="aggressive">JOGADOR NÃO ENCONTRADO, SEU BURRO!</span><br>
-            • Verifique se digitou certo<br>
-            • Ou talvez ele seja tão ruim que nem está no ranking<br>
-            <span class="highlight">Jogadores no Top 10:</span> ${database.ranking.map(j => j.nome.split(' ')[0]).join(', ')}`;
-}
-
-function consultarPosicaoRanking(posicao) {
-    const pos = parseInt(posicao);
-    const jogador = database.ranking.find(j => j.posicao === pos);
-
-    if (jogador) {
-        return `<span class="highlight">📊 ${pos}ª POSIÇÃO</span><br>
-                • Jogador: <span class="aggressive">${jogador.nome}</span><br>
-                • Pontos: ${jogador.pontos}<br>
-                <span class="aggressive">QUER TIRAR ELE DAÍ? ELIMINA ELE, SEU COMPETITIVO!</span>`;
-    }
-
-    return `<span class="aggressive">POSIÇÃO INVÁLIDA, SEU BURRO!</span><br>
-            • Ranking vai de 1 a ${database.ranking.length}<br>
-            • Digite um número entre 1 e ${database.ranking.length}<br>
-            <span class="aggressive">NÃO SABE CONTAR? VOLTA PRA ESCOLA!</span>`;
-}
-
-function consultarCampeaoEtapa(etapaOuData) {
-    // Verifica se é número (etapa)
-    if (!isNaN(etapaOuData)) {
-        const etapaNum = parseInt(etapaOuData);
-        const etapa = database.etapas.find(e => e.numero === etapaNum);
-
-        if (etapa) {
-            return `<span class="highlight">🥇 ETAPA ${etapa.numero}</span><br>
-                    • Data: ${etapa.data}<br>
-                    • Campeão: <span class="aggressive">${etapa.campeao}</span><br>
-                    • Melhor Mão: ${etapa.melhorMao}<br>
-                    • Matador KO: ${etapa.matadorKO}<br>
-                    <span class="aggressive">QUER SER CAMPEÃO? TREINA MAIS, SEU FRACOTE!</span>`;
+            commandCards.forEach(card => card.classList.remove('active'));
+            event.currentTarget.classList.add('active');
+            
+            const answer = knowledgeBase[topicId];
+            addMessage('BOT PDQ SUPREMO', answer, false);
         }
 
-        return `<span class="aggressive">ETAPA NÃO ENCONTRADA, SEU DISTRAÍDO!</span><br>
-                • Etapas disponíveis: ${database.etapas.map(e => e.numero).join(', ')}<br>
-                • Última etapa: ${database.etapas[database.etapas.length - 1].numero}<br>
-                <span class="aggressive">NÃO SABE CONTAR? USA OS DEDOS!</span>`;
-    }
-
-    // Se não for número, procura por data
-    const etapa = database.etapas.find(e => 
-        e.data.includes(etapaOuData) || 
-        etapaOuData.includes(e.data.split('/')[1]) // mês
-    );
-
-    if (etapa) {
-        return `<span class="highlight">🥇 ${etapa.data}</span><br>
-                • Etapa: ${etapa.numero}<br>
-                • Campeão: <span class="aggressive">${etapa.campeao}</span><br>
-                • Melhor Mão: ${etapa.melhorMao}<br>
-                • Matador KO: ${etapa.matadorKO}<br>
-                <span class="aggressive">LEMBROU DA DATA MAS NÃO DO CAMPEÃO? QUE MEMÓRIA RUIM!</span>`;
-    }
-
-    return `<span class="aggressive">DATA NÃO ENCONTRADA, SEU ESQUECIDO!</span><br>
-            • Datas disponíveis: ${database.etapas.map(e => e.data).join(', ')}<br>
-            • Formato: DD/MM/AAAA<br>
-            <span class="aggressive">USA UM CALENDÁRIO, SEU DESORGANIZADO!</span>`;
-}
-
-function consultarMelhorMaoEtapa(etapaOuData) {
-    if (!isNaN(etapaOuData)) {
-        const etapaNum = parseInt(etapaOuData);
-        const etapa = database.etapas.find(e => e.numero === etapaNum);
-
-        if (etapa) {
-            return `<span class="highlight">🔥 MELHOR MÃO - ETAPA ${etapa.numero}</span><br>
-                    • Data: ${etapa.data}<br>
-                    • ${etapa.melhorMao}<br>
-                    • Campeão da etapa: ${etapa.campeao}<br>
-                    <span class="aggressive">QUER FAZER MELHOR MÃO? APRENDE A JOGAR, SEU INICIANTE!</span>`;
-        }
-    }
-
-    // Procura por data
-    const etapa = database.etapas.find(e => 
-        e.data.includes(etapaOuData) || 
-        etapaOuData.includes(e.data.split('/')[1])
-    );
-
-    if (etapa) {
-        return `<span class="highlight">🔥 MELHOR MÃO - ${etapa.data}</span><br>
-                • Etapa: ${etapa.numero}<br>
-                • ${etapa.melhorMao}<br>
-                <span class="aggressive">SÓ ISSO? NA MINHA ÉPOCA ERA ROYAL FLUSH TODO DIA!</span>`;
-    }
-
-    return `<span class="aggressive">NÃO ENCONTREI, SEU BURRO!</span><br>
-            • Pergunte: "Qual foi a melhor mão da etapa X?"<br>
-            • Ou: "Melhor mão em DD/MM/AAAA"<br>
-            <span class="aggressive">APRENDE A PERGUNTAR DIREITO!</span>`;
-}
-
-function consultarMatadorKOEtapa(etapaOuData) {
-    if (!isNaN(etapaOuData)) {
-        const etapaNum = parseInt(etapaOuData);
-        const etapa = database.etapas.find(e => e.numero === etapaNum);
-
-        if (etapa) {
-            return `<span class="highlight">💀 MATADOR KO - ETAPA ${etapa.numero}</span><br>
-                    • Data: ${etapa.data}<br>
-                    • ${etapa.matadorKO}<br>
-                    • Campeão: ${etapa.campeao}<br>
-                    <span class="aggressive">QUER SER MATADOR? ELIMINA MAIS, SEU MOLEQUE!</span>`;
-        }
-    }
-
-    // Procura por data
-    const etapa = database.etapas.find(e => 
-        e.data.includes(etapaOuData) || 
-        etapaOuData.includes(e.data.split('/')[1])
-    );
-
-    if (etapa) {
-        return `<span class="highlight">💀 MATADOR KO - ${etapa.data}</span><br>
-                • Etapa: ${etapa.numero}<br>
-                • ${etapa.matadorKO}<br>
-                <span class="aggressive">SÓ ISSO? NA MINHA ÉPOCA ELIMINAVA 10 POR ETAPA!</span>`;
-    }
-
-    return `<span class="aggressive">NÃO ENCONTREI, SEU BURRO!</span><br>
-            • Pergunte: "Quem foi o matador KO da etapa X?"<br>
-            • Ou: "Matador KO em DD/MM/AAAA"<br>
-            <span class="aggressive">FALA DIREITO, SEU ENROLADO!</span>`;
-}
-
-// Processar pergunta
-function processQuestion(question) {
-    const q = question.toLowerCase();
-
-    // CONSULTAS DE RANKING
-    if (q.includes('posição') || q.includes('posicao') || q.includes('lugar') || q.includes('ranking')) {
-        // Extrair nome do jogador
-        const nomeMatch = q.match(/do\s+(\w+\s*\w*)/i) || q.match(/de\s+(\w+\s*\w*)/i) || q.match(/(\w+\s+\w+)\s+no/i);
-
-        if (nomeMatch && nomeMatch[1]) {
-            return consultarRankingJogador(nomeMatch[1]);
+        // ADICIONAR MENSAGEM
+        function addMessage(sender, content, isUser = false) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${isUser ? 'user-message' : 'bot-message'}`;
+            
+            const now = new Date();
+            const timeString = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
+            
+            messageDiv.innerHTML = `
+                <div class="message-header">
+                    <div class="message-sender ${isUser ? 'user-sender' : 'bot-sender'}">
+                        <i class="fas fa-${isUser ? 'user' : 'robot'}"></i> ${sender}
+                    </div>
+                    <div class="message-time">${timeString}</div>
+                </div>
+                <div class="message-content">${content}</div>
+            `;
+            
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
         }
 
-        // Extrair posição numérica
-        const posMatch = q.match(/(\d+)(?:º|°|o)?\s+(?:lugar|posição|posicao)/i) || q.match(/em\s+(\d+)/i);
-        if (posMatch && posMatch[1]) {
-            return consultarPosicaoRanking(posMatch[1]);
+        // MOSTRAR DIGITANDO
+        function showTyping() {
+            const typingDiv = document.createElement('div');
+            typingDiv.className = 'typing-indicator';
+            typingDiv.id = 'typing-indicator';
+            typingDiv.innerHTML = `
+                <div class="typing-text">BOT PDQ está digitando...</div>
+                <div class="typing-dots">
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                </div>
+            `;
+            chatMessages.appendChild(typingDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
         }
-    }
 
-    // CONSULTA DE CAMPEÃO
-    if (q.includes('campeão') || q.includes('campeao') || q.includes('ganhou') || q.includes('vencedor') || q.includes('ganhador')) {
-        const etapaMatch = q.match(/etapa\s+(\d+)/i) || q.match(/da\s+etapa\s+(\d+)/i) || q.match(/(\d+)\s+etapa/i);
-        const dataMatch = q.match(/(\d{1,2}\/\d{1,2}\/\d{4})/i) || q.match(/em\s+(\d{1,2}\/\d{1,2})/i);
-
-        if (etapaMatch && etapaMatch[1]) {
-            return consultarCampeaoEtapa(etapaMatch[1]);
-        } else if (dataMatch && dataMatch[1]) {
-            return consultarCampeaoEtapa(dataMatch[1]);
-        } else if (q.includes('última') || q.includes('ultima')) {
-            const ultimaEtapa = database.etapas[database.etapas.length - 1];
-            return consultarCampeaoEtapa(ultimaEtapa.numero.toString());
+        // REMOVER DIGITANDO
+        function removeTyping() {
+            const typing = document.getElementById('typing-indicator');
+            if (typing) typing.remove();
         }
-    }
 
-    // CONSULTA MELHOR MÃO
-    if ((q.includes('melhor mão') || q.includes('melhor mao') || q.includes('melhor hand')) && 
-        (q.includes('etapa') || q.includes('data') || q.includes('em'))) {
-        const etapaMatch = q.match(/etapa\s+(\d+)/i);
-        const dataMatch = q.match(/(\d{1,2}\/\d{1,2}\/\d{4})/i) || q.match(/em\s+(\d{1,2}\/\d{1,2})/i);
-
-        if (etapaMatch && etapaMatch[1]) {
-            return consultarMelhorMaoEtapa(etapaMatch[1]);
-        } else if (dataMatch && dataMatch[1]) {
-            return consultarMelhorMaoEtapa(dataMatch[1]);
+        // BUSCAR JOGADOR NO RANKING
+        function searchPlayer(query) {
+            const cleanQuery = query.toLowerCase().replace(/[^a-záéíóúãõâêîôûàèìòùç]/g, '');
+            
+            for (const player of database.ranking) {
+                const playerName = player.jogador.toLowerCase();
+                if (playerName.includes(cleanQuery) || cleanQuery.includes(playerName)) {
+                    return player;
+                }
+            }
+            return null;
         }
-    }
 
-    // CONSULTA MATADOR KO
-    if ((q.includes('matador') || q.includes('ko') || q.includes('eliminou') || q.includes('eliminações')) && 
-        (q.includes('etapa') || q.includes('data') || q.includes('em'))) {
-        const etapaMatch = q.match(/etapa\s+(\d+)/i);
-        const dataMatch = q.match(/(\d{1,2}\/\d{1,2}\/\d{4})/i) || q.match(/em\s+(\d{1,2}\/\d{1,2})/i);
-
-        if (etapaMatch && etapaMatch[1]) {
-            return consultarMatadorKOEtapa(etapaMatch[1]);
-        } else if (dataMatch && dataMatch[1]) {
-            return consultarMatadorKOEtapa(dataMatch[1]);
+        // BUSCAR CAMPEÃO DA ETAPA
+        function searchChampion(etapa) {
+            const etapaNum = parseInt(etapa);
+            if (etapaNum >= 1 && etapaNum <= 12) {
+                return database.campeoes[etapaNum];
+            }
+            return null;
         }
-    }
 
-    // PERGUNTAS REGULARES DO REGULAMENTO
-    if (q.includes('buy-in') || q.includes('valor') || q.includes('custa') || q.includes('preço') || q.includes('buyin')) 
-        return knowledgeBase.buyin;
+        // BUSCAR MELHOR MÃO DA ETAPA
+        function searchBestHand(etapa) {
+            const etapaNum = parseInt(etapa);
+            if (etapaNum >= 1 && etapaNum <= 12) {
+                return database.melhoresMaos[etapaNum];
+            }
+            return null;
+        }
 
-    if (q.includes('rebuy') || q.includes('re-buy') || q.includes('add-on') || q.includes('addon')) 
-        return knowledgeBase.rebuy;
+        // BUSCAR MATADOR DE KO DA ETAPA
+        function searchKOMatador(etapa) {
+            const etapaNum = parseInt(etapa);
+            if (etapaNum >= 1 && etapaNum <= 12) {
+                return database.matadoresKO[etapaNum];
+            }
+            return null;
+        }
 
-    if (q.includes('inscri') || q.includes('inscrever') || q.includes('lista') || q.includes('vaga')) 
-        return knowledgeBase.inscricoes;
+        // PROCESSAR PERGUNTA
+        function processQuestion(question) {
+            const q = question.toLowerCase();
+            
+            // BUSCA POR JOGADOR NO RANKING
+            const playerMatch = q.match(/(?:onde está|posição do|ranking do|como está|tá onde)\s+(?:o\s+)?([a-záéíóúãõâêîôûàèìòùç\s]+)/i);
+            if (playerMatch) {
+                const playerName = playerMatch[1].trim().toUpperCase();
+                const player = searchPlayer(playerName);
+                
+                if (player) {
+                    return `
+                        <span class="insult">ENCONTREI ESSE BAMBA!</span><br><br>
+                        
+                        <div class="data-box">
+                            <div class="data-row">
+                                <div class="data-label">🎯 JOGADOR</div>
+                                <div class="data-value">${player.jogador}</div>
+                            </div>
+                            <div class="data-row">
+                                <div class="data-label">🏆 POSIÇÃO</div>
+                                <div class="data-value">${player.posicao}º LUGAR</div>
+                            </div>
+                            <div class="data-row">
+                                <div class="data-label">📊 PONTOS</div>
+                                <div class="data-value">${player.pontos} pts</div>
+                            </div>
+                            <div class="data-row">
+                                <div class="data-label">🎫 PARTICIPAÇÕES</div>
+                                <div class="data-value">${player.participacoes}</div>
+                            </div>
+                            <div class="data-row">
+                                <div class="data-label">👑 VITÓRIAS</div>
+                                <div class="data-value">${player.vitorias}</div>
+                            </div>
+                            <div class="data-row">
+                                <div class="data-label">💀 KOs</div>
+                                <div class="data-value">${player.kos}</div>
+                            </div>
+                            ${player.etapaCampeao.length > 0 ? `
+                            <div class="data-row">
+                                <div class="data-label">⭐ ETAPAS CAMPEÃO</div>
+                                <div class="data-value">${player.etapaCampeao.join(', ')}</div>
+                            </div>` : ''}
+                        </div>
+                        
+                        ${player.posicao <= 10 
+                            ? `<span class="warning">🎫 ESTÁ NO G10! BUY-IN FREE NA ÚLTIMA ETAPA!</span>` 
+                            : `<span class="insult">FORA DO G10! TEM QUE RALAR MAIS!</span>`}
+                    `;
+                } else {
+                    return `<span class="insult">NÃO ACHEI ESSE JOGADOR NO BANCO DE DADOS!</span><br><br>
+                           <span class="warning">TENTE DE NOVO OU VEJA OS TOP 10:</span><br>
+                           ${database.ranking.slice(0, 10).map(p => `• ${p.posicao}º - ${p.jogador} (${p.pontos} pts)`).join('<br>')}`;
+                }
+            }
+            
+            // BUSCA POR CAMPEÃO DA ETAPA
+            const championMatch = q.match(/(?:quem (?:ganhou|venceu|é o campeão)|campeão)\s+(?:da\s+)?(?:etapa\s+)?(\d+)/i);
+            if (championMatch) {
+                const etapa = championMatch[1];
+                const champion = searchChampion(etapa);
+                
+                if (champion) {
+                    return `
+                        <span class="insult">CAMPEÃO DA ETAPA ${etapa}!</span><br><br>
+                        
+                        <div class="data-box">
+                            <div class="data-row">
+                                <div class="data-label">👑 CAMPEÃO</div>
+                                <div class="data-value">${champion.jogador}</div>
+                            </div>
+                            <div class="data-row">
+                                <div class="data-label">📊 PONTOS GANHOS</div>
+                                <div class="data-value">${champion.pontos} pts</div>
+                            </div>
+                            <div class="data-row">
+                                <div class="data-label">💀 KOs NA ETAPA</div>
+                                <div class="data-value">${champion.kos}</div>
+                            </div>
+                            <div class="data-row">
+                                <div class="data-label">⭐ MELHOR MÃO</div>
+                                <div class="data-value">${champion.melhorMao}</div>
+                            </div>
+                        </div>
+                        
+                        <span class="warning">🏆 ${champion.jogador} virou REI DA MESA na etapa ${parseInt(etapa)+1}!</span>
+                    `;
+                } else {
+                    return `<span class="insult">ETAPA ${etapa} NÃO ENCONTRADA NO BANCO!</span><br><br>
+                           <span class="warning">ETAPAS DISPONÍVEIS: 1 a 12</span>`;
+                }
+            }
+            
+            // BUSCA POR MELHOR MÃO
+            const bestHandMatch = q.match(/(?:melhor mão|mão vencedora|full house|flush)\s+(?:da\s+)?(?:etapa\s+)?(\d+)/i);
+            if (bestHandMatch) {
+                const etapa = bestHandMatch[1];
+                const bestHand = searchBestHand(etapa);
+                
+                if (bestHand) {
+                    return `
+                        <span class="insult">MELHOR MÃO DA ETAPA ${etapa}!</span><br><br>
+                        
+                        <div class="data-box">
+                            <div class="data-row">
+                                <div class="data-label">⭐ JOGADOR</div>
+                                <div class="data-value">${bestHand.jogador}</div>
+                            </div>
+                            <div class="data-row">
+                                <div class="data-label">🃏 MÃO</div>
+                                <div class="data-value">${bestHand.mao}</div>
+                            </div>
+                            <div class="data-row">
+                                <div class="data-label">📝 DESCRIÇÃO</div>
+                                <div class="data-value">${bestHand.descricao}</div>
+                            </div>
+                        </div>
+                        
+                        <span class="warning">🎁 ${bestHand.jogador} GANHOU ADD-ON GRÁTIS NA ETAPA ${parseInt(etapa)+1}!</span>
+                    `;
+                } else {
+                    return `<span class="insult">ETAPA ${etapa} NÃO ENCONTRADA!</span>`;
+                }
+            }
+            
+            // BUSCA POR MATADOR DE KO
+            const koMatadorMatch = q.match(/(?:matador de ko|quem matou mais|mais eliminações|eliminou mais)\s+(?:na\s+)?(?:etapa\s+)?(\d+)/i);
+            if (koMatadorMatch) {
+                const etapa = koMatadorMatch[1];
+                const matador = searchKOMatador(etapa);
+                
+                if (matador) {
+                    return `
+                        <span class="insult">MATADOR DA ETAPA ${etapa}!</span><br><br>
+                        
+                        <div class="data-box">
+                            <div class="data-row">
+                                <div class="data-label">💀 MATADOR</div>
+                                <div class="data-value">${matador.jogador}</div>
+                            </div>
+                            <div class="data-row">
+                                <div class="data-label">☠️ KOs NA ETAPA</div>
+                                <div class="data-value">${matador.kos}</div>
+                            </div>
+                            <div class="data-row">
+                                <div class="data-label">👑 REIS ELIMINADOS</div>
+                                <div class="data-value">${matador.reisEliminados}</div>
+                            </div>
+                        </div>
+                        
+                        <span class="warning">🎯 CADA KO = +1 PONTO NO RANKING!</span>
+                    `;
+                } else {
+                    return `<span class="insult">ETAPA ${etapa} NÃO ENCONTRADA!</span>`;
+                }
+            }
+            
+            // BUSCA POR MATADOR DA TEMPORADA
+            if (q.includes('matador da temporada') || q.includes('quem matou mais no ano')) {
+                const matador = database.matadorTemporada;
+                return `
+                    <span class="insult">MATADOR DA TEMPORADA 2026!</span><br><br>
+                    
+                    <div class="data-box">
+                        <div class="data-row">
+                            <div class="data-label">💀 MATADOR</div>
+                            <div class="data-value">${matador.jogador}</div>
+                        </div>
+                        <div class="data-row">
+                            <div class="data-label">☠️ TOTAL DE KOs</div>
+                            <div class="data-value">${matador.totalKOs}</div>
+                        </div>
+                        <div class="data-row">
+                            <div class="data-label">💰 PRÊMIO</div>
+                            <div class="data-value">${matador.premio}</div>
+                        </div>
+                    </div>
+                    
+                    <span class="insult">QUER SER O PRÓXIMO? MATA MAIS!</span>
+                `;
+            }
+            
+            // BUSCA POR TOP 10
+            if (q.includes('top 10') || q.includes('top dez') || q.includes('ranking completo')) {
+                let rankingHTML = `<span class="insult">TOP 10 DO RANKING 2026!</span><br><br>`;
+                
+                rankingHTML += `<div class="data-box">`;
+                database.ranking.slice(0, 10).forEach(player => {
+                    rankingHTML += `
+                        <div class="data-row">
+                            <div class="data-label">${player.posicao}º</div>
+                            <div class="data-value">${player.jogador} - ${player.pontos} pts (${player.kos} KOs)</div>
+                        </div>
+                    `;
+                });
+                rankingHTML += `</div>`;
+                
+                rankingHTML += `<span class="warning">🎫 ESSES 10 JOGAM A ÚLTIMA ETAPA DE GRAÇA!</span>`;
+                return rankingHTML;
+            }
+            
+            // RESPOSTAS PADRÃO DO REGULAMENTO
+            if (q.includes('buy-in') || q.includes('valor') || q.includes('custa')) 
+                return knowledgeBase.buyin;
+            
+            if (q.includes('inscri') || q.includes('inscrever') || q.includes('lista')) 
+                return knowledgeBase.inscricoes;
+            
+            if (q.includes('ko') || q.includes('knockout') || q.includes('elimina')) 
+                return knowledgeBase.ko;
+            
+            if (q.includes('premia') || q.includes('prêmio') || q.includes('pote')) 
+                return knowledgeBase.premiacao;
+            
+            if (q.includes('rei da mesa') || q.includes('rei')) 
+                return knowledgeBase.rei;
+            
+            if (q.includes('roleta') || q.includes('sorte')) 
+                return knowledgeBase.roleta;
+            
+            if (q.includes('última etapa') || q.includes('etapa final')) 
+                return knowledgeBase.ultima;
+            
+            if (q.includes('regra') || q.includes('jogo') || q.includes('dealer')) 
+                return knowledgeBase.regras;
+            
+            // RESPOSTA PADRÃO
+            return `<span class="insult">NÃO ENTENDI ESSA MERDA QUE VOCÊ DIGITOU!</span><br><br>
+                   <span class="warning">PERGUNTA DIREITO, SEU ANALFABETO:</span><br>
+                   • "Onde está o [NOME] no ranking?"<br>
+                   • "Quem ganhou a etapa [NÚMERO]?"<br>
+                   • "Melhor mão da etapa [NÚMERO]?"<br>
+                   • Ou clique nos comandos ao lado!<br><br>
+                   <span class="insult">VAI LER O REGULAMENTO! pokerdequinta.my.canva.site</span>`;
+        }
 
-    if (q.includes('ko') || q.includes('knockout') || q.includes('eliminar') || q.includes('matador') || q.includes('ficha ko')) 
-        return knowledgeBase.ko;
+        // ENVIAR MENSAGEM
+        function sendMessage() {
+            const question = userInput.value.trim();
+            if (!question) return;
+            
+            addMessage('VOCÊ', question, true);
+            userInput.value = '';
+            
+            showTyping();
+            
+            setTimeout(() => {
+                removeTyping();
+                const answer = processQuestion(question);
+                addMessage('BOT PDQ SUPREMO', answer, false);
+            }, 1000 + Math.random() * 1000);
+        }
 
-    if (q.includes('whatsapp') || q.includes('zap') || q.includes('grupo') || q.includes('whats')) 
-        return knowledgeBase.whatsapp;
+        // EVENT LISTENERS
+        sendButton.addEventListener('click', sendMessage);
+        userInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') sendMessage();
+        });
 
-    if (q.includes('última') || q.includes('ultima') || q.includes('13') || q.includes('final') || q.includes('etapa final')) 
-        return knowledgeBase.ultima;
-
-    if (q.includes('time bank') || q.includes('timebank') || q.includes('tempo') || q.includes('cartão') || q.includes('cartao')) 
-        return knowledgeBase.timebank;
-
-    if (q.includes('penalidad') || q.includes('multa') || q.includes('faltar') || q.includes('desistir')) 
-        return knowledgeBase.penalidades;
-
-    if (q.includes('rei') || q.includes('rei da mesa') || q.includes('cabeça') || q.includes('rei do rebuy')) 
-        return knowledgeBase.rei;
-
-    if (q.includes('roleta') || q.includes('sorte') || q.includes('quebrador') || q.includes('quebrador de ases')) 
-        return knowledgeBase.roleta;
-
-    if (q.includes('premia') || q.includes('prêmio') || q.includes('premio') || q.includes('ganhar') || q.includes('pote')) 
-        return knowledgeBase.premiacao;
-
-    if (q.includes('regra') || q.includes('jogo') || q.includes('dealer') || q.includes('cartas') || q.includes('fold')) 
-        return knowledgeBase.regras;
-
-    if (q.includes('melhor mão') || q.includes('melhor mao') || q.includes('full house') || q.includes('showdown') || q.includes('add-on gratis')) 
-        return knowledgeBase.melhormao;
-
-    if (q.includes('cash') || q.includes('dinheiro vivo') || q.includes('cash game') || q.includes('cashgame')) 
-        return knowledgeBase.cashgame;
-
-    if (q.includes('calendário') || q.includes('calendario') || q.includes('data') || q.includes('quando') || q.includes('etapas') || q.includes('datas')) 
-        return knowledgeBase.calendario;
-
-    if (q.includes('local') || q.includes('onde') || q.includes('endereço') || q.includes('endereco') || q.includes('luck') || q.includes('bar')) 
-        return knowledgeBase.local;
-
-    // Não reconhecida
-    return `<span class="aggressive">${getAggressiveResponse()}</span><br><br>
-           <span class="highlight">Site oficial:</span> pokerdequinta.my.canva.site<br>
-           <span class="highlight">Exemplos de perguntas:</span><br>
-           • "Qual posição do João no ranking?"<br>
-           • "Quem foi campeão da etapa 3?"<br>
-           • "Quem fez a melhor mão em 27/02?"<br>
-           • "Quem foi o matador KO da última etapa?"<br>
-           <span class="aggressive">OU VAI LER O REGULAMENTO, SEU PREGUIÇOSO!</span>`;
-}
-
-// Enviar mensagem
-function sendMessage() {
-    const question = userInput.value.trim();
-    if (!question) return;
-
-    addMessage('VOCÊ', question, true);
-    userInput.value = '';
-
-    showTypingIndicator();
-
-    setTimeout(() => {
-        removeTypingIndicator();
-        const answer = processQuestion(question);
-        addMessage('BOT PDQ', answer + `<div class="rule-reference">RESPOSTA BASEADA NO REGULAMENTO E BANCO DE DADOS</div>`, false);
-    }, 800 + Math.random() * 800);
-}
-
-// Event listeners
-sendButton.addEventListener('click', sendMessage);
-userInput.addEventListener('keypress', (e) => {
-    if (e.key === 'Enter') sendMessage();
-});
-
-// Inicializar com o primeiro tópico
-window.addEventListener('DOMContentLoaded', () => {
-    // Já está inicializado com a mensagem de boas-vindas
-    userInput.focus();
-});
-
-// FUNÇÃO PARA CONEXÃO REAL COM BANCO DE DADOS (COMENTADA - IMPLEMENTAR CONFORME SEU BACKEND)
-/*
-async function conectarBancoDados() {
-    try {
-        // Exemplo com fetch para API REST
-        const response = await fetch('https://sua-api.com/ranking');
-        const data = await response.json();
-
-        // Atualizar database com dados reais
-        database.ranking = data.ranking;
-        database.etapas = data.etapas;
-
-        console.log('Banco de dados conectado com sucesso!');
-    } catch (error) {
-        console.error('Erro ao conectar com banco de dados:', error);
-        // Mantém os dados simulados em caso de erro
-    }
-}
-
-// Chamar a função de conexão ao carregar
-// conectarBancoDados();
-*/
-</script>
+        // INICIALIZAÇÃO
+        window.addEventListener('DOMContentLoaded', () => {
+            userInput.focus();
+        });
+    </script>
 </body>
 </html>
