@@ -1,259 +1,785 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BOT PDQ - Poker de Quinta</title>
+    <title>FAQ Poker de Quinta - Resumo do Regulamento</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --poker-dark: #0d1b2a;
-            --poker-red: #c1121f;
-            --poker-gold: #ffd700;
-            --poker-green: #386641;
-            --poker-bg: #1a2c3e;
-            --poker-card: #2a4d6e;
+            --primary-color: #1a472a;
+            --secondary-color: #2d5a3c;
+            --accent-color: #d4af37;
+            --light-color: #f5f5f5;
+            --dark-color: #111;
+            --success-color: #28a745;
+            --warning-color: #ffc107;
+            --danger-color: #dc3545;
+            --card-green: #1a472a;
         }
-
+        
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Roboto', sans-serif;
         }
-
+        
         body {
-            background-color: var(--poker-dark);
-            color: #f0f0f0;
-            padding: 20px;
-            background-image: radial-gradient(circle at 10% 20%, rgba(56, 102, 65, 0.1) 0%, rgba(13, 27, 42, 0.8) 90%);
+            background-color: #f0f0f0;
+            color: var(--dark-color);
+            line-height: 1.6;
         }
-
+        
+        h1, h2, h3, h4, .anton-font {
+            font-family: 'Anton', sans-serif;
+            letter-spacing: 0.5px;
+        }
+        
         .container {
-            max-width: 900px;
+            max-width: 1200px;
             margin: 0 auto;
-            border: 4px solid var(--poker-gold);
-            border-radius: 20px;
+            padding: 0 20px;
+        }
+        
+        /* Header */
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 20px 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border-bottom: 4px solid var(--accent-color);
+        }
+        
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .logo {
+            height: 70px;
+            width: auto;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+        }
+        
+        .site-title {
+            font-size: 2rem;
+            font-weight: 400;
+            color: white;
+            text-transform: uppercase;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .site-subtitle {
+            font-size: 1rem;
+            color: var(--accent-color);
+            font-weight: 500;
+        }
+        
+        /* Main Content */
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            min-height: calc(100vh - 140px);
+            padding: 30px 0;
+        }
+        
+        .page-description {
+            background-color: white;
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            border-left: 5px solid var(--accent-color);
+        }
+        
+        .page-description h2 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            font-size: 1.8rem;
+            text-transform: uppercase;
+        }
+        
+        .faq-bot-container {
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+        
+        /* FAQ Categories */
+        .faq-categories {
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        .categories-title {
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+            padding-bottom: 10px;
+            border-bottom: 3px solid var(--accent-color);
+            text-transform: uppercase;
+        }
+        
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+        
+        .category-card {
+            background-color: var(--card-green);
+            border-radius: 10px;
+            padding: 25px 20px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border-top: 5px solid var(--accent-color);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            position: relative;
             overflow: hidden;
-            box-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
-            background-color: var(--poker-bg);
         }
-
-        .header {
-            background: linear-gradient(90deg, var(--poker-red), var(--poker-green));
+        
+        .category-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent-color), #f5d76e);
+        }
+        
+        .category-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
+            background-color: #153b22;
+        }
+        
+        .category-card i {
+            font-size: 2.2rem;
+            color: var(--accent-color);
+            margin-bottom: 15px;
+        }
+        
+        .category-card h3 {
+            color: white;
+            margin-bottom: 10px;
+            font-size: 1.4rem;
+            font-weight: 400;
+            text-transform: uppercase;
+        }
+        
+        .category-card p {
+            color: #ddd;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+        
+        /* Chat Bot */
+        .chat-bot {
+            flex: 1;
+            min-width: 300px;
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            border-top: 5px solid var(--accent-color);
+        }
+        
+        .chat-header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 18px 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .chat-header i {
+            font-size: 1.8rem;
+            color: var(--accent-color);
+        }
+        
+        .chat-header h3 {
+            font-size: 1.4rem;
+            font-weight: 400;
+            text-transform: uppercase;
+        }
+        
+        .chat-messages {
+            flex: 1;
             padding: 20px;
-            text-align: center;
-            border-bottom: 5px solid var(--poker-gold);
-        }
-
-        .header h1 {
-            font-size: 2.8rem;
-            color: var(--poker-gold);
-            text-shadow: 3px 3px 0 var(--poker-dark);
-            letter-spacing: 2px;
-        }
-
-        .header p {
-            font-size: 1.1rem;
-            color: #fff;
-            margin-top: 5px;
-            font-weight: bold;
-        }
-
-        .chat-container {
-            padding: 20px;
-            height: 500px;
             overflow-y: auto;
+            max-height: 400px;
             display: flex;
             flex-direction: column;
             gap: 15px;
-            background-color: var(--poker-card);
-            border-bottom: 2px solid var(--poker-gold);
+            background-color: #f9f9f9;
         }
-
+        
         .message {
-            max-width: 80%;
-            padding: 15px;
-            border-radius: 15px;
+            max-width: 85%;
+            padding: 14px 18px;
+            border-radius: 18px;
             line-height: 1.5;
-            position: relative;
-            animation: fadeIn 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
         }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .user-message {
-            align-self: flex-end;
-            background-color: var(--poker-green);
-            border-bottom-right-radius: 5px;
-            color: white;
-            font-weight: bold;
-        }
-
+        
         .bot-message {
+            background-color: #e9f5e9;
             align-self: flex-start;
-            background-color: var(--poker-red);
             border-bottom-left-radius: 5px;
-            color: white;
-            font-weight: bold;
-            border-left: 5px solid var(--poker-gold);
+            position: relative;
+            border-left: 3px solid var(--primary-color);
         }
-
-        .input-area {
+        
+        .bot-message::before {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: -8px;
+            width: 0;
+            height: 0;
+            border-style: solid;
+            border-width: 0 0 10px 10px;
+            border-color: transparent transparent #e9f5e9 transparent;
+        }
+        
+        .user-message {
+            background-color: var(--primary-color);
+            color: white;
+            align-self: flex-end;
+            border-bottom-right-radius: 5px;
+            border-right: 3px solid var(--accent-color);
+        }
+        
+        .chat-input-area {
+            padding: 18px;
+            border-top: 2px solid #eee;
             display: flex;
-            padding: 20px;
-            background-color: var(--poker-dark);
-            border-top: 3px solid var(--poker-gold);
+            gap: 12px;
+            background-color: white;
         }
-
-        #userInput {
+        
+        .chat-input {
             flex: 1;
-            padding: 15px;
-            border: none;
-            border-radius: 10px;
-            background-color: #2a4d6e;
-            color: white;
-            font-size: 1rem;
+            padding: 14px 18px;
+            border: 2px solid #ddd;
+            border-radius: 30px;
             outline: none;
-            border: 2px solid var(--poker-gold);
+            font-size: 1rem;
+            transition: all 0.3s;
         }
-
-        #userInput::placeholder {
-            color: #aaa;
+        
+        .chat-input:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(26, 71, 42, 0.1);
         }
-
-        #sendBtn {
-            background-color: var(--poker-red);
+        
+        .send-button {
+            background-color: var(--primary-color);
             color: white;
             border: none;
-            padding: 0 25px;
-            margin-left: 15px;
-            border-radius: 10px;
-            font-weight: bold;
+            border-radius: 50%;
+            width: 52px;
+            height: 52px;
             cursor: pointer;
-            transition: background 0.3s;
-            border: 2px solid var(--poker-gold);
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
         }
-
-        #sendBtn:hover {
-            background-color: #a00;
+        
+        .send-button:hover {
+            background-color: var(--secondary-color);
+            transform: scale(1.05);
         }
-
-        .bot-tag {
-            font-size: 0.9rem;
-            color: var(--poker-gold);
-            font-weight: bold;
-            margin-bottom: 5px;
+        
+        .suggested-questions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 15px;
+            padding: 0 20px 20px;
         }
-
-        .aggressive {
-            text-transform: uppercase;
-            font-weight: 900;
-            color: #ffcc00;
+        
+        .question-chip {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 10px 18px;
+            border-radius: 25px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 2px solid transparent;
         }
-
-        .footer {
-            text-align: center;
-            padding: 15px;
-            font-size: 0.9rem;
-            color: #aaa;
-            background-color: var(--poker-dark);
-            border-top: 1px solid #333;
+        
+        .question-chip:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+            border-color: var(--accent-color);
         }
-
-        .footer a {
-            color: var(--poker-gold);
+        
+        /* Footer */
+        footer {
+            background-color: var(--dark-color);
+            color: white;
+            padding: 30px 0;
+            margin-top: 40px;
+            border-top: 4px solid var(--accent-color);
+        }
+        
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        
+        .footer-links {
+            display: flex;
+            gap: 25px;
+        }
+        
+        .footer-links a {
+            color: #ddd;
             text-decoration: none;
+            transition: color 0.3s;
+            font-weight: 500;
+        }
+        
+        .footer-links a:hover {
+            color: var(--accent-color);
+        }
+        
+        .copyright {
+            color: #aaa;
+            font-size: 0.9rem;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+                gap: 15px;
+            }
+            
+            .site-title {
+                font-size: 1.8rem;
+            }
+            
+            .faq-bot-container {
+                flex-direction: column;
+            }
+            
+            .footer-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .chat-messages {
+                max-height: 300px;
+            }
+            
+            .categories-title {
+                font-size: 1.6rem;
+            }
+        }
+        
+        /* Highlight important info */
+        .highlight {
+            background-color: #fff9e6;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 5px solid var(--accent-color);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+        }
+        
+        .highlight h4 {
+            color: var(--primary-color);
+            margin-bottom: 12px;
+            font-size: 1.3rem;
+            text-transform: uppercase;
+        }
+        
+        .reg-link {
+            color: var(--primary-color);
+            font-weight: bold;
+            text-decoration: none;
+            border-bottom: 2px solid var(--accent-color);
+            padding-bottom: 2px;
+        }
+        
+        .reg-link:hover {
+            color: var(--secondary-color);
+        }
+        
+        .info-badge {
+            display: inline-block;
+            background-color: var(--accent-color);
+            color: var(--dark-color);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+        
+        .step-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 28px;
+            height: 28px;
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 50%;
+            font-weight: bold;
+            margin-right: 10px;
         }
     </style>
 </head>
 <body>
-
-    <div class="container">
-        <div class="header">
-            <h1>🃏 BOT PDQ</h1>
-            <p>Pergunte sobre o regulamento do Poker de Quinta 2026. Seja direto, que eu sou mais.</p>
-        </div>
-
-        <div class="chat-container" id="chatBox">
-            <div class="message bot-message">
-                <div class="bot-tag">🤖 BOT PDQ:</div>
-                <p><span class="aggressive">E AÍ, JOGADOR!</span> Chegou pra tirar dúvida sobre o regulamento? Fala logo, não tenho a noite toda. O que você quer saber?</p>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo-container">
+                    <img src="https://raw.githubusercontent.com/pokerdequinta/site/main/assets/logo.png" alt="Logo Poker de Quinta" class="logo" onerror="this.onerror=null; this.src='https://via.placeholder.com/70x70/1a472a/FFFFFF?text=PDQ'">
+                    <div>
+                        <h1 class="site-title anton-font">POKER DE QUINTA</h1>
+                        <p class="site-subtitle">FAQ - Perguntas Frequentes sobre o Regulamento 2026</p>
+                    </div>
+                </div>
+                <div>
+                    <p><span class="info-badge">13 ETAPAS</span><span class="info-badge">QUINTAS 20H</span></p>
+                </div>
             </div>
         </div>
-
-        <div class="input-area">
-            <input type="text" id="userInput" placeholder="Digite sua pergunta aqui... Ex: 'Como funciona o rebuy?'">
-            <button id="sendBtn">ENVIAR</button>
+    </header>
+    
+    <main class="main-content container">
+        <section class="page-description">
+            <h2 class="anton-font"><i class="fas fa-info-circle"></i> FAQ INTERATIVO DO POKER DE QUINTA</h2>
+            <p>Este é um resumo interativo do regulamento da Temporada 2026 do Poker de Quinta. Para jogadores "preguiçosos" que querem entender as principais regras rapidamente. Use as categorias abaixo para navegar ou faça perguntas diretas ao nosso bot!</p>
+            <p><strong>Regulamento completo:</strong> <a href="https://pokerdequinta.github.io/site" class="reg-link" target="_blank">Site Oficial do Poker de Quinta</a></p>
+        </section>
+        
+        <div class="faq-bot-container">
+            <section class="faq-categories">
+                <h2 class="categories-title anton-font"><i class="fas fa-folder-open"></i> CATEGORIAS DO REGULAMENTO</h2>
+                <div class="categories-grid">
+                    <div class="category-card" onclick="askQuestion('Quais são os valores do buy-in, rebuy e add-on?')">
+                        <i class="fas fa-money-bill-wave"></i>
+                        <h3 class="anton-font">VALORES E PAGAMENTOS</h3>
+                        <p>Buy-in, rebuys, add-ons, formas de pagamento e taxas.</p>
+                    </div>
+                    
+                    <div class="category-card" onclick="askQuestion('Como funciona o sistema de inscrições?')">
+                        <i class="fas fa-list-ol"></i>
+                        <h3 class="anton-font">INSCRIÇÕES E PRESENÇA</h3>
+                        <p>Listas, confirmações, faltas e penalidades.</p>
+                    </div>
+                    
+                    <div class="category-card" onclick="askQuestion('Quais são as regras do jogo na mesa?')">
+                        <i class="fas fa-users"></i>
+                        <h3 class="anton-font">REGRAS NA MESA</h3>
+                        <p>Dinâmica do jogo, tempo para decisões, fichas e dealers.</p>
+                    </div>
+                    
+                    <div class="category-card" onclick="askQuestion('Como funciona o sistema de Knockout (KO)?')">
+                        <i class="fas fa-fist-raised"></i>
+                        <h3 class="anton-font">SISTEMA KNOCKOUT</h3>
+                        <p>Fichas KO, pontuação por eliminação e prêmio matador.</p>
+                    </div>
+                    
+                    <div class="category-card" onclick="askQuestion('O que é a Recompensa do Rei da Mesa?')">
+                        <i class="fas fa-crown"></i>
+                        <h3 class="anton-font">REI DA MESA</h3>
+                        <p>Recompensa especial para o campeão da etapa anterior.</p>
+                    </div>
+                    
+                    <div class="category-card" onclick="askQuestion('Como funciona a Roleta da Sorte?')">
+                        <i class="fas fa-dice"></i>
+                        <h3 class="anton-font">ROLETA DA SORTE</h3>
+                        <p>Como ativar, desafios e prêmios especiais.</p>
+                    </div>
+                    
+                    <div class="category-card" onclick="askQuestion('Como é calculado o ranking?')">
+                        <i class="fas fa-trophy"></i>
+                        <h3 class="anton-font">RANKING E PREMIAÇÃO</h3>
+                        <p>Pontuação, critérios de desempate e premiações.</p>
+                    </div>
+                    
+                    <div class="category-card" onclick="askQuestion('O que acontece na última etapa?')">
+                        <i class="fas fa-flag-checkered"></i>
+                        <h3 class="anton-font">ÚLTIMA ETAPA</h3>
+                        <p>Formato especial, buy-in free para top 10 e mesas.</p>
+                    </div>
+                </div>
+                
+                <div class="highlight">
+                    <h4 class="anton-font"><i class="fas fa-exclamation-circle"></i> INFORMAÇÕES IMPORTANTES</h4>
+                    <p><strong><span class="step-number">1</span> Local:</strong> Luck BAR - R. Prof. Sebastião Paraná, 765 - Vila Izabel, Curitiba/PR</p>
+                    <p><strong><span class="step-number">2</span> Horário:</strong> Quintas-feiras às 20:00h (13 etapas em 2026)</p>
+                    <p><strong><span class="step-number">3</span> Site Oficial:</strong> <a href="https://pokerdequinta.my.canva.site" class="reg-link" target="_blank">https://pokerdequinta.my.canva.site</a></p>
+                    <p><strong><span class="step-number">4</span> Pagamento:</strong> Apenas PIX (não é aceito dinheiro em espécie)</p>
+                </div>
+            </section>
+            
+            <section class="chat-bot">
+                <div class="chat-header">
+                    <i class="fas fa-robot"></i>
+                    <h3 class="anton-font">BOT DO REGULAMENTO</h3>
+                </div>
+                
+                <div class="chat-messages" id="chatMessages">
+                    <div class="message bot-message">
+                        <strong>Bot do Poker de Quinta:</strong> Olá! Sou o bot de regulamento do Poker de Quinta. Estou aqui para tirar suas dúvidas sobre as regras da Temporada 2026. Clique em uma das categorias ao lado ou faça uma pergunta diretamente!
+                    </div>
+                    
+                    <div class="message bot-message">
+                        <strong>Dica:</strong> Você pode perguntar sobre valores, inscrições, regras da mesa, sistema de KO, Rei da Mesa, Roleta da Sorte, ranking ou a última etapa.
+                    </div>
+                </div>
+                
+                <div class="suggested-questions">
+                    <div class="question-chip" onclick="askQuestion('Qual o valor do buy-in?')">Qual o valor do buy-in?</div>
+                    <div class="question-chip" onclick="askQuestion('Como funciona o sistema de KO?')">Como funciona o sistema de KO?</div>
+                    <div class="question-chip" onclick="askQuestion('O que é a Recompensa do Rei?')">O que é a Recompensa do Rei?</div>
+                    <div class="question-chip" onclick="askQuestion('Quando posso fazer rebuy?')">Quando posso fazer rebuy?</div>
+                </div>
+                
+                <div class="chat-input-area">
+                    <input type="text" class="chat-input" id="userInput" placeholder="Digite sua pergunta sobre o regulamento..." onkeypress="handleKeyPress(event)">
+                    <button class="send-button" onclick="sendMessage()">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+            </section>
         </div>
-
-        <div class="footer">
-            <p>Baseado no regulamento da Temporada 2026 do Poker de Quinta. Site oficial: <a href="https://pokerdequinta.my.canva.site" target="_blank">pokerdequinta.my.canva.site</a></p>
+    </main>
+    
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div>
+                    <p class="copyright">Poker de Quinta © 2026 - Temporada 2026</p>
+                    <p class="copyright">Este é um resumo interativo do regulamento oficial.</p>
+                </div>
+                <div class="footer-links">
+                    <a href="https://pokerdequinta.github.io/site" target="_blank">Site Oficial</a>
+                    <a href="https://pokerdequinta.my.canva.site" target="_blank">Regulamento Completo</a>
+                    <a href="#" onclick="askQuestion('Quais são as regras do grupo WhatsApp?')">Regras WhatsApp</a>
+                </div>
+            </div>
         </div>
-    </div>
+    </footer>
 
     <script>
-        const chatBox = document.getElementById('chatBox');
-        const userInput = document.getElementById('userInput');
-        const sendBtn = document.getElementById('sendBtn');
-
-        const qa = {
-            "horario": "AS ETAPAS COMEÇAM ÀS <span class='aggressive'>20:00</span> NO LUCK BAR. ATRASOU? PERDEU BÔNUS DE 3K EM FICHAS. SEJA PONTUAL.",
-            "local": "LUCK BAR - R. PROF. SEBASTIÃO PARANÁ, 765 - VILA IZABEL, CURITIBA. NÃO SABE CHEGAR? USA O GPS.",
-            "valor": "BUY-IN: <span class='aggressive'>R$ 100,00</span> (R$ 50 jogo + R$ 30 janta + R$ 20 limpeza). REBUY: R$ 30 = 15K fichas. ADD-ON: R$ 50 = 50K fichas. PAGAMENTO SÓ PIX, ESQUEÇE DINHEIRO.",
-            "rebuy": "REBUY É <span class='aggressive'>ILIMITADO</span> ATÉ O 10° NÍVEL + 3 MÃOS. SÓ QUANDO ZERAR AS FICHAS. REBUY DUPLO: R$ 60 = 30K FICHAS. ADD-ON SÓ 1 POR JOGADOR NO FIM DO 10° NÍVEL.",
-            "inscricao": "INSCRIÇÃO NO SITE OFICIAL, SEGUNDA-FEIRA ÀS 7H. VAGAS: 20. PRIORIDADE É DO GRUPO DO WHATSAPP. NÃO CONFIRMOU? FICA NA LISTA DE ESPERA.",
-            "desistencia": "DESISTIU NA QUINTA? <span class='aggressive'>-20 PONTOS NO RANKING</span> E VAI PRO FIM DA FILA. FALTOU? -90 PONTOS + PAGAR R$ 100. ACHA JUSTO? LEIA O REGULAMENTO.",
-            "ranking": "PONTUAÇÃO: 1° = 27 PTS, 2° = 25, 3° = 23... ATÉ 20° = 5 PTS. FICHA KO VALE 1 PTO. DESEMPATE: MAIS PONTOS, MAIS PARTICIPAÇÕES, MAIS VITÓRIAS, MAIS KOs, LOCURINHA.",
-            "ko": "KNOCKOUT SÓ VALE <span class='aggressive'>APÓS O INTERVALO</span>. ELIMINOU? PEGA A FICHA KO DO OPONENTE. MATADOR DO ANO GANHA R$ 200. EMPATOU? CRITÉRIO DE DESEMPATE VALE.",
-            "rei da mesa": "CAMPEÃO DA ETAPA ANTERIOR COMEÇA COM 2 FICHAS KO. ELIMINOU O REI? PEGA AS FICHAS. SE O REI FALTAR, A RECOMPENSA PASSA PRO SEGUNDO COLOCADO.",
-            "roleta": "RODA A ROLETA SE: QUEBROU PAR DE ASES OU FEZ A MÃO DA SEMANA (DEFINIDA POR ENQUETE). SENÃO, VAI PRO REI DO REBUY. PRÊMIOS: FICHAS, CERVEJA, ABRAÇO... OU SE FODEU.",
-            "melhor mao": "MELHOR MÃO DA NOITE = ADD-ON GRÁTIS NA PRÓXIMA ETAPA. MINIMO: FULL HOUSE. TEM QUE TER SHOWDOWN E USAR AS DUAS CARTAS. NA ÚLTIMA ETAPA SÓ GANHA ABRAÇO.",
-            "premiacao": "PREMIAÇÃO DA ETAPA: 1° 36%, 2° 26%, 3° 19%, 4° 12%, 5° 7%. PAGAMENTO ATÉ 12H DO DIA SEGUINTE VIA PIX. QUER DINHEIRO? DEPENDE DA ORGANIZAÇÃO.",
-            "dealers": "DEALERS SÃO PROFISSIONAIS. RESPEITE OU SAI DO JOGO. ELES CONTROLAM A MESA, BLINDS, TEMPO. CAPILÉ? COMBINA DIRETO COM ELE, A ORGANIZAÇÃO NÃO SE METE.",
-            "time bank": "30 SEGUNDOS PRA DECIDIR. ACABOU? USA TIME BANK: 3 CARTÕES, 30 SEGUNDOS CADA. ACABOU OS 3 E NÃO AGIU? <span class='aggressive'>FOLD.</span> NÃO EMPRESTA CARTÃO.",
-            "ultima etapa": "ÚLTIMA ETAPA: 10/12/2026. OS 10 MELHORES DO RANKING TÊM BUY-IN FREE (PAGAM SÓ JANTA E LIMPEZA). POTE ACUMULADO > R$ 2.000. SE NÃO FOR, AVISA NO GRUPO.",
-            "regras grupo": "NO GRUPO DO ZAP: PROIBIDO PORNO, POLÍTICA, ANÚNCIO, EVENTO DE TERCEIROS. SÓ RESENHA DE FUTEBOL E POKER. DESRESPEITOU? <span class='aggressive'>VAZA DO GRUPO.</span>"
+        // Base de conhecimento do regulamento
+        const regulationKnowledge = {
+            // Valores e pagamentos
+            "buy-in": "O buy-in é de R$100,00, composto por: R$50,00 para o pote da etapa, R$30,00 para a janta e R$20,00 para taxa de limpeza. O jogador recebe 15.000 fichas.",
+            "rebuy": "Rebuy: R$30,00 = 15.000 fichas. Ilimitados até o 10° nível + 3 mãos após. Só pode fazer rebuy quando zerar as fichas. Rebuy duplo: R$60,00 = 30.000 fichas.",
+            "add-on": "Add-on: R$50,00 = 50.000 fichas. Apenas 1 por jogador, no fim do 10° nível de blinds.",
+            "pagamento": "Os valores são aceitos SOMENTE via PIX através do QR CODE da organização. Não é aceito dinheiro em espécie.",
+            "valores": "Buy-in: R$100,00 (15k fichas). Rebuy: R$30,00 (15k fichas). Add-on: R$50,00 (50k fichas). Rebuy duplo: R$60,00 (30k fichas).",
+            "pix": "Todos os pagamentos devem ser feitos via PIX. Não é aceito dinheiro em espécie. O pagamento da premiação também é feito via PIX, até as 12h do dia útil seguinte.",
+            
+            // Inscrições e presença
+            "inscrição": "A inscrição é feita pelo site oficial na segunda-feira antes da etapa, às 7h. Vagas por ordem de confirmação (limite de 20 jogadores). Prioridade para membros do grupo WhatsApp.",
+            "lista": "A lista oficial é preenchida pelos membros do grupo até quarta-feira às 10h. Depois disso, a lista de espera é liberada.",
+            "falta": "Se desistir na quinta-feira sem substituição: -20 pontos no ranking. Se faltar sem aviso: -90 pontos e multa de R$100,00. Em ambos os casos, vai para o final da lista de espera.",
+            "convidado": "Cada jogador pode incluir 1 convidado (que deve ser do grupo). O jogador é responsável pelo convidado.",
+            "presença": "A confirmação deve ser feita pelo site. Chegando antes das 20h: bônus de 3.000 fichas.",
+            
+            // Regras na mesa
+            "dealer": "Haverá 2 dealers profissionais por etapa. Eles têm autoridade máxima na mesa. Desrespeito ao dealer pode resultar em exclusão do grupo.",
+            "tempo": "Tempo padrão de decisão: 30 segundos. Time Bank: cada jogador recebe 3 cartões de 30 segundos extras. Se usar todos em uma rodada e não agir, é fold.",
+            "fichas": "As fichas devem ficar sempre visíveis sobre a mesa. Retirar fichas da mesa invalida-as. O jogador pode ser punido ou eliminado.",
+            "cartas": "As cartas devem ficar sobre a mesa, visíveis. Mostrar cartas para alguém = fold. Se mostrar para um, deve mostrar para todos.",
+            "regras": "Jogador deve estar no lugar quando a segunda carta for distribuída. Se não estiver, a mão é descartada. Em sit-out, pagam-se blinds normalmente.",
+            "aposta": "Apostas devem ser feitas em um único movimento. Múltiplos movimentos sem declaração verbal valem como call do valor atual.",
+            
+            // Sistema Knockout
+            "ko": "Sistema de Knockout: cada jogador recebe 1 ficha KO no início. Eliminações contam APÓS o intervalo. Quem elimina ganha a ficha KO do eliminado.",
+            "ficha ko": "Cada ficha KO vale 1 ponto na pontuação final. Eliminações antes do intervalo não contam como KO.",
+            "matador ko": "Ao final da temporada, o jogador com mais KOs ganha R$200,00. Em caso de empate, usam-se os critérios de desempate do ranking.",
+            "pontuação ko": "Pontuação final = pontos por classificação + fichas KO acumuladas. Exemplo: 10 pontos por classificação + 3 KOs = 13 pontos totais.",
+            
+            // Rei da Mesa
+            "rei": "O campeão da etapa anterior se torna o Rei da Mesa. Ele começa com 2 fichas KO (em vez de 1). Quem eliminar o Rei ganha ambas as fichas.",
+            "recompensa rei": "Se o Rei for eliminado, quem o eliminou ganha suas 2 fichas KO (valem após o intervalo). Se for campeão 2 vezes seguidas, a recompensa dobra (4 fichas KO).",
+            "ausência rei": "Se o Rei faltar, a recompensa passa para o 2° colocado da etapa anterior, depois 3°, e assim por diante.",
+            
+            // Roleta da Sorte
+            "roleta": "Roleta da Sorte: ativada por feitos especiais até o intervalo. Prêmios: fichas extras, cerveja, amendoim, abraços ou 1 ficha KO.",
+            "quebrador ases": "Quebrador de Ases: jogador que perde com par de Ases no showdown ganha direito a girar a roleta.",
+            "rei rebuy": "Rei do Rebuy: jogador com maior número de rebuys na etapa ganha direito a girar a roleta (desempate por posição no ranking).",
+            "prêmio roleta": "Prêmios da roleta: de 1k a 50k em fichas, 1 ficha KO, cerveja, refrigerante, amendoim, abraços do dealer/Sr. Milton/Bruxo.",
+            
+            // Ranking e premiação
+            "ranking": "Pontuação do ranking: 1°=27pts, 2°=25pts, 3°=23pts, 4°=21pts, 5°=19pts, 6°=17pts, 7°=15pts, 8°=13pts, 9°=11pts, 10°=9pts, 11°=7pts, 12°=6pts, 13°-20°=5pts + fichas KO.",
+            "desempate": "Critérios de desempate: 1) Número de pontos, 2) Maior número de participações, 3) Maior número de 1° lugares, 4) Maior número de KOs, 5) Locurinha (melhor de 3).",
+            "premiação": "Premiação por etapa: 1°=36%, 2°=26%, 3°=19%, 4°=12%, 5°=7% do pote arrecadado. Pagamento via PIX até 12h do dia útil seguinte.",
+            "melhor mão": "Melhor mão da noite (mínimo full house) ganha add-on gratuito na próxima etapa. Deve ter showdown e usar as duas cartas da mão.",
+            
+            // Última etapa
+            "última etapa": "Última etapa: 10/12/2026. Pote acumulado do ano (mais de R$2.000). Buy-in: R$100,00 com rebuys e add-on normais.",
+            "top 10": "Os 10 primeiros do ranking ganham buy-in free na última etapa (pagam apenas R$30 janta + R$20 taxa limpeza).",
+            "mesas última": "Na última etapa: 2 mesas (PRETA e AMARELA) com jogadores distribuídos por ranking. Assentos sorteados aleatoriamente.",
+            "premiação final": "Prêmios para os 5 melhores da temporada: 1°=R$600, 2°=R$450, 3°=R$360, 4°=R$270, 5°=R$180 + Matador de KO=R$200.",
+            
+            // Informações gerais
+            "local": "Luck BAR - R. Prof. Sebastião Paraná, 765 - Vila Izabel, Curitiba/PR. Quintas-feiras às 20:00h.",
+            "site": "Site oficial: https://pokerdequinta.my.canva.site. Lá você encontra ranking, melhor mão, comunicados e regulamento oficial.",
+            "whatsapp": "Grupo de WhatsApp: só conteúdo relacionado ao Poker de Quinta. Proibido pornografia, ofensas, política, anúncios, eventos de terceiros e listas de outros pokers.",
+            "alterações": "A organização reserva o direito de alterar o regulamento a qualquer momento. As alterações serão anunciadas e não podem ser contestadas.",
+            "intervalo": "Após o 10° nível de blinds, jogam-se mais 3 mãos, depois intervalo para janta e contabilidade. Não pode tirar fichas da mesa durante o intervalo.",
+            "blinds": "Blinds aumentam a cada 15 minutos (níveis 1-10), depois 12 minutos (níveis 11-18), depois 10 minutos (níveis 19-24). Big blind ante a partir do nível 11."
         };
-
-        function addMessage(sender, text) {
-            const msgDiv = document.createElement('div');
-            msgDiv.classList.add('message', sender + '-message');
-            msgDiv.innerHTML = `<div class="bot-tag">${sender === 'bot' ? '🤖 BOT PDQ:' : '👤 VOCÊ:'}</div><p>${text}</p>`;
-            chatBox.appendChild(msgDiv);
-            chatBox.scrollTop = chatBox.scrollHeight;
+        
+        // Perguntas com respostas específicas
+        const specificQuestions = {
+            "qual o valor do buy-in?": "O buy-in é R$100,00 (R$50 pote + R$30 janta + R$20 taxa limpeza) = 15.000 fichas. Rebuy: R$30,00 = 15.000 fichas. Add-on: R$50,00 = 50.000 fichas.",
+            "como funciona o sistema de ko?": "Cada jogador começa com 1 ficha KO. Eliminações APÓS o intervalo contam: quem elimina ganha a ficha KO do eliminado. Cada ficha KO = 1 ponto na pontuação final.",
+            "o que é a recompensa do rei?": "O campeão da etapa anterior (Rei) começa com 2 fichas KO. Quem eliminar o Rei ganha ambas as fichas (após o intervalo). Se for campeão 2x seguidas, a recompensa dobra (4 fichas).",
+            "quando posso fazer rebuy?": "Rebuys são ilimitados até o 10° nível + 3 mãos após. Só pode fazer rebuy quando zerar as fichas. Add-on: apenas 1 por jogador, no fim do 10° nível.",
+            "como funciona a roleta da sorte?": "Ativada por feitos especiais até o intervalo: 1) Perder com par de Ases (quebrador de ases), 2) Ter o maior número de rebuys (rei do rebuy). Prêmios: fichas extras, cerveja, ficha KO, etc.",
+            "como é calculado o ranking?": "Pontos por classificação (1°=27pts, 2°=25pts, etc.) + fichas KO acumuladas. Desempate: 1) Pontos, 2) Participações, 3) 1° lugares, 4) KOs, 5) Locurinha.",
+            "o que acontece na última etapa?": "10/12/2026. Top 10 do ranking ganham buy-in free (pagam apenas R$50). Pote acumulado >R$2000. Premiação para os 5 melhores da temporada + matador de KO.",
+            "como funciona o time bank?": "30 segundos para decisão. Cada jogador recebe 3 cartões de Time Bank (30 segundos extras cada). Entregue 1 cartão ao dealer para usar tempo extra. Se usar todos em uma rodada sem agir = fold.",
+            "quais são as penalidades por falta?": "Desistir na quinta sem substituição: -20 pontos. Faltar sem aviso: -90 pontos + multa R$100. Em ambos os casos, vai para o final da lista de espera.",
+            "como funcionam as inscrições?": "Pelo site oficial na segunda antes da etapa (7h). Vagas por ordem (limite 20). Prioridade para grupo WhatsApp até quarta 10h. Depois, lista de espera.",
+            "posso pagar em dinheiro?": "NÃO. Todos os pagamentos são SOMENTE via PIX (QR CODE da organização). Não é aceito dinheiro em espécie.",
+            "o que é o bônus de pontualidade?": "Quem chegar antes das 20h recebe 3.000 fichas extras no stack inicial.",
+            "como funciona o balanceamento das mesas?": "Quando necessário, o jogador mais próximo do big blind na mesa original é transferido. Na nova mesa, ocupa posição equivalente ao big blind.",
+            "quem são os dealers?": "2 dealers profissionais por etapa. Eles têm autoridade máxima na mesa. Desrespeito pode resultar em exclusão. Podem ser trocados a cada hora.",
+            "o que é capilé?": "Gorjeta para dealers, permitida mas VOLUNTÁRIA. A organização não se responsabiliza por acordos entre jogadores e dealers.",
+            "qual o horário do jogo?": "Quintas-feiras às 20:00h no Luck BAR. Blinds aumentam a cada 15 minutos (níveis 1-10), depois 12 min, depois 10 min.",
+            "o que é o big blind ante?": "A partir do nível 11, o jogador no big blind paga também o ante da mesa. Simplifica o jogo e acelera as rodadas.",
+            "como funciona a votação?": "Em decisões da mesa, cada jogador recebe 2 cartas (vermelha=sim, preta=não). Resultado positivo só se TODAS forem da mesma cor.",
+            "quais são as regras do grupo whatsapp?": "PROIBIDO: pornografia, conteúdo ofensivo/racista/político, anúncios/comércio, divulgação de eventos de terceiros, listas de outros pokers. PERMITIDO: resenha sobre futebol e poker. Infração = remoção do grupo."
+        };
+        
+        // Função para enviar mensagem
+        function sendMessage() {
+            const userInput = document.getElementById('userInput');
+            const question = userInput.value.trim().toLowerCase();
+            
+            if (!question) return;
+            
+            // Adicionar mensagem do usuário
+            addMessage(question, 'user');
+            
+            // Limpar input
+            userInput.value = '';
+            
+            // Processar pergunta e obter resposta
+            const answer = getAnswer(question);
+            
+            // Adicionar resposta do bot (com pequeno atraso para simular processamento)
+            setTimeout(() => {
+                addMessage(answer, 'bot');
+            }, 500);
         }
-
+        
+        // Função para lidar com pressionar Enter
+        function handleKeyPress(event) {
+            if (event.key === 'Enter') {
+                sendMessage();
+            }
+        }
+        
+        // Função para fazer pergunta diretamente dos botões
+        function askQuestion(question) {
+            document.getElementById('userInput').value = question;
+            sendMessage();
+        }
+        
+        // Função para obter resposta baseada na pergunta
         function getAnswer(question) {
-            const lowerQ = question.toLowerCase();
-            for (let key in qa) {
-                if (lowerQ.includes(key)) {
-                    return qa[key];
+            // Verificar se é uma pergunta específica
+            for (const [key, answer] of Object.entries(specificQuestions)) {
+                if (question.includes(key)) {
+                    return answer;
                 }
             }
-            return "<span class='aggressive'>NÃO SEI O QUE VOCÊ QUER. PERGUNTA SOBRE HORÁRIO, VALOR, INSCRIÇÃO, REBUY, RANKING, KO, REI, ROLETA, PREMIAÇÃO, DEALERS, TIME BANK, ÚLTIMA ETAPA OU REGRAS DO GRUPO.</span>";
-        }
-
-        sendBtn.addEventListener('click', () => {
-            const question = userInput.value.trim();
-            if (!question) return;
-
-            addMessage('user', question);
-            userInput.value = '';
-
-            setTimeout(() => {
-                const answer = getAnswer(question);
-                addMessage('bot', answer);
-            }, 500);
-        });
-
-        userInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                sendBtn.click();
+            
+            // Procurar por palavras-chave no conhecimento
+            const keywords = Object.keys(regulationKnowledge);
+            const foundKeywords = [];
+            
+            for (const keyword of keywords) {
+                if (question.includes(keyword)) {
+                    foundKeywords.push(keyword);
+                }
             }
-        });
+            
+            // Se encontrou palavras-chave, retornar respostas
+            if (foundKeywords.length > 0) {
+                // Ordenar por relevância (palavras mais longas primeiro)
+                foundKeywords.sort((a, b) => b.length - a.length);
+                
+                let answer = "";
+                // Usar no máximo 3 respostas para não ficar muito longo
+                for (let i = 0; i < Math.min(foundKeywords.length, 3); i++) {
+                    answer += regulationKnowledge[foundKeywords[i]] + " ";
+                }
+                
+                return answer;
+            }
+            
+            // Resposta padrão se não entender
+            return "Desculpe, não entendi sua pergunta sobre o regulamento. Tente ser mais específico ou use uma das categorias ao lado. Você pode perguntar sobre: valores, inscrições, regras da mesa, sistema KO, Rei da Mesa, Roleta da Sorte, ranking ou última etapa.";
+        }
+        
+        // Função para adicionar mensagem ao chat
+        function addMessage(text, sender) {
+            const chatMessages = document.getElementById('chatMessages');
+            const messageDiv = document.createElement('div');
+            
+            if (sender === 'user') {
+                messageDiv.className = 'message user-message';
+                messageDiv.innerHTML = `<strong>Você:</strong> ${text}`;
+            } else {
+                messageDiv.className = 'message bot-message';
+                messageDiv.innerHTML = `<strong>Bot do Poker de Quinta:</strong> ${text}`;
+            }
+            
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+        
+        // Inicializar com algumas perguntas comuns
+        window.onload = function() {
+            // Adicionar algumas perguntas iniciais após um pequeno delay
+            setTimeout(() => {
+                addMessage("Aqui estão algumas informações importantes:", 'bot');
+                addMessage("📍 Local: Luck BAR - R. Prof. Sebastião Paraná, 765 - Vila Izabel, Curitiba/PR. Quintas-feiras às 20:00h.", 'bot');
+                addMessage("💰 Valores: Buy-in R$100,00 = 15k fichas. Rebuy R$30,00 = 15k fichas. Add-on R$50,00 = 50k fichas.", 'bot');
+                addMessage("💳 Pagamento: SOMENTE via PIX. Não é aceito dinheiro em espécie.", 'bot');
+            }, 1000);
+        };
     </script>
 </body>
 </html>
